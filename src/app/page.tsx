@@ -122,14 +122,12 @@ export default function Home() {
 										alt="imagen1"
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
-										priority
 									/>
 								</div>
 								<div className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2">
 									<Image
 										src={image2}
 										alt="imagen2"
-										priority
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
@@ -138,7 +136,6 @@ export default function Home() {
 									<Image
 										src={image3}
 										alt="image3"
-										priority
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
@@ -147,7 +144,6 @@ export default function Home() {
 									<Image
 										src={image4}
 										alt="image4"
-										priority
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
@@ -156,7 +152,6 @@ export default function Home() {
 									<Image
 										src={image5}
 										alt="image5"
-										priority
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
