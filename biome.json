@@ -1,0 +1,11 @@
+{
+	"files": {
+		"ignore": [".next/**", "node_modules/**", "dist/**", "build/**"]
+	},
+	"linter": {
+		"enabled": true
+	},
+	"formatter": {
+		"enabled": true
+	}
+}
