@@ -8,15 +8,13 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Container } from "@/components/Container";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
-import avatarImage from "@/images/avatar.webp";
 
 function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
@@ -143,9 +141,6 @@ function MobileNavigation(
 					<PopoverButton aria-label="Close menu" className="-m-1 p-1">
 						<CloseIcon className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
 					</PopoverButton>
-					<h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-						Navigation
-					</h2>
 				</div>
 				<nav className="mt-6">
 					<ul className="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
@@ -226,254 +221,25 @@ function ThemeToggle() {
 	);
 }
 
-function clamp(number: number, a: number, b: number) {
-	const min = Math.min(a, b);
-	const max = Math.max(a, b);
-	return Math.min(Math.max(number, min), max);
-}
-
-function AvatarContainer({
-	className,
-	...props
-}: Readonly<React.ComponentPropsWithoutRef<"div">>) {
-	return (
-		<div
-			className={clsx(
-				className,
-				"h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:ring-white/10",
-			)}
-			{...props}
-		/>
-	);
-}
-
-function Avatar({
-	large = false,
-	className,
-	...props
-}: Omit<React.ComponentPropsWithoutRef<typeof Link>, "href"> & {
-	large?: boolean;
-}) {
-	return (
-		<Link
-			href="/"
-			aria-label="Home"
-			className={clsx(className, "pointer-events-auto")}
-			{...props}
-		>
-			<Image
-				src={avatarImage}
-				alt=""
-				sizes={large ? "4rem" : "2.25rem"}
-				className={clsx(
-					"rounded-full bg-zinc-100 object-cover dark:bg-zinc-800",
-					large ? "h-16 w-16" : "h-9 w-9",
-				)}
-				priority
-			/>
-		</Link>
-	);
-}
-
 export function Header() {
-	const isHomePage = usePathname() === "/";
-
-	const headerRef = useRef<React.ElementRef<"div">>(null);
-	const avatarRef = useRef<React.ElementRef<"div">>(null);
-	const isInitial = useRef(true);
-
-	useEffect(() => {
-		const downDelay = avatarRef.current?.offsetTop ?? 0;
-		const upDelay = 64;
-
-		function setProperty(property: string, value: string) {
-			document.documentElement.style.setProperty(property, value);
-		}
-
-		function removeProperty(property: string) {
-			document.documentElement.style.removeProperty(property);
-		}
-
-		function updateHeaderStyles() {
-			if (!headerRef.current) {
-				return;
-			}
-
-			const { top, height } = headerRef.current.getBoundingClientRect();
-			const scrollY = clamp(
-				window.scrollY,
-				0,
-				document.body.scrollHeight - window.innerHeight,
-			);
-
-			if (isInitial.current) {
-				setProperty("--header-position", "sticky");
-			}
-
-			setProperty("--content-offset", `${downDelay}px`);
-
-			if (isInitial.current || scrollY < downDelay) {
-				setProperty("--header-height", `${downDelay + height}px`);
-				setProperty("--header-mb", `${-downDelay}px`);
-			} else if (top + height < -upDelay) {
-				const offset = Math.max(height, scrollY - upDelay);
-				setProperty("--header-height", `${offset}px`);
-				setProperty("--header-mb", `${height - offset}px`);
-			} else if (top === 0) {
-				setProperty("--header-height", `${scrollY + height}px`);
-				setProperty("--header-mb", `${-scrollY}px`);
-			}
-
-			if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
-				setProperty("--header-inner-position", "fixed");
-				removeProperty("--header-top");
-				removeProperty("--avatar-top");
-			} else {
-				removeProperty("--header-inner-position");
-				setProperty("--header-top", "0px");
-				setProperty("--avatar-top", "0px");
-			}
-		}
-
-		function updateAvatarStyles() {
-			if (!isHomePage) {
-				return;
-			}
-
-			const fromScale = 1;
-			const toScale = 36 / 64;
-			const fromX = 0;
-			const toX = 2 / 16;
-
-			const scrollY = downDelay - window.scrollY;
-
-			let scale = (scrollY * (fromScale - toScale)) / downDelay + toScale;
-			scale = clamp(scale, fromScale, toScale);
-
-			let x = (scrollY * (fromX - toX)) / downDelay + toX;
-			x = clamp(x, fromX, toX);
-
-			setProperty(
-				"--avatar-image-transform",
-				`translate3d(${x}rem, 0, 0) scale(${scale})`,
-			);
-
-			const borderScale = 1 / (toScale / scale);
-			const borderX = (-toX + x) * borderScale;
-			const borderTransform = `translate3d(${borderX}rem, 0, 0) scale(${borderScale})`;
-
-			setProperty("--avatar-border-transform", borderTransform);
-			setProperty("--avatar-border-opacity", scale === toScale ? "1" : "0");
-		}
-
-		function updateStyles() {
-			updateHeaderStyles();
-			updateAvatarStyles();
-			isInitial.current = false;
-		}
-
-		updateStyles();
-		window.addEventListener("scroll", updateStyles, { passive: true });
-		window.addEventListener("resize", updateStyles);
-
-		return () => {
-			window.removeEventListener("scroll", updateStyles);
-			window.removeEventListener("resize", updateStyles);
-		};
-	}, [isHomePage]);
-
 	return (
-		<>
-			<header
-				className="pointer-events-none relative z-50 flex flex-none flex-col"
-				style={{
-					height: "var(--header-height)",
-					marginBottom: "var(--header-mb)",
-				}}
-			>
-				{isHomePage && (
-					<>
-						<div
-							ref={avatarRef}
-							className="order-last mt-[calc(--spacing(16)-(--spacing(3)))]"
-						/>
-						<Container
-							className="top-0 order-last -mb-3 pt-3"
-							style={{
-								position:
-									"var(--header-position)" as React.CSSProperties["position"],
-							}}
-						>
-							<div
-								className="top-(--avatar-top,--spacing(3)) w-full"
-								style={{
-									position:
-										"var(--header-inner-position)" as React.CSSProperties["position"],
-								}}
-							>
-								<div className="relative">
-									<AvatarContainer
-										className="absolute top-3 left-0 origin-left transition-opacity"
-										style={{
-											opacity: "var(--avatar-border-opacity, 0)",
-											transform: "var(--avatar-border-transform)",
-										}}
-									/>
-									<Avatar
-										large
-										className="block h-16 w-16 origin-left"
-										style={{ transform: "var(--avatar-image-transform)" }}
-									/>
-								</div>
-							</div>
-						</Container>
-					</>
-				)}
-				<div
-					ref={headerRef}
-					className="top-0 z-10 h-16 pt-6"
-					style={{
-						position:
-							"var(--header-position)" as React.CSSProperties["position"],
-					}}
-				>
-					<Container
-						className="top-(--header-top,--spacing(6)) w-full"
-						style={{
-							position:
-								"var(--header-inner-position)" as React.CSSProperties["position"],
-						}}
-					>
-						<div className="relative flex gap-6">
-							<div className="flex flex-1">
-								{!isHomePage && (
-									<AvatarContainer>
-										<Avatar />
-									</AvatarContainer>
-								)}
-							</div>
-							<div className="flex flex-1 justify-end md:justify-center">
-								<DesktopNavigation className="pointer-events-auto hidden md:block" />
-							</div>
-							<div className="flex justify-end md:flex-1">
-								<div className="pointer-events-auto flex items-center gap-4">
-									<LanguageSwitcher />
-									<div className="flex items-center gap-2">
-										<ThemeToggle />
-										<MobileNavigation className="md:hidden" />
-									</div>
-								</div>
+		<header className="fixed top-0 left-0 right-0 z-50 [@supports(backdrop-filter:blur(0))]:bg-white/50 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md bg-white/90 shadow-sm ring-1 ring-zinc-900/5 dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/50 dark:bg-zinc-900/90 dark:ring-white/10">
+			<Container>
+				<div className="flex items-center justify-between py-4">
+					<div className="flex flex-1 justify-end md:justify-center">
+						<DesktopNavigation className="pointer-events-auto hidden md:block" />
+					</div>
+					<div className="flex justify-end md:flex-1">
+						<div className="pointer-events-auto flex items-center gap-4">
+							<LanguageSwitcher />
+							<div className="flex items-center gap-2">
+								<ThemeToggle />
+								<MobileNavigation className="md:hidden" />
 							</div>
 						</div>
-					</Container>
+					</div>
 				</div>
-			</header>
-			{isHomePage && (
-				<div
-					className="flex-none"
-					style={{ height: "var(--content-offset)" }}
-				/>
-			)}
-		</>
+			</Container>
+		</header>
 	);
 }
