@@ -1,8 +1,13 @@
+"use client";
+
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { useBlur } from "@/contexts/BlurContext";
 
 export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+	const { isBlurred } = useBlur();
+	
 	return (
 		<>
 			<div className="fixed inset-0 flex justify-center sm:px-8">
@@ -12,7 +17,11 @@ export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
 			</div>
 			<div className="relative flex w-full flex-col">
 				<Header />
-				<main className="flex-auto pt-20">{children}</main>
+				<main className={`flex-auto pt-20 transition-all duration-300 ${
+					isBlurred ? 'blur-sm opacity-80' : ''
+				}`}>
+					{children}
+				</main>
 				<Footer />
 				<ScrollToTop />
 			</div>

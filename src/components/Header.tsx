@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@/components/Container";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useBlur } from "@/contexts/BlurContext";
 
 function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
@@ -118,24 +119,34 @@ function MobileNavItem({
 	);
 }
 
-function MobileNavigation(
-	props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
-) {
-	const { t } = useTranslation();
+function MobileNavigationContent({ 
+	open, 
+	t 
+}: Readonly<{ 
+	open: boolean; 
+	t: (key: string) => string; 
+}>) {
+	const { setBlur } = useBlur();
+
+	// Use useEffect to handle state changes safely
+	useEffect(() => {
+		setBlur(open);
+	}, [open, setBlur]);
 
 	return (
-		<Popover {...props}>
+		<>
 			<PopoverButton className="group rounded-lg bg-white/90 px-3 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
 				<MenuIcon className="h-6 w-6 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-400 dark:group-hover:stroke-zinc-300" />
 			</PopoverButton>
 			<PopoverBackdrop
 				transition
-				className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-xs duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-black/80"
+				className="fixed left-0 right-0 bottom-0 z-30 bg-black/10 backdrop-blur-sm duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-black/15"
+				style={{ top: '80px' }}
 			/>
 			<PopoverPanel
 				focus
 				transition
-				className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 duration-150 data-closed:scale-95 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-zinc-900 dark:ring-zinc-800"
+				className="fixed inset-x-4 top-8 z-40 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 duration-150 data-closed:scale-95 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-zinc-900 dark:ring-zinc-800"
 			>
 				<div className="flex flex-row-reverse items-center justify-between">
 					<PopoverButton aria-label="Close menu" className="-m-1 p-1">
@@ -151,6 +162,18 @@ function MobileNavigation(
 					</ul>
 				</nav>
 			</PopoverPanel>
+		</>
+	);
+}
+
+function MobileNavigation(
+	props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
+) {
+	const { t } = useTranslation();
+
+	return (
+		<Popover {...props}>
+			{({ open }) => <MobileNavigationContent open={open} t={t} />}
 		</Popover>
 	);
 }
@@ -223,7 +246,7 @@ function ThemeToggle() {
 
 export function Header() {
 	return (
-		<header className="fixed top-0 left-0 right-0 z-50 [@supports(backdrop-filter:blur(0))]:bg-white/50 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md bg-white/90 shadow-sm ring-1 ring-zinc-900/5 dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/50 dark:bg-zinc-900/90 dark:ring-white/10">
+		<header className="fixed top-0 left-0 right-0 z-50 h-fit [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30 dark:bg-zinc-900/80 dark:ring-white/10">
 			<Container>
 				<div className="flex items-center justify-between py-4">
 					<div className="flex flex-1 justify-end md:justify-center">
