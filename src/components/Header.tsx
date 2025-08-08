@@ -18,7 +18,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 import avatarImage from "@/images/avatar.webp";
 
-function CloseIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
 			<path
@@ -33,7 +33,7 @@ function CloseIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function ChevronDownIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 8 6" aria-hidden="true" {...props}>
 			<path
@@ -48,7 +48,7 @@ function ChevronDownIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MenuIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -67,7 +67,7 @@ function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function SunIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function SunIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -85,7 +85,7 @@ function SunIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function MoonIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MoonIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -107,10 +107,10 @@ function MoonIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 function MobileNavItem({
 	href,
 	children,
-}: {
+}: Readonly<{
 	href: string;
 	children: React.ReactNode;
-}) {
+}>) {
 	return (
 		<li>
 			<PopoverButton as={Link} href={href} className="block py-2">
@@ -121,7 +121,7 @@ function MobileNavItem({
 }
 
 function MobileNavigation(
-	props: React.ComponentPropsWithoutRef<typeof Popover>,
+	props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
 ) {
 	const { t } = useTranslation();
 
@@ -149,7 +149,8 @@ function MobileNavigation(
 				</div>
 				<nav className="mt-6">
 					<ul className="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-						<MobileNavItem href="/about">{t("nav.about")}</MobileNavItem>
+						<MobileNavItem href="/">{t("nav.home")}</MobileNavItem>
+						<MobileNavItem href="/about"><span className="whitespace-nowrap">{t("nav.about")}</span></MobileNavItem>
 						<MobileNavItem href="/projects">{t("nav.projects")}</MobileNavItem>
 						<MobileNavItem href="/contact">{t("nav.contact")}</MobileNavItem>
 					</ul>
@@ -162,10 +163,10 @@ function MobileNavigation(
 function NavItem({
 	href,
 	children,
-}: {
+}: Readonly<{
 	href: string;
 	children: React.ReactNode;
-}) {
+}>) {
 	const isActive = usePathname() === href;
 
 	return (
@@ -188,13 +189,14 @@ function NavItem({
 	);
 }
 
-function DesktopNavigation(props: React.ComponentPropsWithoutRef<"nav">) {
+function DesktopNavigation(props: Readonly<React.ComponentPropsWithoutRef<"nav">>) {
 	const { t } = useTranslation();
 
 	return (
 		<nav {...props}>
 			<ul className="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-				<NavItem href="/about">{t("nav.about")}</NavItem>
+				<NavItem href="/">{t("nav.home")}</NavItem>
+				<NavItem href="/about"><span className="whitespace-nowrap">{t("nav.about")}</span></NavItem>
 				<NavItem href="/projects">{t("nav.projects")}</NavItem>
 				<NavItem href="/contact">{t("nav.contact")}</NavItem>
 			</ul>
@@ -233,7 +235,7 @@ function clamp(number: number, a: number, b: number) {
 function AvatarContainer({
 	className,
 	...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: Readonly<React.ComponentPropsWithoutRef<"div">>) {
 	return (
 		<div
 			className={clsx(

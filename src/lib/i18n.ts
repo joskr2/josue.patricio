@@ -6,6 +6,7 @@ export const translations = {
 	en: {
 		// Navigation
 		nav: {
+			home: "Home",
 			about: "About",
 			projects: "Projects",
 			contact: "Contact",
@@ -91,6 +92,7 @@ export const translations = {
 	es: {
 		// Navigation
 		nav: {
+			home: "Inicio",
 			about: "Acerca de",
 			projects: "Proyectos",
 			contact: "Contacto",
