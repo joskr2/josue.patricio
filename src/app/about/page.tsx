@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Accordion } from "@/components/Accordion";
 import { Container } from "@/components/Container";
 import { ExperienceItem } from "@/components/ExperienceItem";
 import { SkillCategory } from "@/components/SkillCategory";
@@ -24,12 +24,12 @@ function SocialLink({
 	href,
 	children,
 	icon: Icon,
-}: {
+}: Readonly<{
 	className?: string;
 	href: string;
 	icon: React.ComponentType<{ className?: string }>;
 	children: React.ReactNode;
-}) {
+}>) {
 	return (
 		<li className={clsx(className, "flex")}>
 			<Link
@@ -45,7 +45,7 @@ function SocialLink({
 	);
 }
 
-function MailIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MailIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
 			<path
@@ -100,64 +100,162 @@ export default function About() {
 			</div>
 
 			{/* Experience Section */}
-			<div className="mt-24 sm:mt-32">
+			<div className="mt-16 sm:mt-24">
 				<div className="mx-auto max-w-7xl">
-					<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
-						{t("about.experience")}
-					</h2>
-					<div className="mt-8">
-						<ol className="space-y-8">
-							{experiences.map((exp, index) => (
-								<ExperienceItem
-									key={`${exp.company}-${index}`}
-									experience={exp}
-								/>
-							))}
-						</ol>
+					{/* Mobile Accordion View */}
+					<div className="block md:hidden">
+						<Accordion title={t("about.experience")}>
+							<div className="mt-4 space-y-8">
+								{experiences.map((exp, index) => (
+									<div key={`${exp.company}-${index}`} className="border-l-4 border-teal-400 pl-6">
+										<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
+											<div>
+												<h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+													{exp.position[locale]}
+												</h3>
+												<p className="text-teal-600 dark:text-teal-400 font-medium">
+													{exp.company}
+												</p>
+											</div>
+											<time className="text-sm text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+												{exp.duration[locale]}
+											</time>
+										</div>
+										
+										<div className="space-y-3">
+											{exp.description[locale].map((paragraph, paragraphIndex) => (
+												<p key={`${exp.company}-${index}-p-${paragraphIndex}`} className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+													{paragraph}
+												</p>
+											))}
+											
+											{exp.technologies && exp.technologies.length > 0 && (
+												<div>
+													<h4 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-2">
+														Technologies:
+													</h4>
+													<div className="flex flex-wrap gap-2">
+														{exp.technologies.map((tech) => (
+															<span
+																key={tech}
+																className="px-2 py-1 text-xs font-medium bg-zinc-100 text-zinc-800 rounded-md dark:bg-zinc-800 dark:text-zinc-300"
+															>
+																{tech}
+															</span>
+														))}
+													</div>
+												</div>
+											)}
+										</div>
+									</div>
+								))}
+							</div>
+						</Accordion>
+					</div>
+					
+					{/* Desktop View */}
+					<div className="hidden md:block">
+						<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
+							{t("about.experience")}
+						</h2>
+						<div className="mt-8">
+							<ol className="space-y-8">
+								{experiences.map((exp, index) => (
+									<ExperienceItem
+										key={`${exp.company}-${index}`}
+										experience={exp}
+									/>
+								))}
+							</ol>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			{/* Skills Section */}
-			<div className="mt-24 sm:mt-32">
+			<div className="mt-16 sm:mt-24">
 				<div className="mx-auto max-w-7xl">
-					<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 mb-8">
-						{t("about.skills")}
-					</h2>
-					<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-						<SkillCategory
-							title="Programming Languages"
-							skills={skills.programmingLanguages}
-							variant="primary"
-						/>
-						<SkillCategory
-							title="Frameworks & Tools"
-							skills={skills.frameworks}
-							variant="secondary"
-						/>
-						<SkillCategory title="Databases" skills={skills.databases} />
-						<SkillCategory title="DevOps & Tools" skills={skills.tools} />
-					</div>
-					<div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
-						<SkillCategory
-							title="Methodologies"
-							skills={skills.methodologies}
-						/>
-						<div>
-							<h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-3">
-								Languages
-							</h3>
-							<div className="space-y-2">
-								{skills.languages.map((lang) => (
-									<div key={lang.name} className="flex justify-between">
-										<span className="text-sm text-zinc-600 dark:text-zinc-400">
-											{lang.name}
-										</span>
-										<span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-											{lang.level}
-										</span>
+					{/* Mobile Accordion View */}
+					<div className="block md:hidden space-y-4">
+						<Accordion title={t("about.skills")}>
+							<div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+								<SkillCategory
+									title="Programming Languages"
+									skills={skills.programmingLanguages}
+									variant="primary"
+								/>
+								<SkillCategory
+									title="Frameworks & Tools"
+									skills={skills.frameworks}
+									variant="secondary"
+								/>
+								<SkillCategory title="Databases" skills={skills.databases} />
+								<SkillCategory title="DevOps & Tools" skills={skills.tools} />
+								<SkillCategory
+									title="Methodologies"
+									skills={skills.methodologies}
+								/>
+								<div>
+									<h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-3">
+										Languages
+									</h3>
+									<div className="space-y-2">
+										{skills.languages.map((lang) => (
+											<div key={lang.name} className="flex justify-between">
+												<span className="text-sm text-zinc-600 dark:text-zinc-400">
+													{lang.name}
+												</span>
+												<span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+													{lang.level}
+												</span>
+											</div>
+										))}
 									</div>
-								))}
+								</div>
+							</div>
+						</Accordion>
+					</div>
+					
+					{/* Desktop View */}
+					<div className="hidden md:block">
+						<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 mb-8">
+							{t("about.skills")}
+						</h2>
+						<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+							<SkillCategory
+								title="Programming Languages"
+								skills={skills.programmingLanguages}
+								variant="primary"
+							/>
+							<SkillCategory
+								title="Frameworks & Tools"
+								skills={skills.frameworks}
+								variant="secondary"
+							/>
+							<SkillCategory title="Databases" skills={skills.databases} />
+							<SkillCategory title="DevOps & Tools" skills={skills.tools} />
+						</div>
+						<div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
+							<SkillCategory
+								title="Methodologies"
+								skills={skills.methodologies}
+							/>
+							<div>
+								<h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-3">
+									Languages
+								</h3>
+								<div className="space-y-2">
+									{skills.languages.map((lang) => (
+										<div key={lang.name} className="flex justify-between">
+											<span className="text-sm text-zinc-600 dark:text-zinc-400">
+												{lang.name}
+											</span>
+											<span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+												{lang.level}
+											</span>
+										</div>
+									))}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -165,33 +263,28 @@ export default function About() {
 			</div>
 
 			{/* Education & Certifications */}
-			<div className="mt-24 sm:mt-32">
+			<div className="mt-16 sm:mt-24">
 				<div className="mx-auto max-w-7xl">
-					<div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
-						{/* Education */}
-						<div>
-							<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 mb-6">
-								{t("about.education")}
-							</h2>
-							<div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
-								<h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
-									{education.degree}
-								</h3>
-								<p className="text-zinc-600 dark:text-zinc-400">
-									{education.institution} - {education.location}
-								</p>
-								<p className="text-sm text-zinc-500 dark:text-zinc-500">
-									{education.year}
-								</p>
+					{/* Mobile Accordion View */}
+					<div className="block md:hidden space-y-4">
+						<Accordion title={t("about.education")}>
+							<div className="mt-4">
+								<div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+									<h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+										{education.degree}
+									</h3>
+									<p className="text-zinc-600 dark:text-zinc-400">
+										{education.institution} - {education.location}
+									</p>
+									<p className="text-sm text-zinc-500 dark:text-zinc-500">
+										{education.year}
+									</p>
+								</div>
 							</div>
-						</div>
-
-						{/* Certifications */}
-						<div>
-							<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 mb-6">
-								{t("about.certifications")}
-							</h2>
-							<div className="space-y-4">
+						</Accordion>
+						
+						<Accordion title={t("about.certifications")}>
+							<div className="mt-4 space-y-4">
 								{certifications.map((cert) => (
 									<div
 										key={cert.name.en}
@@ -208,6 +301,54 @@ export default function About() {
 										</p>
 									</div>
 								))}
+							</div>
+						</Accordion>
+					</div>
+					
+					{/* Desktop View */}
+					<div className="hidden md:block">
+						<div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+							{/* Education */}
+							<div>
+								<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 mb-6">
+									{t("about.education")}
+								</h2>
+								<div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+									<h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+										{education.degree}
+									</h3>
+									<p className="text-zinc-600 dark:text-zinc-400">
+										{education.institution} - {education.location}
+									</p>
+									<p className="text-sm text-zinc-500 dark:text-zinc-500">
+										{education.year}
+									</p>
+								</div>
+							</div>
+
+							{/* Certifications */}
+							<div>
+								<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 mb-6">
+									{t("about.certifications")}
+								</h2>
+								<div className="space-y-4">
+									{certifications.map((cert) => (
+										<div
+											key={cert.name.en}
+											className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40"
+										>
+											<h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+												{cert.name[locale]}
+											</h3>
+											<p className="text-sm text-zinc-600 dark:text-zinc-400">
+												{cert.issuer}
+											</p>
+											<p className="text-xs text-zinc-500 dark:text-zinc-500">
+												{cert.year}
+											</p>
+										</div>
+									))}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -226,7 +367,7 @@ export default function About() {
 					<div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
 						<Link
 							href={`mailto:${personalInfo.email}`}
-							className="rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+							className="rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
 						>
 							{t("contact.email")}
 						</Link>
@@ -234,7 +375,7 @@ export default function About() {
 							href={personalInfo.linkedin}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+							className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 						>
 							{t("contact.linkedin")}
 						</Link>
