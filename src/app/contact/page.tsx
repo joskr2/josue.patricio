@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { SimpleLayout } from "@/components/SimpleLayout";
-import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
+import { GitHubIcon, LinkedInIcon, WhatsAppIcon } from "@/components/SocialIcons";
 import { useTranslation } from "@/hooks/useTranslation";
 import { personalInfo } from "@/lib/personal-data";
 import { motion } from "motion/react";
@@ -136,6 +136,12 @@ function ContactCard({
 
 export default function Contact() {
 	const { t, locale } = useTranslation();
+	const whatsappHref = (() => {
+		const phoneSanitized = personalInfo.phone.replace(/\D/g, "");
+		const base = `https://wa.me/${phoneSanitized}`;
+		const msg = t("contact.whatsappPrefill");
+		return `${base}?text=${encodeURIComponent(msg)}`;
+	})();
 
 	return (
 		<SimpleLayout title={t("contact.title")} intro={t("contact.subtitle")}>
@@ -148,6 +154,14 @@ export default function Contact() {
 					whileInView="show"
 					viewport={{ once: true, amount: 0.2 }}
 				>
+					<ContactCard
+						icon={WhatsAppIcon}
+						title={t("contact.whatsapp")}
+						value={personalInfo.phone}
+						href={whatsappHref}
+						description={t("contact.whatsappTooltip")}
+					/>
+
 					<ContactCard
 						icon={MailIcon}
 						title={t("contact.email")}

@@ -4,9 +4,13 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { useBlur } from "@/contexts/BlurContext";
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
+import { personalInfo } from "@/lib/personal-data";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
 	const { isBlurred } = useBlur();
+	const { t } = useTranslation();
 	
 	return (
 		<>
@@ -24,6 +28,12 @@ export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
 				</main>
 				<Footer />
 				<ScrollToTop />
+				{/* Floating WhatsApp Button */}
+				<FloatingWhatsAppButton
+					phone={personalInfo.phone}
+					message={t("contact.whatsappPrefill")}
+					tooltip={t("contact.whatsappTooltip")}
+				/>
 			</div>
 		</>
 	);

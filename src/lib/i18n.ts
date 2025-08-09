@@ -70,6 +70,9 @@ export const translations = {
 			expertiseText:
 				"Specializing in React, Next.js, TypeScript, Python, FastAPI, and .NET. I have experience with both frontend development and backend microservices architecture.",
 			connectOnLinkedIn: "Connect on LinkedIn",
+	whatsapp: "WhatsApp",
+	whatsappTooltip: "Chat on WhatsApp",
+	whatsappPrefill: "Hi! I saw your website and I'd like more information.",
 		},
 		// Footer
 		footer: {
@@ -157,6 +160,9 @@ export const translations = {
 			expertiseText:
 				"Especializado en React, Next.js, TypeScript, Python, FastAPI y .NET. Tengo experiencia tanto en desarrollo frontend como en arquitectura de microservicios backend.",
 			connectOnLinkedIn: "Conectar en LinkedIn",
+	whatsapp: "WhatsApp",
+	whatsappTooltip: "Chatear por WhatsApp",
+	whatsappPrefill: "¡Hola! Vi tu web y me gustaría más información.",
 		},
 		// Footer
 		footer: {
