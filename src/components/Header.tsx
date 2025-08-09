@@ -11,6 +11,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 
 import { Container } from "@/components/Container";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -140,7 +141,7 @@ function MobileNavigationContent({
 			</PopoverButton>
 			<PopoverBackdrop
 				transition
-				className="fixed left-0 right-0 bottom-0 z-30 bg-black/10 backdrop-blur-sm duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-black/15"
+				className="fixed left-0 right-0 bottom-0 z-30 bg-teal-500/10 backdrop-blur-sm duration-150 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-teal-400/15"
 				style={{ top: '80px' }}
 			/>
 			<PopoverPanel
@@ -245,10 +246,27 @@ function ThemeToggle() {
 }
 
 export function Header() {
+	const pathname = usePathname();
 	return (
 		<header className="fixed top-0 left-0 right-0 z-50 h-fit [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30 dark:bg-zinc-900/80 dark:ring-white/10">
 			<Container>
 				<div className="flex items-center justify-between py-4">
+					{/* Mobile: Avatar Home link on the left when not on home */}
+					{pathname !== "/" && (
+						<div className="flex flex-1 items-center md:hidden">
+							<Link href="/" aria-label="Home" className="group">
+								<motion.div
+									initial={{ opacity: 0, y: -6 }}
+									animate={{ opacity: 1, y: 0 }}
+									whileTap={{ scale: 0.95 }}
+									transition={{ duration: 0.25 }}
+									className="relative h-10 w-10 select-none rounded-full bg-gradient-to-br from-teal-500/90 to-teal-600/90 text-white shadow ring-1 ring-white/40 dark:ring-white/20"
+								>
+									<span className="absolute inset-0 grid place-items-center text-sm font-bold tracking-wide">JP</span>
+								</motion.div>
+							</Link>
+						</div>
+					)}
 					<div className="flex flex-1 justify-end md:justify-center">
 						<DesktopNavigation className="pointer-events-auto hidden md:block" />
 					</div>
