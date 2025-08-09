@@ -117,7 +117,8 @@ export default function Projects() {
 			>
 				{sortedProjects.map((project, projectIndex) => (
 					<motion.div 
-						key={project.id} 
+						key={project.id}
+						id={project.id}
 						className="group relative"
 						variants={{
 							hidden: { opacity: 0, y: 50 },

@@ -2,9 +2,10 @@
 
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import { ReactNode } from "react";
+import { motion } from "motion/react";
 
 interface AccordionProps {
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   defaultOpen?: boolean;
 }
@@ -28,15 +29,29 @@ export function Accordion({ title, children, defaultOpen = false }: Readonly<Acc
         {({ open }) => (
           <>
             <DisclosureButton className="flex w-full justify-between items-center px-6 py-4 text-left text-base font-semibold text-zinc-800 bg-zinc-50 hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-inset dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-all">
-              <span>{title}</span>
-              <ChevronDownIcon
-                className={`${
-                  open ? 'rotate-180 transform' : ''
-                } h-5 w-5 text-zinc-500 transition-transform duration-200 flex-shrink-0 ml-2`}
-              />
+              <motion.span whileHover={{ y: -1 }} className="inline-flex items-center gap-2">
+                {title}
+              </motion.span>
+              <motion.span
+                animate={{ rotate: open ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="ml-2 flex-shrink-0"
+              >
+                <ChevronDownIcon className="h-5 w-5 text-zinc-500" />
+              </motion.span>
             </DisclosureButton>
-            <DisclosurePanel className="px-6 py-4 bg-white dark:bg-zinc-900">
-              {children}
+            <DisclosurePanel static className="px-6 py-0 bg-white dark:bg-zinc-900 overflow-hidden">
+              <motion.div
+                initial={false}
+                animate={open ? "open" : "collapsed"}
+                variants={{
+                  open: { opacity: 1, height: "auto" },
+                  collapsed: { opacity: 0, height: 0 },
+                }}
+                transition={{ duration: 0.25 }}
+              >
+                <div className="py-4">{children}</div>
+              </motion.div>
             </DisclosurePanel>
           </>
         )}

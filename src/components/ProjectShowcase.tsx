@@ -8,7 +8,7 @@ interface ProjectShowcaseProps {
 	project: Project;
 }
 
-function ExternalLinkIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ExternalLinkIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -27,7 +27,7 @@ function ExternalLinkIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function GitHubIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function GitHubIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
 			<path
@@ -39,7 +39,7 @@ function GitHubIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-export function ProjectShowcase({ project }: ProjectShowcaseProps) {
+export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 	const { t, locale } = useTranslation();
 
 	return (
@@ -103,7 +103,7 @@ export function ProjectShowcase({ project }: ProjectShowcaseProps) {
 				)}
 			</div>
 
-			<Card.Cta>{t("home.viewProject")}</Card.Cta>
+			<Card.Cta href={`/projects#${project.id}`}>{t("home.viewProject")}</Card.Cta>
 		</Card>
 	);
 }

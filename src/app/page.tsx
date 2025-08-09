@@ -434,7 +434,7 @@ export default function Home() {
 									</div>
 								</div>
 							</div>
-							<Card.Cta>{t("nav.about")}</Card.Cta>
+							<Card.Cta href="/about">{t("nav.about")}</Card.Cta>
 						</Card>
 						</motion.div>
 					</motion.div>

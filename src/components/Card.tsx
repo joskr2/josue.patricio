@@ -50,13 +50,13 @@ Card.Link = function CardLink({
 	return (
 		<>
 			<motion.div 
-				className="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/30"
+				className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/30"
 				initial={{ scale: 0.95, opacity: 0 }}
 				whileHover={{ scale: 1, opacity: 1 }}
 				transition={{ type: "spring", stiffness: 300, damping: 30 }}
 			/>
-			<Link {...props}>
-				<span className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
+			<Link className="relative" {...props}>
+				<span className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
 				<span className="relative z-10">{children}</span>
 			</Link>
 		</>
@@ -103,26 +103,38 @@ Card.Description = function CardDescription({
 	);
 };
 
-Card.Cta = function CardCta({ children }: { children: React.ReactNode }) {
+Card.Cta = function CardCta({ children, href }: { children: React.ReactNode; href?: string }) {
+	const inner = (
+		<>
+			<motion.span
+				initial={{ opacity: 0, x: -10 }}
+				animate={{ opacity: 1, x: 0 }}
+				transition={{ duration: 0.3, delay: 0.2 }}
+				whileHover={{ x: 4, transition: { type: "spring", stiffness: 300, damping: 30 } }}
+				className="inline-flex items-center"
+			>
+				{children}
+			</motion.span>
+			<motion.div whileHover={{ x: 2 }} transition={{ type: "spring", stiffness: 400, damping: 30 }}>
+				<ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+			</motion.div>
+		</>
+	);
+
+	if (href) {
+		return (
+			<Link href={href} className="relative z-30 mt-auto pt-4 inline-flex items-center text-sm font-medium text-teal-500 group pointer-events-auto">
+				{inner}
+			</Link>
+		);
+	}
+
 	return (
 		<motion.div
 			aria-hidden="true"
-			className="relative z-10 mt-auto pt-4 flex items-center text-sm font-medium text-teal-500"
-			initial={{ opacity: 0, x: -10 }}
-			animate={{ opacity: 1, x: 0 }}
-			transition={{ duration: 0.3, delay: 0.2 }}
-			whileHover={{ 
-				x: 4,
-				transition: { type: "spring", stiffness: 300, damping: 30 }
-			}}
+			className="relative z-30 mt-auto pt-4 flex items-center text-sm font-medium text-teal-500"
 		>
-			{children}
-			<motion.div
-				whileHover={{ x: 2 }}
-				transition={{ type: "spring", stiffness: 400, damping: 30 }}
-			>
-				<ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
-			</motion.div>
+			{inner}
 		</motion.div>
 	);
 };
