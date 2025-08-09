@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
-import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { Container } from "@/components/Container";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
@@ -16,10 +14,10 @@ import image2 from "@/images/photos/image-2.webp";
 import image3 from "@/images/photos/image-3.webp";
 import image4 from "@/images/photos/image-4.webp";
 import portraitImage from "@/images/portrait.webp";
-import { personalInfo, skills } from "@/lib/personal-data";
+import { personalInfo } from "@/lib/personal-data";
 import { projects } from "@/lib/projects-data";
 
-function MailIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MailIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"

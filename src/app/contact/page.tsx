@@ -7,7 +7,7 @@ import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
 import { useTranslation } from "@/hooks/useTranslation";
 import { personalInfo } from "@/lib/personal-data";
 
-function MailIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MailIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -25,7 +25,7 @@ function MailIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function PhoneIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function PhoneIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -42,7 +42,7 @@ function PhoneIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function LocationIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function LocationIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -66,24 +66,24 @@ function ContactCard({
 	value,
 	href,
 	description,
-}: {
+}: Readonly<{
 	icon: React.ComponentType<{ className?: string }>;
 	title: string;
 	value: string;
 	href?: string;
 	description?: string;
-}) {
+}>) {
 	const content = (
 		<div className="group relative h-full rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-zinc-700/40 dark:bg-zinc-800">
 			<div className="flex h-full items-center gap-4">
-				<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 dark:bg-teal-900/30">
-					<Icon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+				<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 dark:bg-teal-900/30 flex-shrink-0">
+					<Icon className="h-6 w-6 text-teal-600 dark:text-teal-400 flex-shrink-0" />
 				</div>
-				<div className="flex-1">
+				<div className="flex-1 min-w-0">
 					<h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
 						{title}
 					</h3>
-					<p className="text-zinc-600 dark:text-zinc-400">{value}</p>
+					<p className="text-zinc-600 dark:text-zinc-400 truncate">{value}</p>
 					{description && (
 						<p className="text-sm text-zinc-500 dark:text-zinc-500">
 							{description}
@@ -95,8 +95,15 @@ function ContactCard({
 	);
 
 	if (href) {
+		const isPhoneLink = href.startsWith('tel:');
+		const shouldOpenNewTab = !isPhoneLink;
+		
 		return (
-			<Link href={href} target="_blank" rel="noopener noreferrer" className="block h-full">
+			<Link 
+				href={href} 
+				{...(shouldOpenNewTab && { target: "_blank", rel: "noopener noreferrer" })}
+				className="block h-full"
+			>
 				{content}
 			</Link>
 		);
@@ -125,6 +132,7 @@ export default function Contact() {
 						icon={PhoneIcon}
 						title={t("contact.phone")}
 						value={personalInfo.phone}
+						href={`tel:${personalInfo.phone}`}
 						description={t("contact.callDuringHours")}
 					/>
 
@@ -132,6 +140,7 @@ export default function Contact() {
 						icon={LocationIcon}
 						title={t("contact.location")}
 						value={personalInfo.location[locale]}
+						href="https://maps.google.com/?q=Arequipa,Peru"
 						description={t("contact.currentlyBased")}
 					/>
 				</div>
@@ -171,7 +180,7 @@ export default function Contact() {
 					<div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
 						<Link
 							href={`mailto:${personalInfo.email}`}
-							className="rounded-full bg-teal-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+							className="rounded-full bg-teal-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
 						>
 							{t("contact.sendEmail")}
 						</Link>
@@ -179,7 +188,7 @@ export default function Contact() {
 							href={personalInfo.linkedin}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="rounded-full bg-zinc-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+							className="rounded-full bg-zinc-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 						>
 							{t("contact.connectOnLinkedIn")}
 						</Link>
