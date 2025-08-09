@@ -33,6 +33,7 @@ export const translations = {
 			education: "Education",
 			certifications: "Certifications",
 			location: "Arequipa, Peru",
+			viewDetail: "View detail",
 		},
 		// Projects page
 		projects: {
@@ -119,6 +120,7 @@ export const translations = {
 			education: "Educación",
 			certifications: "Certificaciones",
 			location: "Arequipa, Perú",
+			viewDetail: "Ver detalle",
 		},
 		// Projects page
 		projects: {

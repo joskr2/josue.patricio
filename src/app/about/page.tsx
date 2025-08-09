@@ -5,9 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 
-import { Accordion } from "@/components/Accordion";
 import { Container } from "@/components/Container";
-import { ExperienceItem } from "@/components/ExperienceItem";
+import { ExperienceCarousel } from "@/components/ExperienceCarousel";
 import { SkillCategory } from "@/components/SkillCategory";
 import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -234,7 +233,7 @@ export default function About() {
 				viewport={{ once: true }}
 			>
 				<div className="mx-auto max-w-7xl">
-					{/* Mobile Accordion View */}
+					{/* Mobile View (no accordion) */}
 					<motion.div 
 						className="block md:hidden"
 						initial={{ opacity: 0 }}
@@ -242,21 +241,18 @@ export default function About() {
 						transition={{ duration: 0.6, delay: 0.2 }}
 						viewport={{ once: true }}
 					>
-						<Accordion title={t("about.experience")}>
-							<div className="space-y-6">
-								{experiences.map((exp, index) => (
-									<motion.div
-										key={`${exp.company}-${index}`}
-										initial={{ opacity: 0, y: 20 }}
-										whileInView={{ opacity: 1, y: 0 }}
-										transition={{ duration: 0.4, delay: index * 0.1 }}
-										viewport={{ once: true }}
-									>
-										<ExperienceItem experience={exp} />
-									</motion.div>
-								))}
-							</div>
-						</Accordion>
+						<motion.h2 
+							className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, delay: 0.1 }}
+							viewport={{ once: true }}
+						>
+							{t("about.experience")}
+						</motion.h2>
+						<motion.div className="mt-4">
+							<ExperienceCarousel items={experiences} />
+						</motion.div>
 					</motion.div>
 					
 					{/* Desktop View */}
@@ -276,35 +272,8 @@ export default function About() {
 						>
 							{t("about.experience")}
 						</motion.h2>
-						<motion.div 
-							className="mt-8"
-							variants={{
-								hidden: { opacity: 0 },
-								show: {
-									opacity: 1,
-									transition: {
-										staggerChildren: 0.1,
-										delayChildren: 0.8
-									}
-								}
-							}}
-							initial="hidden"
-							whileInView="show"
-							viewport={{ once: true }}
-						>
-							<ol className="space-y-8">
-								{experiences.map((exp, index) => (
-									<motion.div
-										key={`${exp.company}-${index}`}
-										variants={{
-											hidden: { opacity: 0, y: 20 },
-											show: { opacity: 1, y: 0 }
-										}}
-									>
-										<ExperienceItem experience={exp} />
-									</motion.div>
-								))}
-							</ol>
+						<motion.div className="mt-8">
+							<ExperienceCarousel items={experiences} />
 						</motion.div>
 					</motion.div>
 				</div>
