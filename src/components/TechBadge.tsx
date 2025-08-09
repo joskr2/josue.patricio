@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { motion } from "motion/react";
 
 interface TechBadgeProps {
 	children: React.ReactNode;
@@ -12,9 +13,9 @@ export function TechBadge({
 	size = "sm",
 }: Readonly<TechBadgeProps>) {
 	return (
-		<span
+		<motion.span
 			className={clsx(
-				"inline-flex items-center rounded-full font-medium",
+				"inline-flex items-center rounded-full font-medium cursor-default",
 				{
 					"px-2 py-1 text-xs": size === "sm",
 					"px-3 py-1.5 text-sm": size === "md",
@@ -28,8 +29,20 @@ export function TechBadge({
 						variant === "secondary",
 				},
 			)}
+			initial={{ scale: 1, opacity: 0.8 }}
+			animate={{ opacity: 1 }}
+			whileHover={{ 
+				scale: 1.1, 
+				y: -2,
+				transition: { 
+					type: "spring", 
+					stiffness: 400, 
+					damping: 25 
+				}
+			}}
+			whileTap={{ scale: 0.95 }}
 		>
 			{children}
-		</span>
+		</motion.span>
 	);
 }

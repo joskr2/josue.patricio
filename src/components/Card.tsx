@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import Link from "next/link";
+import { motion } from "motion/react";
 
-function ChevronRightIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ChevronRightIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 16 16"
@@ -48,7 +49,12 @@ Card.Link = function CardLink({
 }: React.ComponentPropsWithoutRef<typeof Link>) {
 	return (
 		<>
-			<div className="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/30" />
+			<motion.div 
+				className="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/30"
+				initial={{ scale: 0.95, opacity: 0 }}
+				whileHover={{ scale: 1, opacity: 1 }}
+				transition={{ type: "spring", stiffness: 300, damping: 30 }}
+			/>
 			<Link {...props}>
 				<span className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
 				<span className="relative z-10">{children}</span>
@@ -68,9 +74,15 @@ Card.Title = function CardTitle<T extends React.ElementType = "h2">({
 	const Component = as ?? "h2";
 
 	return (
-		<Component className="relative z-10 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-			{href ? <Card.Link href={href}>{children}</Card.Link> : children}
-		</Component>
+		<motion.div
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.3 }}
+		>
+			<Component className="relative z-10 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+				{href ? <Card.Link href={href}>{children}</Card.Link> : children}
+			</Component>
+		</motion.div>
 	);
 };
 
@@ -80,21 +92,38 @@ Card.Description = function CardDescription({
 	children: React.ReactNode;
 }) {
 	return (
-		<p className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+		<motion.p 
+			className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.3, delay: 0.1 }}
+		>
 			{children}
-		</p>
+		</motion.p>
 	);
 };
 
 Card.Cta = function CardCta({ children }: { children: React.ReactNode }) {
 	return (
-		<div
+		<motion.div
 			aria-hidden="true"
 			className="relative z-10 mt-auto pt-4 flex items-center text-sm font-medium text-teal-500"
+			initial={{ opacity: 0, x: -10 }}
+			animate={{ opacity: 1, x: 0 }}
+			transition={{ duration: 0.3, delay: 0.2 }}
+			whileHover={{ 
+				x: 4,
+				transition: { type: "spring", stiffness: 300, damping: 30 }
+			}}
 		>
 			{children}
-			<ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
-		</div>
+			<motion.div
+				whileHover={{ x: 2 }}
+				transition={{ type: "spring", stiffness: 400, damping: 30 }}
+			>
+				<ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+			</motion.div>
+		</motion.div>
 	);
 };
 

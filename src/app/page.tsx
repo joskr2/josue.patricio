@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
+
 import { Card } from "@/components/Card";
 import { Container } from "@/components/Container";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
@@ -44,14 +46,20 @@ function SocialLink({
 	icon: React.ComponentType<{ className?: string }>;
 }) {
 	return (
-		<Link className="group -m-1 p-1" href={href} {...props}>
-			<Icon className="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
-			{children && (
-				<span className="ml-4 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-					{children}
-				</span>
-			)}
-		</Link>
+		<motion.div
+			whileHover={{ y: -2 }}
+			whileTap={{ scale: 0.95 }}
+			transition={{ type: "spring", stiffness: 400, damping: 17 }}
+		>
+			<Link className="group -m-1 p-1" href={href} {...props}>
+				<Icon className="h-6 w-6 fill-zinc-500 transition-colors duration-300 group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
+				{children && (
+					<span className="ml-4 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+						{children}
+					</span>
+				)}
+			</Link>
+		</motion.div>
 	);
 }
 
@@ -64,24 +72,71 @@ export default function Home() {
 		delay: 300 
 	});
 
+	// Variants para animaciones escalonadas
+	const containerVariants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: {
+				delayChildren: 0.3,
+				staggerChildren: 0.2
+			}
+		}
+	};
+
+	const itemVariants = {
+		hidden: { y: 20, opacity: 0 },
+		visible: {
+			y: 0,
+			opacity: 1,
+			transition: {
+				type: "spring" as const,
+				stiffness: 100
+			}
+		}
+	};
+
 	return (
 		<>
 			{/* Hero Section */}
 			<Container className="mt-9">
-				<div className="max-w-2xl">
-					<h1 className="text-5xl font-bold tracking-tight text-zinc-800 sm:text-6xl lg:text-7xl dark:text-zinc-100 min-h-[4rem] sm:min-h-[5rem] lg:min-h-[6rem]">
+				<motion.div 
+					className="max-w-2xl"
+					variants={containerVariants}
+					initial="hidden"
+					animate="visible"
+				>
+					<motion.h1 
+						className="text-5xl font-bold tracking-tight text-zinc-800 sm:text-6xl lg:text-7xl dark:text-zinc-100 min-h-[4rem] sm:min-h-[5rem] lg:min-h-[6rem]"
+						variants={itemVariants}
+					>
 						{typedName}
 						{!isComplete && (
-							<span className="animate-pulse text-teal-600 dark:text-teal-400">|</span>
+							<motion.span 
+								className="text-teal-600 dark:text-teal-400"
+								animate={{ opacity: [1, 0, 1] }}
+								transition={{ duration: 1, repeat: Infinity }}
+							>
+								|
+							</motion.span>
 						)}
-					</h1>
-					<p className="mt-4 text-xl sm:text-2xl text-teal-600 dark:text-teal-400">
+					</motion.h1>
+					<motion.p 
+						className="mt-4 text-xl sm:text-2xl text-teal-600 dark:text-teal-400"
+						variants={itemVariants}
+					>
 						{personalInfo.title[locale]}
-					</p>
-					<p className="mt-6 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+					</motion.p>
+					<motion.p 
+						className="mt-6 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed"
+						variants={itemVariants}
+					>
 						{personalInfo.summary[locale]}
-					</p>
-					<div className="mt-6 flex gap-6">
+					</motion.p>
+					<motion.div 
+						className="mt-6 flex gap-6"
+						variants={itemVariants}
+					>
 						<SocialLink
 							href={`mailto:${personalInfo.email}`}
 							aria-label="Send email"
@@ -101,15 +156,29 @@ export default function Home() {
 							target="_blank"
 							rel="noopener noreferrer"
 						/>
-					</div>
-				</div>
+					</motion.div>
+				</motion.div>
 			</Container>
 
 			{/* Photo Gallery */}
 			<Container className="mt-16 sm:mt-20">
-				<div className="mx-auto grid max-w-xl grid-cols-1 gap-y-8 lg:max-w-none lg:grid-cols-2">
-					<div className="flex justify-center lg:justify-end lg:pr-8">
-						<div className="relative aspect-square w-80 lg:w-96 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800 rotate-2 lg:rotate-2">
+				<motion.div 
+					className="mx-auto grid max-w-xl grid-cols-1 gap-y-8 lg:max-w-none lg:grid-cols-2"
+					initial={{ opacity: 0, y: 50 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, delay: 0.2 }}
+					viewport={{ once: true }}
+				>
+					<motion.div 
+						className="flex justify-center lg:justify-end lg:pr-8"
+						whileHover={{ scale: 1.02 }}
+						transition={{ type: "spring", stiffness: 300, damping: 30 }}
+					>
+						<motion.div 
+							className="relative aspect-square w-80 lg:w-96 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800 rotate-2 lg:rotate-2"
+							whileHover={{ rotate: 1 }}
+							transition={{ type: "spring", stiffness: 300, damping: 30 }}
+						>
 							<Image
 								src={portraitImage}
 								alt={personalInfo.name}
@@ -117,67 +186,214 @@ export default function Home() {
 								className="absolute inset-0 h-full w-full object-cover"
 								priority
 							/>
-						</div>
-					</div>
-					<div className="lg:pl-8">
+						</motion.div>
+					</motion.div>
+					
+					<motion.div 
+						className="lg:pl-8"
+						initial={{ opacity: 0, y: 50 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.6, delay: 0.4 }}
+						viewport={{ once: true }}
+					>
 						<div className="mx-auto max-w-xs px-2.5 lg:max-w-none">
-							<div className="grid grid-cols-2 gap-4">
-								<div className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 -rotate-2">
+							<motion.div 
+								className="grid grid-cols-2 gap-4"
+								variants={{
+									hidden: { opacity: 0 },
+									show: {
+										opacity: 1,
+										transition: {
+											staggerChildren: 0.1,
+											delayChildren: 0.5
+										}
+									}
+								}}
+								initial="hidden"
+								whileInView="show"
+								viewport={{ once: true }}
+							>
+								<motion.div 
+									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 -rotate-2"
+									variants={{
+										hidden: { opacity: 0, scale: 0.8, rotate: -10 },
+										show: { 
+											opacity: 1, 
+											scale: 1, 
+											rotate: -2,
+											transition: { 
+												type: "spring", 
+												stiffness: 200, 
+												damping: 20 
+											}
+										}
+									}}
+									whileHover={{ 
+										scale: 1.1, 
+										rotate: 2, 
+										zIndex: 10,
+										transition: { type: "spring", stiffness: 300, damping: 30 }
+									}}
+								>
 									<Image
 										src={image1}
 										alt="imagen1"
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
-								</div>
-								<div className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2">
+								</motion.div>
+								<motion.div 
+									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2"
+									variants={{
+										hidden: { opacity: 0, scale: 0.8, rotate: 10 },
+										show: { 
+											opacity: 1, 
+											scale: 1, 
+											rotate: 2,
+											transition: { 
+												type: "spring", 
+												stiffness: 200, 
+												damping: 20 
+											}
+										}
+									}}
+									whileHover={{ 
+										scale: 1.1, 
+										rotate: -2, 
+										zIndex: 10,
+										transition: { type: "spring", stiffness: 300, damping: 30 }
+									}}
+								>
 									<Image
 										src={image2}
 										alt="imagen2"
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
-								</div>
-								<div className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2">
+								</motion.div>
+								<motion.div 
+									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2"
+									variants={{
+										hidden: { opacity: 0, scale: 0.8, rotate: 10 },
+										show: { 
+											opacity: 1, 
+											scale: 1, 
+											rotate: 2,
+											transition: { 
+												type: "spring", 
+												stiffness: 200, 
+												damping: 20 
+											}
+										}
+									}}
+									whileHover={{ 
+										scale: 1.1, 
+										rotate: -2, 
+										zIndex: 10,
+										transition: { type: "spring", stiffness: 300, damping: 30 }
+									}}
+								>
 									<Image
 										src={image3}
 										alt="image3"
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
-								</div>
-								<div className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 -rotate-2">
+								</motion.div>
+								<motion.div 
+									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 -rotate-2"
+									variants={{
+										hidden: { opacity: 0, scale: 0.8, rotate: -10 },
+										show: { 
+											opacity: 1, 
+											scale: 1, 
+											rotate: -2,
+											transition: { 
+												type: "spring", 
+												stiffness: 200, 
+												damping: 20 
+											}
+										}
+									}}
+									whileHover={{ 
+										scale: 1.1, 
+										rotate: 2, 
+										zIndex: 10,
+										transition: { type: "spring", stiffness: 300, damping: 30 }
+									}}
+								>
 									<Image
 										src={image4}
 										alt="image4"
 										sizes="(min-width: 640px) 18rem, 11rem"
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
-								</div>
-							</div>
+								</motion.div>
+							</motion.div>
 						</div>
-					</div>
-				</div>
+					</motion.div>
+				</motion.div>
 			</Container>
 
 			<Container className="mt-24 md:mt-28 mb-24 sm:mb-32">
-				<div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
+				<motion.div 
+					className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2"
+					initial={{ opacity: 0, y: 60 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8, delay: 0.2 }}
+					viewport={{ once: true }}
+				>
 					{/* Featured Project */}
-					<div className="flex flex-col gap-16">
+					<motion.div 
+						className="flex flex-col gap-16"
+						initial={{ opacity: 0, x: -50 }}
+						whileInView={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.6, delay: 0.4 }}
+						viewport={{ once: true }}
+					>
 						{featuredProject && (
 							<>
-								<h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
+								<motion.h2 
+									className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
+									initial={{ opacity: 0, y: 20 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.5, delay: 0.6 }}
+									viewport={{ once: true }}
+								>
 									{t("home.featuredProject")}
-								</h2>
-								<ProjectShowcase project={featuredProject} />
+								</motion.h2>
+								<motion.div
+									initial={{ opacity: 0, scale: 0.95 }}
+									whileInView={{ opacity: 1, scale: 1 }}
+									transition={{ duration: 0.6, delay: 0.8 }}
+									viewport={{ once: true }}
+									whileHover={{ 
+										scale: 1.02,
+										transition: { type: "spring", stiffness: 300, damping: 30 }
+									}}
+								>
+									<ProjectShowcase project={featuredProject} />
+								</motion.div>
 							</>
 						)}
-					</div>
+					</motion.div>
 
 					{/* Skills and Contact */}
-					<div className="space-y-10 lg:pl-16 xl:pl-24">
+					<motion.div 
+						className="space-y-10 lg:pl-16 xl:pl-24"
+						initial={{ opacity: 0, x: 50 }}
+						whileInView={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.6, delay: 0.4 }}
+						viewport={{ once: true }}
+					>
 						{/* Skills Overview */}
-						<Card as="div">
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, delay: 0.6 }}
+							viewport={{ once: true }}
+						>
+							<Card as="div">
 							<Card.Title as="h2">{t("about.skills")}</Card.Title>
 							<Card.Description>{t("home.subtitle")}</Card.Description>
 							<div className="mt-6 space-y-4">
@@ -220,8 +436,9 @@ export default function Home() {
 							</div>
 							<Card.Cta>{t("nav.about")}</Card.Cta>
 						</Card>
-					</div>
-				</div>
+						</motion.div>
+					</motion.div>
+				</motion.div>
 			</Container>
 		</>
 	);

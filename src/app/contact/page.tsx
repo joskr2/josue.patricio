@@ -6,6 +6,23 @@ import { SimpleLayout } from "@/components/SimpleLayout";
 import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
 import { useTranslation } from "@/hooks/useTranslation";
 import { personalInfo } from "@/lib/personal-data";
+import { motion } from "motion/react";
+
+// Motion variants for staggered entrances
+const listVariants = {
+	hidden: { opacity: 1 },
+	show: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.08,
+		},
+	},
+};
+
+const itemVariants = {
+	hidden: { opacity: 0, y: 16 },
+	show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
 
 function MailIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
@@ -74,9 +91,14 @@ function ContactCard({
 	description?: string;
 }>) {
 	const content = (
-		<div className="group relative h-full rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-zinc-700/40 dark:bg-zinc-800">
+		<motion.div
+			variants={itemVariants}
+			whileHover={{ scale: 1.02, y: -2 }}
+			transition={{ type: "spring", stiffness: 260, damping: 22 }}
+			className="group relative h-full rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-zinc-700/40 dark:bg-zinc-800"
+		>
 			<div className="flex h-full items-center gap-4">
-				<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 dark:bg-teal-900/30 flex-shrink-0">
+				<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 dark:bg-teal-900/30 flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
 					<Icon className="h-6 w-6 text-teal-600 dark:text-teal-400 flex-shrink-0" />
 				</div>
 				<div className="flex-1 min-w-0">
@@ -91,7 +113,7 @@ function ContactCard({
 					)}
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 
 	if (href) {
@@ -119,7 +141,13 @@ export default function Contact() {
 		<SimpleLayout title={t("contact.title")} intro={t("contact.subtitle")}>
 			<div className="mx-auto max-w-4xl">
 				{/* Contact Information */}
-				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				<motion.div
+					className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+					variants={listVariants}
+					initial="hidden"
+					whileInView="show"
+					viewport={{ once: true, amount: 0.2 }}
+				>
 					<ContactCard
 						icon={MailIcon}
 						title={t("contact.email")}
@@ -143,14 +171,20 @@ export default function Contact() {
 						href="https://maps.google.com/?q=Arequipa,Peru"
 						description={t("contact.currentlyBased")}
 					/>
-				</div>
+				</motion.div>
 
 				{/* Social Links */}
 				<div className="mt-16">
 					<h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-8">
 						{t("contact.connectWithMe")}
 					</h2>
-					<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+					<motion.div
+						className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+						variants={listVariants}
+						initial="hidden"
+						whileInView="show"
+						viewport={{ once: true, amount: 0.2 }}
+					>
 						<ContactCard
 							icon={LinkedInIcon}
 							title={t("contact.linkedin")}
@@ -166,11 +200,17 @@ export default function Contact() {
 							href={personalInfo.github}
 							description={t("contact.openSourceProjects")}
 						/>
-					</div>
+					</motion.div>
 				</div>
 
 				{/* Call to Action */}
-				<div className="mt-16 rounded-3xl bg-gradient-to-br from-teal-50 to-blue-50 p-8 text-center dark:from-teal-900/20 dark:to-blue-900/20">
+				<motion.div
+					className="mt-16 rounded-3xl bg-gradient-to-br from-teal-50 to-blue-50 p-8 text-center dark:from-teal-900/20 dark:to-blue-900/20"
+					initial={{ opacity: 0, y: 24 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true, amount: 0.3 }}
+					transition={{ duration: 0.5 }}
+				>
 					<h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
 						{t("contact.letsWorkTogether")}
 					</h2>
@@ -180,7 +220,7 @@ export default function Contact() {
 					<div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
 						<Link
 							href={`mailto:${personalInfo.email}`}
-							className="rounded-full bg-teal-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+							className="rounded-full bg-teal-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
 						>
 							{t("contact.sendEmail")}
 						</Link>
@@ -188,34 +228,46 @@ export default function Contact() {
 							href={personalInfo.linkedin}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="rounded-full bg-zinc-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+							className="rounded-full bg-zinc-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
 						>
 							{t("contact.connectOnLinkedIn")}
 						</Link>
 					</div>
-				</div>
+				</motion.div>
 
 				{/* Additional Information */}
-				<div className="mt-16 border-t border-zinc-200 pt-16 dark:border-zinc-700">
-					<div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-						<div>
+				<motion.div
+					className="mt-16 border-t border-zinc-200 pt-16 dark:border-zinc-700"
+					initial={{ opacity: 0, y: 24 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true, amount: 0.3 }}
+					transition={{ duration: 0.5 }}
+				>
+					<motion.div
+						className="grid grid-cols-1 gap-8 sm:grid-cols-2"
+						variants={listVariants}
+						initial="hidden"
+						whileInView="show"
+						viewport={{ once: true, amount: 0.2 }}
+					>
+						<motion.div variants={itemVariants}>
 							<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
 								{t("contact.availability")}
 							</h3>
 							<p className="text-zinc-600 dark:text-zinc-400">
 								{t("contact.availabilityText")}
 							</p>
-						</div>
-						<div>
+						</motion.div>
+						<motion.div variants={itemVariants}>
 							<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
 								{t("contact.expertise")}
 							</h3>
 							<p className="text-zinc-600 dark:text-zinc-400">
 								{t("contact.expertiseText")}
 							</p>
-						</div>
-					</div>
-				</div>
+						</motion.div>
+					</motion.div>
+				</motion.div>
 			</div>
 		</SimpleLayout>
 	);

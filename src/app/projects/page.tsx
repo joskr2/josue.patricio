@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import { motion } from "motion/react";
 
 import { SimpleLayout } from "@/components/SimpleLayout";
 import { TechBadge } from "@/components/TechBadge";
@@ -99,9 +100,42 @@ export default function Projects() {
 
 	return (
 		<SimpleLayout title={t("projects.title")} intro={t("projects.subtitle")}>
-			<div className="space-y-20">
+			<motion.div 
+				className="space-y-20"
+				variants={{
+					hidden: { opacity: 0 },
+					show: {
+						opacity: 1,
+						transition: {
+							staggerChildren: 0.2,
+							delayChildren: 0.1
+						}
+					}
+				}}
+				initial="hidden"
+				animate="show"
+			>
 				{sortedProjects.map((project, projectIndex) => (
-					<div key={project.id} className="group relative">
+					<motion.div 
+						key={project.id} 
+						className="group relative"
+						variants={{
+							hidden: { opacity: 0, y: 50 },
+							show: { 
+								opacity: 1, 
+								y: 0,
+								transition: {
+									type: "spring",
+									stiffness: 100,
+									damping: 20
+								}
+							}
+						}}
+						whileHover={{ 
+							y: -5,
+							transition: { type: "spring", stiffness: 300, damping: 30 }
+						}}
+					>
 						{/* Project Header */}
 						<div className="mb-8">
 							<h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -322,11 +356,17 @@ export default function Projects() {
 
 						{/* Separator line between projects */}
 						{projectIndex < sortedProjects.length - 1 && (
-							<div className="mt-16 border-t border-zinc-200 dark:border-zinc-700"></div>
+							<motion.div 
+								className="mt-16 border-t border-zinc-200 dark:border-zinc-700"
+								initial={{ opacity: 0, scaleX: 0 }}
+								whileInView={{ opacity: 1, scaleX: 1 }}
+								transition={{ duration: 0.8, delay: 0.2 }}
+								viewport={{ once: true }}
+							/>
 						)}
-					</div>
+					</motion.div>
 				))}
-			</div>
+			</motion.div>
 		</SimpleLayout>
 	);
 }
