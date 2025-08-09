@@ -11,6 +11,7 @@ import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
 import { TechBadge } from "@/components/TechBadge";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useTypewriter } from "@/hooks/useTypewriter";
+import { ImageCarousel } from "@/components/ImageCarousel";
 import image1 from "@/images/photos/image-1.webp";
 import image2 from "@/images/photos/image-2.webp";
 import image3 from "@/images/photos/image-3.webp";
@@ -197,138 +198,23 @@ export default function Home() {
 						viewport={{ once: true }}
 					>
 						<div className="mx-auto max-w-xs px-2.5 lg:max-w-none">
-							<motion.div 
-								className="grid grid-cols-2 gap-4"
-								variants={{
-									hidden: { opacity: 0 },
-									show: {
-										opacity: 1,
-										transition: {
-											staggerChildren: 0.1,
-											delayChildren: 0.5
-										}
-									}
-								}}
-								initial="hidden"
-								whileInView="show"
+							<motion.div
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.6, delay: 0.5 }}
 								viewport={{ once: true }}
+								whileHover={{ rotate: 1 }}
 							>
-								<motion.div 
-									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 -rotate-2"
-									variants={{
-										hidden: { opacity: 0, scale: 0.8, rotate: -10 },
-										show: { 
-											opacity: 1, 
-											scale: 1, 
-											rotate: -2,
-											transition: { 
-												type: "spring", 
-												stiffness: 200, 
-												damping: 20 
-											}
-										}
-									}}
-									whileHover={{ 
-										scale: 1.1, 
-										rotate: 2, 
-										zIndex: 10,
-										transition: { type: "spring", stiffness: 300, damping: 30 }
-									}}
-								>
-									<Image
-										src={image1}
-										alt="imagen1"
-										sizes="(min-width: 640px) 18rem, 11rem"
-										className="absolute inset-0 h-full w-full object-cover"
-									/>
-								</motion.div>
-								<motion.div 
-									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2"
-									variants={{
-										hidden: { opacity: 0, scale: 0.8, rotate: 10 },
-										show: { 
-											opacity: 1, 
-											scale: 1, 
-											rotate: 2,
-											transition: { 
-												type: "spring", 
-												stiffness: 200, 
-												damping: 20 
-											}
-										}
-									}}
-									whileHover={{ 
-										scale: 1.1, 
-										rotate: -2, 
-										zIndex: 10,
-										transition: { type: "spring", stiffness: 300, damping: 30 }
-									}}
-								>
-									<Image
-										src={image2}
-										alt="imagen2"
-										sizes="(min-width: 640px) 18rem, 11rem"
-										className="absolute inset-0 h-full w-full object-cover"
-									/>
-								</motion.div>
-								<motion.div 
-									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rotate-2"
-									variants={{
-										hidden: { opacity: 0, scale: 0.8, rotate: 10 },
-										show: { 
-											opacity: 1, 
-											scale: 1, 
-											rotate: 2,
-											transition: { 
-												type: "spring", 
-												stiffness: 200, 
-												damping: 20 
-											}
-										}
-									}}
-									whileHover={{ 
-										scale: 1.1, 
-										rotate: -2, 
-										zIndex: 10,
-										transition: { type: "spring", stiffness: 300, damping: 30 }
-									}}
-								>
-									<Image
-										src={image3}
-										alt="image3"
-										sizes="(min-width: 640px) 18rem, 11rem"
-										className="absolute inset-0 h-full w-full object-cover"
-									/>
-								</motion.div>
-								<motion.div 
-									className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 -rotate-2"
-									variants={{
-										hidden: { opacity: 0, scale: 0.8, rotate: -10 },
-										show: { 
-											opacity: 1, 
-											scale: 1, 
-											rotate: -2,
-											transition: { 
-												type: "spring", 
-												stiffness: 200, 
-												damping: 20 
-											}
-										}
-									}}
-									whileHover={{ 
-										scale: 1.1, 
-										rotate: 2, 
-										zIndex: 10,
-										transition: { type: "spring", stiffness: 300, damping: 30 }
-									}}
-								>
-									<Image
-										src={image4}
-										alt="image4"
-										sizes="(min-width: 640px) 18rem, 11rem"
-										className="absolute inset-0 h-full w-full object-cover"
-									/>
-								</motion.div>
+								<ImageCarousel
+									className="w-full"
+									items={[
+										{ src: image1, alt: "image1" },
+										{ src: image2, alt: "image2" },
+										{ src: image3, alt: "image3" },
+										{ src: image4, alt: "image4" },
+									]}
+									intervalMs={30000}
+								/>
 							</motion.div>
 						</div>
 					</motion.div>

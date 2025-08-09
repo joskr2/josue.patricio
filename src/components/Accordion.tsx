@@ -10,7 +10,7 @@ interface AccordionProps {
   defaultOpen?: boolean;
 }
 
-function ChevronDownIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
   return (
     <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
       <path
