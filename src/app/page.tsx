@@ -10,6 +10,7 @@ import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
 import { TechBadge } from "@/components/TechBadge";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useTypewriter } from "@/hooks/useTypewriter";
 import image1 from "@/images/photos/image-1.webp";
 import image2 from "@/images/photos/image-2.webp";
 import image3 from "@/images/photos/image-3.webp";
@@ -59,19 +60,27 @@ function SocialLink({
 export default function Home() {
 	const { t, locale } = useTranslation();
 	const featuredProject = projects.find((p) => p.featured);
+	const { displayText: typedName, isComplete } = useTypewriter({ 
+		text: personalInfo.name, 
+		speed: 100, 
+		delay: 300 
+	});
 
 	return (
 		<>
 			{/* Hero Section */}
 			<Container className="mt-9">
 				<div className="max-w-2xl">
-					<h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-						{personalInfo.name}
+					<h1 className="text-5xl font-bold tracking-tight text-zinc-800 sm:text-6xl lg:text-7xl dark:text-zinc-100 min-h-[4rem] sm:min-h-[5rem] lg:min-h-[6rem]">
+						{typedName}
+						{!isComplete && (
+							<span className="animate-pulse text-teal-600 dark:text-teal-400">|</span>
+						)}
 					</h1>
-					<p className="mt-2 text-xl text-teal-600 dark:text-teal-400">
+					<p className="mt-4 text-xl sm:text-2xl text-teal-600 dark:text-teal-400">
 						{personalInfo.title[locale]}
 					</p>
-					<p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+					<p className="mt-6 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
 						{personalInfo.summary[locale]}
 					</p>
 					<div className="mt-6 flex gap-6">

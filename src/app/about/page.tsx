@@ -10,6 +10,7 @@ import { ExperienceItem } from "@/components/ExperienceItem";
 import { SkillCategory } from "@/components/SkillCategory";
 import { GitHubIcon, LinkedInIcon } from "@/components/SocialIcons";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useTypewriter } from "@/hooks/useTypewriter";
 import portraitImage from "@/images/portrait.webp";
 import { experiences } from "@/lib/experience-data";
 import {
@@ -58,10 +59,61 @@ function MailIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 
 export default function About() {
 	const { t, locale } = useTranslation();
+	const { displayText: typedName, isComplete } = useTypewriter({ 
+		text: personalInfo.name, 
+		speed: 100, 
+		delay: 300 
+	});
 
 	return (
 		<Container className="mt-16 sm:mt-32">
-			<div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+			{/* Mobile Layout: Name first, then image */}
+			<div className="block lg:hidden">
+				<div className="text-center sm:text-left">
+					<h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100 min-h-[3rem]">
+						{typedName}
+						{!isComplete && (
+							<span className="animate-pulse text-teal-600 dark:text-teal-400">|</span>
+						)}
+					</h1>
+					<p className="mt-2 text-xl text-teal-600 dark:text-teal-400">
+						{personalInfo.title[locale]}
+					</p>
+				</div>
+				
+				<div className="mt-8 flex justify-center">
+					<div className="max-w-xs px-2.5">
+						<Image
+							src={portraitImage}
+							alt={personalInfo.name}
+							sizes="20rem"
+							className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
+						/>
+					</div>
+				</div>
+
+				<div className="mt-8 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
+					<p>{personalInfo.summary[locale]}</p>
+					<p>{t("about.intro")}</p>
+				</div>
+
+				<div className="mt-8">
+					<ul className="space-y-4">
+						<SocialLink href={`mailto:${personalInfo.email}`} icon={MailIcon}>
+							{personalInfo.email}
+						</SocialLink>
+						<SocialLink href={personalInfo.linkedin} icon={LinkedInIcon}>
+							LinkedIn
+						</SocialLink>
+						<SocialLink href={personalInfo.github} icon={GitHubIcon}>
+							GitHub
+						</SocialLink>
+					</ul>
+				</div>
+			</div>
+
+			{/* Desktop Layout: Original grid layout with typewriter effect */}
+			<div className="hidden lg:grid lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
 				<div className="lg:pl-20">
 					<div className="max-w-xs px-2.5 lg:max-w-none">
 						<Image
@@ -73,8 +125,11 @@ export default function About() {
 					</div>
 				</div>
 				<div className="lg:order-first lg:row-span-2">
-					<h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-						{personalInfo.name}
+					<h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100 min-h-[4rem]">
+						{typedName}
+						{!isComplete && (
+							<span className="animate-pulse text-teal-600 dark:text-teal-400">|</span>
+						)}
 					</h1>
 					<p className="mt-2 text-xl text-teal-600 dark:text-teal-400">
 						{personalInfo.title[locale]}
