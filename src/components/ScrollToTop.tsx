@@ -21,35 +21,25 @@ function ChevronUpIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 export function ScrollToTop() {
 	const [isVisible, setIsVisible] = useState(false);
 
-	// Mostrar el botón cuando el usuario ha scrolleado hacia abajo
 	useEffect(() => {
 		const toggleVisibility = () => {
-			if (window.pageYOffset > 300) {
-				setIsVisible(true);
-			} else {
-				setIsVisible(false);
-			}
+			setIsVisible(window.pageYOffset > 300);
 		};
-
 		window.addEventListener("scroll", toggleVisibility);
-
 		return () => window.removeEventListener("scroll", toggleVisibility);
 	}, []);
 
-	// Función para hacer scroll hacia arriba
 	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
 	if (!isVisible) return null;
 
+	// Add ~16px visual gap from the WhatsApp FAB (56px size)
 	return (
 		<button
 			onClick={scrollToTop}
-			className="fixed bottom-24 right-4 z-50 rounded-full bg-teal-600 p-3 text-white shadow-lg transition-all duration-300 hover:bg-teal-700 hover:shadow-xl hover:scale-110 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 dark:bg-teal-500 dark:hover:bg-teal-600"
+			className="fixed bottom-[88px] right-4 z-[1000] rounded-full bg-teal-600 p-3 text-white shadow-lg transition-all duration-300 hover:bg-teal-700 hover:shadow-xl hover:scale-110 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 dark:bg-teal-500 dark:hover:bg-teal-600 md:right-6 md:bottom-[96px]"
 			aria-label="Scroll to top"
 		>
 			<ChevronUpIcon className="h-6 w-6" />
