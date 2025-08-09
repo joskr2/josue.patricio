@@ -29,7 +29,7 @@ export default function ExperienceDetail({ params }: { params: { slug: string } 
     <Container className="mt-16 sm:mt-24">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
         <div className="flex items-start gap-4">
-          <div className="relative h-16 w-16 overflow-hidden rounded-2xl ring-1 ring-zinc-200 dark:ring-zinc-700 bg-white dark:bg-zinc-900">
+          <div className="relative hidden h-16 w-16 overflow-hidden rounded-2xl ring-1 ring-zinc-200 dark:ring-zinc-700 bg-white dark:bg-zinc-900 md:block">
             {experience.logo ? (
               <Image src={experience.logo} alt={experience.company} fill className="object-contain p-3" />
             ) : (
