@@ -105,49 +105,47 @@ export default function About() {
 					{/* Mobile Accordion View */}
 					<div className="block md:hidden">
 						<Accordion title={t("about.experience")}>
-							<div className="mt-4 space-y-8">
+							<div className="mt-4 space-y-4">
 								{experiences.map((exp, index) => (
-									<div key={`${exp.company}-${index}`} className="border-l-4 border-teal-400 pl-6">
-										<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
-											<div>
-												<h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
-													{exp.position[locale]}
-												</h3>
-												<p className="text-teal-600 dark:text-teal-400 font-medium">
-													{exp.company}
-												</p>
+									<Accordion 
+										key={`${exp.company}-${index}`}
+										title={`${exp.position[locale]} - ${exp.company}`}
+										defaultOpen={index === 0}
+									>
+										<div className="space-y-4">
+											<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+												<time className="text-sm text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+													{exp.duration[locale]}
+												</time>
 											</div>
-											<time className="text-sm text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
-												{exp.duration[locale]}
-											</time>
-										</div>
-										
-										<div className="space-y-3">
-											{exp.description[locale].map((paragraph, paragraphIndex) => (
-												<p key={`${exp.company}-${index}-p-${paragraphIndex}`} className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-													{paragraph}
-												</p>
-											))}
 											
-											{exp.technologies && exp.technologies.length > 0 && (
-												<div>
-													<h4 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-2">
-														Technologies:
-													</h4>
-													<div className="flex flex-wrap gap-2">
-														{exp.technologies.map((tech) => (
-															<span
-																key={tech}
-																className="px-2 py-1 text-xs font-medium bg-zinc-100 text-zinc-800 rounded-md dark:bg-zinc-800 dark:text-zinc-300"
-															>
-																{tech}
-															</span>
-														))}
+											<div className="space-y-3">
+												{exp.description[locale].map((paragraph, paragraphIndex) => (
+													<p key={`${exp.company}-${index}-p-${paragraphIndex}`} className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+														{paragraph}
+													</p>
+												))}
+												
+												{exp.technologies && exp.technologies.length > 0 && (
+													<div>
+														<h4 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-2">
+															Technologies:
+														</h4>
+														<div className="flex flex-wrap gap-2">
+															{exp.technologies.map((tech) => (
+																<span
+																	key={tech}
+																	className="px-2 py-1 text-xs font-medium bg-zinc-100 text-zinc-800 rounded-md dark:bg-zinc-800 dark:text-zinc-300"
+																>
+																	{tech}
+																</span>
+															))}
+														</div>
 													</div>
-												</div>
-											)}
+												)}
+											</div>
 										</div>
-									</div>
+									</Accordion>
 								))}
 							</div>
 						</Accordion>
