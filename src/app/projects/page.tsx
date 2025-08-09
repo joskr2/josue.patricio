@@ -8,7 +8,7 @@ import { TechBadge } from "@/components/TechBadge";
 import { useTranslation } from "@/hooks/useTranslation";
 import { projects } from "@/lib/projects-data";
 
-function ExternalLinkIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ExternalLinkIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -27,7 +27,7 @@ function ExternalLinkIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function GitHubIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function GitHubIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
 			<path
@@ -40,7 +40,7 @@ function GitHubIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function CheckIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -57,7 +57,7 @@ function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function ChevronDownIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ function ChevronDownIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function MetricsCard({ title, value }: { title: string; value: string }) {
+function MetricsCard({ title, value }: { readonly title: string; readonly value: string }) {
 	return (
 		<div className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
 			<div className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -119,9 +119,9 @@ export default function Projects() {
 									href={project.links.live}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="group inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 transition-colors"
+									className="group inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-teal-500 hover:shadow-lg transition-all duration-200"
 								>
-									<ExternalLinkIcon className="h-4 w-4 transition group-hover:scale-110" />
+									<ExternalLinkIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
 									View Live
 								</Link>
 							)}
@@ -130,9 +130,9 @@ export default function Projects() {
 									href={project.links.backend}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+									className="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-zinc-800 hover:shadow-lg transition-all duration-200 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 								>
-									<GitHubIcon className="h-4 w-4 transition group-hover:scale-110" />
+									<GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
 									Backend
 								</Link>
 							)}
@@ -141,9 +141,9 @@ export default function Projects() {
 									href={project.links.frontend}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50 transition-colors dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+									className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-md hover:bg-zinc-50 hover:shadow-lg transition-all duration-200 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
 								>
-									<GitHubIcon className="h-4 w-4 transition group-hover:scale-110" />
+									<GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
 									Frontend
 								</Link>
 							)}
@@ -152,9 +152,9 @@ export default function Projects() {
 									href={project.links.bff}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50 transition-colors dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+									className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-md hover:bg-zinc-50 hover:shadow-lg transition-all duration-200 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
 								>
-									<GitHubIcon className="h-4 w-4 transition group-hover:scale-110" />
+									<GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
 									BFF Service
 								</Link>
 							)}
@@ -172,9 +172,9 @@ export default function Projects() {
 											href={project.links.apiHealth}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
+											className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 shadow-sm hover:bg-green-200 hover:shadow-md transition-all duration-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
 										>
-											<div className="h-2 w-2 rounded-full bg-green-500" />
+											<div className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0" />
 											API Health Check
 										</Link>
 									)}
@@ -183,9 +183,9 @@ export default function Projects() {
 											href={project.links.bffHealth}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
+											className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 shadow-sm hover:bg-green-200 hover:shadow-md transition-all duration-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
 										>
-											<div className="h-2 w-2 rounded-full bg-green-500" />
+											<div className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0" />
 											BFF Health Check
 										</Link>
 									)}
@@ -209,12 +209,12 @@ export default function Projects() {
 						<Disclosure>
 							{({ open }) => (
 								<>
-									<DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 hover:bg-zinc-100 focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden">
+									<DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden transition-all duration-200">
 										<span>Key Features</span>
 										<ChevronDownIcon
 											className={`${
 												open ? 'rotate-180 transform' : ''
-											} h-5 w-5 text-zinc-500`}
+											} h-5 w-5 text-zinc-500 flex-shrink-0 transition-transform duration-200`}
 										/>
 									</DisclosureButton>
 									<div className="hidden md:block mb-8">
@@ -224,7 +224,7 @@ export default function Projects() {
 										<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 											{project.features[locale].map((feature) => (
 												<div key={feature} className="flex items-start gap-3">
-													<CheckIcon className="mt-0.5 h-4 w-4 flex-none text-teal-500" />
+													<CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-500" />
 													<span className="text-sm text-zinc-600 dark:text-zinc-400">
 														{feature}
 													</span>
@@ -236,7 +236,7 @@ export default function Projects() {
 										<div className="grid grid-cols-1 gap-3">
 											{project.features[locale].map((feature) => (
 												<div key={feature} className="flex items-start gap-3">
-													<CheckIcon className="mt-0.5 h-4 w-4 flex-none text-teal-500" />
+													<CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-500" />
 													<span>{feature}</span>
 												</div>
 											))}
@@ -250,12 +250,12 @@ export default function Projects() {
 						<Disclosure>
 							{({ open }) => (
 								<>
-									<DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 hover:bg-zinc-100 focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden mt-3">
+									<DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden mt-3 transition-all duration-200">
 										<span>Architecture</span>
 										<ChevronDownIcon
 											className={`${
 												open ? 'rotate-180 transform' : ''
-											} h-5 w-5 text-zinc-500`}
+											} h-5 w-5 text-zinc-500 flex-shrink-0 transition-transform duration-200`}
 										/>
 									</DisclosureButton>
 									<div className="hidden md:block mb-8">
@@ -265,7 +265,7 @@ export default function Projects() {
 										<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 											{project.architecture[locale].map((item) => (
 												<div key={item} className="flex items-start gap-3">
-													<CheckIcon className="mt-0.5 h-4 w-4 flex-none text-teal-500" />
+													<CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-500" />
 													<span className="text-sm text-zinc-600 dark:text-zinc-400">
 														{item}
 													</span>
@@ -277,7 +277,7 @@ export default function Projects() {
 										<div className="grid grid-cols-1 gap-3">
 											{project.architecture[locale].map((item) => (
 												<div key={item} className="flex items-start gap-3">
-													<CheckIcon className="mt-0.5 h-4 w-4 flex-none text-teal-500" />
+													<CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-500" />
 													<span>{item}</span>
 												</div>
 											))}
@@ -291,12 +291,12 @@ export default function Projects() {
 						<Disclosure>
 							{({ open }) => (
 								<>
-									<DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 hover:bg-zinc-100 focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden mt-3">
+									<DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden mt-3 transition-all duration-200">
 										<span>Performance</span>
 										<ChevronDownIcon
 											className={`${
 												open ? 'rotate-180 transform' : ''
-											} h-5 w-5 text-zinc-500`}
+											} h-5 w-5 text-zinc-500 flex-shrink-0 transition-transform duration-200`}
 										/>
 									</DisclosureButton>
 									<div className="hidden md:block mb-8">

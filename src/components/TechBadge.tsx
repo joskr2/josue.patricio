@@ -10,7 +10,7 @@ export function TechBadge({
 	children,
 	variant = "default",
 	size = "sm",
-}: TechBadgeProps) {
+}: Readonly<TechBadgeProps>) {
 	return (
 		<span
 			className={clsx(
