@@ -13,16 +13,17 @@ export const personalInfo = {
 	linkedin: "https://www.linkedin.com/in/josue-retamozo",
 	github: "https://github.com/joskr2",
 	summary: {
-		en: "Software Engineer with 5+ years of experience in various sectors such as education, finance, retail and e-commerce. Specialized in React, React Native, Angular and with solid backend experience using Python, FastAPI, NodeJS, .NET framework. Familiar with databases such as SQLite and PostgreSQL, and with deployment tools like Docker and AWS services as EC2 and S3. Certified as a Frontend and Mobile Developer by Meta. Passionate about web technologies and committed to accessibility and usability.",
-		es: "Ingeniero de Software con más de 5 años de experiencia en diversos sectores como educación, finanzas, retail y comercio electrónico. Especializado en React, React Native, Angular y con experiencia sólida en backend usando Python, FastAPI, NodeJS, framework .NET. Familiarizado con bases de datos como SQLite y PostgreSQL, y con herramientas de despliegue como Docker y servicios de AWS como EC2 y S3. Certificado como Desarrollador Frontend y Mobile por Meta. Apasionado por las tecnologías web y comprometido con la accesibilidad y usabilidad.",
+		en: "Software Engineer with 5+ years of experience in various sectors such as education, finance, retail and e-commerce. Specialized in React.js, Next.js, React Native, Angular and with solid backend experience using Java with Spring Boot, Python, FastAPI, NodeJS, .NET framework. Familiar with databases such as SQLite and PostgreSQL, and with deployment tools like Docker and AWS services as EC2 and S3. Certified as a Frontend and Mobile Developer by Meta. Passionate about web technologies and committed to accessibility and usability.",
+		es: "Ingeniero de Software con más de 5 años de experiencia en diversos sectores como educación, finanzas, retail y comercio electrónico. Especializado en React.js, Next.js, React Native, Angular y con experiencia sólida en backend usando Java con Spring Boot, Python, FastAPI, NodeJS, framework .NET. Familiarizado con bases de datos como SQLite y PostgreSQL, y con herramientas de despliegue como Docker y servicios de AWS como EC2 y S3. Certificado como Desarrollador Frontend y Mobile por Meta. Apasionado por las tecnologías web y comprometido con la accesibilidad y usabilidad.",
 	},
 };
 
 export const skills = {
-	programmingLanguages: ["JavaScript", "TypeScript", "Python", "C#"],
+	programmingLanguages: ["JavaScript", "TypeScript", "Java", "Python", "C#"],
 	frameworks: [
-		"Next.js",
 		"React.js",
+		"Next.js", 
+		"Spring Boot",
 		"React Native",
 		"Angular",
 		"Node.js",
