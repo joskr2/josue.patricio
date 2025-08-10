@@ -1,13 +1,14 @@
 "use client";
 
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import { ReactNode } from "react";
+import { ReactNode, MouseEvent } from "react";
 import { motion } from "motion/react";
 
 interface AccordionProps {
   title: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
   defaultOpen?: boolean;
+  onClick?: (e: MouseEvent) => void; // when provided, act like a link (no panel)
 }
 
 function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
@@ -22,37 +23,56 @@ function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>)
   );
 }
 
-export function Accordion({ title, children, defaultOpen = false }: Readonly<AccordionProps>) {
+export function Accordion({ title, children, defaultOpen = false, onClick }: Readonly<AccordionProps>) {
+  const linkMode = typeof onClick === "function";
+
   return (
     <div className="border border-zinc-200 dark:border-zinc-700 rounded-xl overflow-hidden">
-      <Disclosure defaultOpen={defaultOpen}>
+      <Disclosure defaultOpen={linkMode ? false : defaultOpen}>
         {({ open }) => (
           <>
-            <DisclosureButton className="flex w-full justify-between items-center px-6 py-4 text-left text-base font-semibold text-zinc-800 bg-zinc-50 hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-inset dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-all">
-              <motion.span whileHover={{ y: -1 }} className="inline-flex items-center gap-2">
+            <DisclosureButton
+              as={motion.button}
+              whileHover={{ scale: 1.01, y: -1 }}
+              whileTap={{ scale: 0.99 }}
+              className="flex w-full justify-between items-center px-6 py-4 text-left text-base font-semibold text-zinc-800 bg-zinc-50 hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-inset dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-all"
+              onClick={(e: MouseEvent) => {
+                if (linkMode && onClick) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClick(e);
+                }
+              }}
+            >
+              {/* Render provided title; allow full-width layouts */}
+              <div className="flex w-full items-center justify-between gap-4">
                 {title}
-              </motion.span>
-              <motion.span
-                animate={{ rotate: open ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="ml-2 flex-shrink-0"
-              >
-                <ChevronDownIcon className="h-5 w-5 text-zinc-500" />
-              </motion.span>
+                {!linkMode && (
+                  <motion.span
+                    animate={{ rotate: open ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="ml-2 flex-shrink-0"
+                  >
+                    <ChevronDownIcon className="h-5 w-5 text-zinc-500" />
+                  </motion.span>
+                )}
+              </div>
             </DisclosureButton>
-            <DisclosurePanel static className="px-6 py-0 bg-white dark:bg-zinc-900 overflow-hidden">
-              <motion.div
-                initial={false}
-                animate={open ? "open" : "collapsed"}
-                variants={{
-                  open: { opacity: 1, height: "auto" },
-                  collapsed: { opacity: 0, height: 0 },
-                }}
-                transition={{ duration: 0.25 }}
-              >
-                <div className="py-4">{children}</div>
-              </motion.div>
-            </DisclosurePanel>
+            {!linkMode && (
+              <DisclosurePanel static className="px-6 py-0 bg-white dark:bg-zinc-900 overflow-hidden">
+                <motion.div
+                  initial={false}
+                  animate={open ? "open" : "collapsed"}
+                  variants={{
+                    open: { opacity: 1, height: "auto" },
+                    collapsed: { opacity: 0, height: 0 },
+                  }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <div className="py-4">{children}</div>
+                </motion.div>
+              </DisclosurePanel>
+            )}
           </>
         )}
       </Disclosure>

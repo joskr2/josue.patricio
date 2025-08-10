@@ -27,27 +27,6 @@ export function ExperienceCarousel({ items, className }: Props) {
     [items]
   );
   const [active, setActive] = useState(0);
-  const [isScrollable, setIsScrollable] = useState(false);
-
-  // Determine if container is scrollable (to hide arrows when not needed)
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const compute = () => {
-      setIsScrollable(el.scrollWidth > el.clientWidth + 2);
-    };
-
-    compute();
-
-    const ro = new ResizeObserver(compute);
-    ro.observe(el);
-    window.addEventListener("resize", compute);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", compute);
-    };
-  }, [items.length]);
 
   // Track active slide based on scroll position
   useEffect(() => {
@@ -100,15 +79,6 @@ export function ExperienceCarousel({ items, className }: Props) {
     return () => window.removeEventListener("resize", handle);
   }, [titleRefs, items, locale]);
 
-  const scrollBy = (dir: -1 | 1) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const amount = Math.max(1, Math.floor(items.length * 0.25));
-    const step = el.clientWidth * 0.9;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
-    setActive((i) => Math.min(items.length - 1, Math.max(0, i + dir * amount)));
-  };
-
   const scrollTo = (idx: number) => {
     const el = containerRef.current;
     const slide = slideRefs[idx]?.current;
@@ -148,7 +118,7 @@ export function ExperienceCarousel({ items, className }: Props) {
                       {exp.logo ? (
                         <Image src={exp.logo} alt={exp.company} fill className="object-contain p-2" />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-sm font-bold text-teal-600 dark:text-teal-400">
+                        <div className="flex h-full w-full items-center justify-center text-sm font-bold text-white bg-teal-600">
                           {exp.company.charAt(0)}
                         </div>
                       )}
@@ -198,46 +168,20 @@ export function ExperienceCarousel({ items, className }: Props) {
           ))}
         </motion.div>
 
-        {/* Controls + Dots below */}
-        <div className="mt-3 flex flex-col items-center gap-3">
-          {isScrollable && (
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                aria-label="Previous"
-                className="rounded-full bg-white/80 p-2 shadow ring-1 ring-zinc-200 backdrop-blur dark:bg-zinc-800/70 dark:ring-zinc-700"
-                onClick={() => scrollBy(-1)}
-              >
-                <svg className="h-5 w-5 text-zinc-700 dark:text-zinc-200" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 010 1.06L9.06 10l3.73 3.71a.75.75 0 11-1.06 1.08l-4.25-4.25a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 0z" clipRule="evenodd" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                aria-label="Next"
-                className="rounded-full bg-white/80 p-2 shadow ring-1 ring-zinc-200 backdrop-blur dark:bg-zinc-800/70 dark:ring-zinc-700"
-                onClick={() => scrollBy(1)}
-              >
-                <svg className="h-5 w-5 text-zinc-700 dark:text-zinc-200" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 010-1.06L10.94 10 7.21 6.29a.75.75 0 111.06-1.08l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06 0z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </div>
-          )}
-          <div className="flex justify-center gap-2">
-            {items.map((exp, i) => (
-              <button
-                key={`${exp.company}-${exp.start}`}
-                type="button"
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => scrollTo(i)}
-                className={
-                  "h-2 w-2 rounded-full transition-colors " +
-                  (i === active ? "bg-teal-500" : "bg-zinc-300 dark:bg-zinc-600")
-                }
-              />
-            ))}
-          </div>
+        {/* Dots below (no arrows) */}
+        <div className="mt-3 flex justify-center gap-2">
+          {items.map((exp, i) => (
+            <button
+              key={`${exp.company}-${exp.start}`}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => scrollTo(i)}
+              className={
+                "h-2 w-2 rounded-full transition-colors " +
+                (i === active ? "bg-teal-500" : "bg-zinc-300 dark:bg-zinc-600")
+              }
+            />
+          ))}
         </div>
       </div>
     </div>

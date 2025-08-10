@@ -23,7 +23,7 @@ export function ExperienceItem({ experience }: Readonly<ExperienceItemProps>) {
 						className="h-7 w-7 object-contain"
 					/>
 				) : (
-					<div className="h-7 w-7 rounded-full bg-gradient-to-br from-teal-400 to-blue-500 flex items-center justify-center">
+					<div className="h-7 w-7 rounded-full bg-teal-600 flex items-center justify-center">
 						<span className="text-xs font-bold text-white">
 							{experience.company.charAt(0)}
 						</span>

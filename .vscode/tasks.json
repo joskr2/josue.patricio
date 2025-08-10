@@ -42,6 +42,48 @@
 				"$eslint-stylish"
 			],
 			"group": "build"
+		},
+		{
+			"label": "next-build",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "next-build",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "next-build",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
 		}
 	]
 }

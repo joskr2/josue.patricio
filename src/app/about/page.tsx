@@ -14,6 +14,9 @@ import { useTypewriter } from "@/hooks/useTypewriter";
 import portraitImage from "@/images/portrait.webp";
 import { experiences } from "@/lib/experience-data";
 import { personalInfo } from "@/lib/personal-data";
+import { Accordion } from "@/components/Accordion";
+import { slugify } from "@/lib/slugify";
+import { useRouter } from "next/navigation";
 
 function SocialLink({
 	className,
@@ -57,6 +60,7 @@ export default function About() {
 		speed: 100, 
 		delay: 300 
 	});
+	const router = useRouter();
 
 	return (
 		<Container className="mt-16 sm:mt-32">
@@ -233,7 +237,7 @@ export default function About() {
 				viewport={{ once: true }}
 			>
 				<div className="mx-auto max-w-7xl">
-					{/* Mobile View (no accordion) */}
+					{/* Mobile View: carousel only */}
 					<motion.div 
 						className="block md:hidden"
 						initial={{ opacity: 0 }}
@@ -255,26 +259,35 @@ export default function About() {
 						</motion.div>
 					</motion.div>
 					
-					{/* Desktop View */}
-					<motion.div 
-						className="hidden md:block"
-						initial={{ opacity: 0 }}
-						whileInView={{ opacity: 1 }}
-						transition={{ duration: 0.6, delay: 0.4 }}
-						viewport={{ once: true }}
-					>
-						<motion.h2 
-							className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5, delay: 0.6 }}
-							viewport={{ once: true }}
-						>
+					{/* Desktop View: link-like accordions mimicking mobile cards */}
+					<motion.div className="hidden md:block" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} viewport={{ once: true }}>
+						<motion.h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }} viewport={{ once: true }}>
 							{t("about.experience")}
 						</motion.h2>
-						<motion.div className="mt-8">
-							<ExperienceCarousel items={experiences} />
-						</motion.div>
+						<div className="mt-6 space-y-3">
+							{experiences.map((exp) => (
+								<Accordion
+									key={`${exp.company}-${exp.start}`}
+									onClick={() => router.push(`/experiences/${slugify(exp.company)}`)}
+									title={
+										<div className="flex w-full items-center gap-3">
+											{exp.logo ? (
+												<Image src={exp.logo} alt={exp.company} width={40} height={40} className="h-10 w-10 object-contain rounded-xl ring-1 ring-zinc-200 dark:ring-zinc-700 bg-white dark:bg-zinc-900" />
+											) : (
+												<div className="h-10 w-10 rounded-xl bg-teal-600 text-white flex items-center justify-center text-sm font-bold">
+													{exp.company.charAt(0)}
+												</div>
+											)}
+											<div className="min-w-0 flex-1">
+												<p className="text-base font-semibold text-zinc-800 dark:text-zinc-100 truncate">{exp.position[locale]}</p>
+												<p className="text-sm text-zinc-500 dark:text-zinc-400 truncate">{exp.company} • {exp.duration[locale]}</p>
+											</div>
+											<span className="text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">{t("about.viewDetail")}</span>
+										</div>
+									}
+								/>
+							))}
+						</div>
 					</motion.div>
 				</div>
 			</motion.div>
