@@ -10,7 +10,7 @@
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
-    "@headlessui/react": "^2.1.0",
+    "@headlessui/react": "^2.2.10",
     "@modelcontextprotocol/sdk": "^1.17.2",
     "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^20.10.8",

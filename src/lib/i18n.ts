@@ -14,10 +14,9 @@ export const translations = {
     // Homepage
     home: {
       title: 'Software Engineer',
-      subtitle:
-        'Specialized in React, Python, and .NET with 5+ years of experience',
+      subtitle: 'Specialized in React and .NET with 5+ years of experience',
       intro:
-        'Software Engineer with 5+ years of experience in various sectors such as education, finance, retail and e-commerce. Specialized in React, React Native, Angular and with solid backend experience using Python, FastAPI, NodeJS, .NET framework.',
+        'Software Engineer with over 5 years of experience developing solutions across education, finance, retail, and e-commerce sectors. My specialty and passion lies in Frontend development with React.js and React Native, building scalable, high-performance, and accessible interfaces. I complement my profile with a solid Full-Stack foundation in C# (.NET) and Microservices, allowing me to integrate and design end-to-end solutions seamlessly. Comfortable working with AWS Cloud environments and Docker deployments.',
       featuredProject: 'Featured Project',
       viewProject: 'View Project',
       getInTouch: 'Get in Touch',
@@ -32,7 +31,7 @@ export const translations = {
       skills: 'Skills',
       education: 'Education',
       certifications: 'Certifications',
-      location: 'Arequipa, Peru',
+      location: 'Lima, Peru',
       viewDetail: 'View detail',
     },
     // Projects page
@@ -68,7 +67,7 @@ export const translations = {
         "I'm currently available for freelance work and new opportunities. My timezone is GMT-5 (Peru), and I typically respond to emails within 24 hours.",
       expertise: 'Expertise',
       expertiseText:
-        'Specializing in React, Next.js, TypeScript, Python, FastAPI, and .NET. I have experience with both frontend development and backend microservices architecture.',
+        'Specializing in React, Next.js, TypeScript, C# (.NET), and Microservices. I have experience both in frontend development and backend microservices architecture.',
       connectOnLinkedIn: 'Connect on LinkedIn',
       whatsapp: 'WhatsApp',
       whatsappTooltip: 'Chat on WhatsApp',
@@ -83,13 +82,12 @@ export const translations = {
     sportsBetting: {
       title: 'Sports Betting Platform',
       description:
-        'Comprehensive sports betting platform using microservices architecture and serverless computing',
+        'Comprehensive sports betting platform using microservices architecture with frontend, API, and BFF components available on GitHub',
       features: [
         'Microservices architecture with 3 interconnected components',
         'High-performance frontend with Next.js 15 and TypeScript',
         'Robust .NET 9 API with PostgreSQL and Redis caching',
         'FastAPI BFF service optimized for AWS Lambda',
-        '99.9% uptime with comprehensive security measures',
         'JWT authentication and atomic transactions',
       ],
     },
@@ -106,9 +104,9 @@ export const translations = {
     home: {
       title: 'Ingeniero de Software',
       subtitle:
-        'Especializado en React, Python y .NET con más de 5 años de experiencia',
+        'Especializado en React y .NET con más de 5 años de experiencia',
       intro:
-        'Ingeniero de Software con más de 5 años de experiencia en diversos sectores como educación, finanzas, retail y comercio electrónico. Especializado en React, React Native, Angular y con experiencia sólida en backend usando Python, FastAPI, NodeJS, framework .NET.',
+        'Ingeniero de Software con más de 5 años de experiencia desarrollando soluciones en los sectores de educación, finanzas, retail y comercio electrónico. Mi especialidad y pasión es el desarrollo Frontend con React.js y React Native, creando interfaces escalables, de alto rendimiento y accesibles. Complemento mi perfil con una sólida base Full-Stack en C# (.NET) y Microservicios, lo que me permite integrar y diseñar soluciones de extremo a extremo con total fluidez. Me desenvuelvo con soltura en entornos Cloud de AWS y despliegues con Docker.',
       featuredProject: 'Proyecto Destacado',
       viewProject: 'Ver Proyecto',
       getInTouch: 'Contacto',
@@ -123,7 +121,7 @@ export const translations = {
       skills: 'Habilidades',
       education: 'Educación',
       certifications: 'Certificaciones',
-      location: 'Arequipa, Perú',
+      location: 'Lima, Perú',
       viewDetail: 'Ver detalle',
     },
     // Projects page
@@ -159,7 +157,7 @@ export const translations = {
         'Actualmente estoy disponible para trabajo freelance y nuevas oportunidades. Mi zona horaria es GMT-5 (Perú), y típicamente respondo correos dentro de 24 horas.',
       expertise: 'Experiencia',
       expertiseText:
-        'Especializado en React, Next.js, TypeScript, Python, FastAPI y .NET. Tengo experiencia tanto en desarrollo frontend como en arquitectura de microservicios backend.',
+        'Especializado en React, Next.js, TypeScript, C# (.NET) y Microservicios. Tengo experiencia tanto en desarrollo frontend como en arquitectura de microservicios backend.',
       connectOnLinkedIn: 'Conectar en LinkedIn',
       whatsapp: 'WhatsApp',
       whatsappTooltip: 'Chatear por WhatsApp',
@@ -174,22 +172,17 @@ export const translations = {
     sportsBetting: {
       title: 'Plataforma de Apuestas Deportivas',
       description:
-        'Plataforma integral de apuestas deportivas usando arquitectura de microservicios y computación serverless',
+        'Plataforma integral de apuestas deportivas usando arquitectura de microservicios con frontend, API y BFF disponibles en GitHub',
       features: [
         'Arquitectura de microservicios con 3 componentes interconectados',
         'Frontend de alto rendimiento con Next.js 15 y TypeScript',
         'API robusta en .NET 9 con PostgreSQL y caché Redis',
         'Servicio BFF FastAPI optimizado para AWS Lambda',
-        '99.9% de tiempo de actividad con medidas de seguridad integrales',
         'Autenticación JWT y transacciones atómicas',
       ],
     },
   },
 } as const
-
-import { cache } from 'react'
-
-// ... existing code ...
 
 export function getTranslation(locale: Locale, key: string): string {
   const keys = key.split('.')
@@ -202,6 +195,8 @@ export function getTranslation(locale: Locale, key: string): string {
 
   return value || key
 }
+
+import { cache } from 'react'
 
 export const cachedGetTranslation = cache(
   (locale: Locale, key: string): string => {

@@ -313,7 +313,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
               {experiences.map((exp) => (
                 <Link
                   key={`${exp.company}-${exp.start}`}
-                  href={`/experiences/`}
+                  href={`/experiences/${slugify(exp.company)}`}
                   className="flex w-full items-center gap-3 rounded-lg bg-zinc-50 px-4 py-3 text-left shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md dark:bg-zinc-800/50 dark:hover:bg-zinc-800"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 text-sm font-bold text-white">
