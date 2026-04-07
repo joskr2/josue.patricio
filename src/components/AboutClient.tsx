@@ -143,6 +143,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
               src={personalInfo.portraitImage}
               alt={personalInfo.name}
               sizes="20rem"
+              priority
               className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
             />
           </motion.div>
@@ -203,6 +204,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
               src={personalInfo.portraitImage}
               alt={personalInfo.name}
               sizes="(min-width: 1024px) 32rem, 20rem"
+              priority
               className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
             />
           </motion.div>
