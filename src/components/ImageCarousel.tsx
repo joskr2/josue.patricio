@@ -1,29 +1,38 @@
-"use client";
+'use client'
 
-import Image, { type StaticImageData } from "next/image";
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import Image from 'next/image'
+import { AnimatePresence, motion } from 'motion/react'
+import { useEffect, useState } from 'react'
 
-type CarouselItem = { src: StaticImageData; alt: string };
+type CarouselItem = {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+}
 
 export function ImageCarousel({
   items,
   intervalMs = 30000,
   className,
-}: Readonly<{ items: CarouselItem[]; intervalMs?: number; className?: string }>) {
-  const [index, setIndex] = useState(0);
+}: Readonly<{
+  items: CarouselItem[]
+  intervalMs?: number
+  className?: string
+}>) {
+  const [index, setIndex] = useState(0)
 
   useEffect(() => {
-    if (!items?.length) return;
+    if (!items?.length) return
     const id = setInterval(() => {
-      setIndex((i) => (i + 1) % items.length);
-    }, intervalMs);
-    return () => clearInterval(id);
-  }, [items?.length, intervalMs]);
+      setIndex((i) => (i + 1) % items.length)
+    }, intervalMs)
+    return () => clearInterval(id)
+  }, [items?.length, intervalMs])
 
-  if (!items?.length) return null;
+  if (!items?.length) return null
 
-  const current = items[index];
+  const current = items[index]
 
   return (
     <div className={className}>
@@ -40,6 +49,8 @@ export function ImageCarousel({
             <Image
               src={current.src}
               alt={current.alt}
+              width={current.width || 400}
+              height={current.height || 400}
               sizes="(min-width: 640px) 18rem, 20rem"
               className="absolute inset-0 h-full w-full object-cover"
               priority={index === 0}
@@ -48,5 +59,5 @@ export function ImageCarousel({
         </AnimatePresence>
       </div>
     </div>
-  );
+  )
 }

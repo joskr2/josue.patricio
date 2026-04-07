@@ -1,24 +1,30 @@
-import { useLocale } from "@/contexts/LocaleContext";
-import { getTranslation, translations } from "@/lib/i18n";
+import { useCallback, useMemo } from 'react'
+import { useLocale } from '@/contexts/LocaleContext'
+import { cachedGetTranslation, translations } from '@/lib/i18n'
 
 export function useTranslation() {
-	const { locale } = useLocale();
+  const { locale } = useLocale()
 
-	const t = (key: string): string => {
-		return getTranslation(locale, key);
-	};
+  const t = useCallback(
+    (key: string): string => {
+      return cachedGetTranslation(locale, key)
+    },
+    [locale],
+  )
 
-	const tArray = (key: string): string[] => {
-		const keys = key.split(".");
-		// biome-ignore lint/suspicious/noExplicitAny: required for dynamic property access
-		let value: any = translations[locale];
+  const tArray = useMemo(() => {
+    return (key: string): string[] => {
+      const keys = key.split('.')
+      // biome-ignore lint/suspicious/noExplicitAny: required for dynamic property access
+      let value: any = translations[locale]
 
-		for (const k of keys) {
-			value = value?.[k];
-		}
+      for (const k of keys) {
+        value = value?.[k]
+      }
 
-		return Array.isArray(value) ? value : [];
-	};
+      return Array.isArray(value) ? value : []
+    }
+  }, [locale])
 
-	return { t, tArray, locale };
+  return { t, tArray, locale }
 }
