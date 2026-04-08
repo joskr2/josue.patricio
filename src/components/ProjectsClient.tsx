@@ -1,35 +1,14 @@
-'use client'
-
-import Link from 'next/link'
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
 } from '@headlessui/react'
 import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
 
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { projects } from '@/lib/projects-data'
-import type { StaticImageData } from 'next/image'
-
-const ProjectShowcase = dynamic(
-  () =>
-    import('@/components/ProjectShowcase').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return mod.ProjectShowcase || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-64 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: true,
-  },
-) as unknown as React.ComponentType<{
-  project: (typeof projects)[0]
-}>
 
 function ExternalLinkIcon(
   props: Readonly<React.ComponentPropsWithoutRef<'svg'>>,
@@ -123,7 +102,6 @@ function MetricsCard({
 function ProjectsClientInner() {
   const { t, locale } = useTranslation()
 
-  // Sort projects: featured first, then non-featured
   const sortedProjects = [...projects].sort((a, b) => {
     if (a.featured && !b.featured) return -1
     if (!a.featured && b.featured) return 1
@@ -168,7 +146,6 @@ function ProjectsClientInner() {
             transition: { type: 'spring', stiffness: 300, damping: 30 },
           }}
         >
-          {/* Project Header */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
               {project.title[locale]}
@@ -178,10 +155,9 @@ function ProjectsClientInner() {
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="mb-8 flex flex-wrap gap-4">
             {project.links.live && (
-              <Link
+              <a
                 href={project.links.live}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -189,10 +165,10 @@ function ProjectsClientInner() {
               >
                 <ExternalLinkIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 View Live
-              </Link>
+              </a>
             )}
             {project.links.backend && (
-              <Link
+              <a
                 href={project.links.backend}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -200,10 +176,10 @@ function ProjectsClientInner() {
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 Backend
-              </Link>
+              </a>
             )}
             {project.links.frontend && (
-              <Link
+              <a
                 href={project.links.frontend}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -211,10 +187,10 @@ function ProjectsClientInner() {
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 Frontend
-              </Link>
+              </a>
             )}
             {project.links.bff && (
-              <Link
+              <a
                 href={project.links.bff}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -222,11 +198,10 @@ function ProjectsClientInner() {
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 BFF Service
-              </Link>
+              </a>
             )}
           </div>
 
-          {/* Health Check Links - solo para el proyecto featured */}
           {project.featured &&
             (project.links.apiHealth || project.links.bffHealth) && (
               <div className="mb-8">
@@ -235,7 +210,7 @@ function ProjectsClientInner() {
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {project.links.apiHealth && (
-                    <Link
+                    <a
                       href={project.links.apiHealth}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -243,10 +218,10 @@ function ProjectsClientInner() {
                     >
                       <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
                       API Health Check
-                    </Link>
+                    </a>
                   )}
                   {project.links.bffHealth && (
-                    <Link
+                    <a
                       href={project.links.bffHealth}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -254,13 +229,12 @@ function ProjectsClientInner() {
                     >
                       <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
                       BFF Health Check
-                    </Link>
+                    </a>
                   )}
                 </div>
               </div>
             )}
 
-          {/* Technologies */}
           <div className="mb-8">
             <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
               Technologies
@@ -272,7 +246,6 @@ function ProjectsClientInner() {
             </div>
           </div>
 
-          {/* Key Features Accordion */}
           <Disclosure>
             {({ open }) => (
               <>
@@ -313,7 +286,6 @@ function ProjectsClientInner() {
             )}
           </Disclosure>
 
-          {/* Architecture Accordion */}
           <Disclosure>
             {({ open }) => (
               <>
@@ -354,7 +326,6 @@ function ProjectsClientInner() {
             )}
           </Disclosure>
 
-          {/* Performance Metrics Accordion */}
           <Disclosure>
             {({ open }) => (
               <>
@@ -405,7 +376,6 @@ function ProjectsClientInner() {
             )}
           </Disclosure>
 
-          {/* Separator line between projects */}
           {projectIndex < sortedProjects.length - 1 && (
             <motion.div
               className="mt-16 border-t border-zinc-200 dark:border-zinc-700"

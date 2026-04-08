@@ -1,6 +1,3 @@
-'use client'
-
-import Image from 'next/image'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 
@@ -46,14 +43,12 @@ export function ImageCarousel({
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.8 }}
           >
-            <Image
+            <img
               src={current.src}
               alt={current.alt}
               width={current.width || 400}
               height={current.height || 400}
-              sizes="(min-width: 640px) 18rem, 20rem"
               className="absolute inset-0 h-full w-full object-cover"
-              priority={index === 0}
             />
           </motion.div>
         </AnimatePresence>

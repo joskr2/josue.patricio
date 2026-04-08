@@ -1,13 +1,16 @@
-'use client'
-
+import { createFileRoute } from '@tanstack/react-router'
 import { experiences } from '@/lib/experience-data'
 import { useTranslation } from '@/hooks/useTranslation'
 import { Container } from '@/components/Container'
 import { TechBadge } from '@/components/TechBadge'
 import { slugify } from '@/lib/slugify'
-import Link from 'next/link'
+import { Link } from '@tanstack/react-router'
 
-export default function ExperiencesPage() {
+export const Route = createFileRoute('/experiences')({
+  component: ExperiencesPage,
+})
+
+function ExperiencesPage() {
   const { locale, t } = useTranslation()
 
   return (
@@ -70,7 +73,8 @@ export default function ExperiencesPage() {
 
               <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-700">
                 <Link
-                  href={`/experiences/${slugify(exp.company)}`}
+                  to="/experiences/$slug"
+                  params={{ slug: slugify(exp.company) }}
                   className="inline-flex items-center gap-2 text-sm font-medium text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
                 >
                   {t('about.viewDetail')} →

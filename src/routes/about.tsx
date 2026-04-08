@@ -1,9 +1,13 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { personalInfo } from '@/lib/personal-data'
 import { experiences } from '@/lib/experience-data'
 import { AboutClient } from '@/components/AboutClient'
-import portraitImage from '@/images/portrait.webp'
 
-export default async function About() {
+export const Route = createFileRoute('/about')({
+  component: About,
+})
+
+function About() {
   return (
     <AboutClient
       personalInfo={{
@@ -13,7 +17,7 @@ export default async function About() {
         email: personalInfo.email,
         linkedin: personalInfo.linkedin,
         github: personalInfo.github,
-        portraitImage: portraitImage,
+        portraitImage: '/images/portrait.webp',
       }}
       experiences={experiences}
     />

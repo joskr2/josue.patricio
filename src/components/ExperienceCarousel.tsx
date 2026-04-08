@@ -1,7 +1,3 @@
-'use client'
-
-import Image from 'next/image'
-import Link from 'next/link'
 import { useMemo, useRef, useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 
@@ -28,7 +24,6 @@ export function ExperienceCarousel({ items, className }: Props) {
   )
   const [active, setActive] = useState(0)
 
-  // Track active slide based on scroll position
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -55,22 +50,18 @@ export function ExperienceCarousel({ items, className }: Props) {
     return () => el.removeEventListener('scroll', onScroll as EventListener)
   }, [slideRefs])
 
-  // Auto-fit title font-size to avoid overflow (down to a minimum)
   useEffect(() => {
-    const MIN = 13 // px
-    const MAX = 16 // px (~text-base)
+    const MIN = 13
+    const MAX = 16
 
     const fitOne = (el: HTMLHeadingElement | null) => {
       if (!el) return
-      // reset to max first
       el.style.fontSize = `${MAX}px`
-      // if it already fits, done
       if (el.scrollWidth <= el.clientWidth) return
       for (let size = MAX - 1; size >= MIN; size--) {
         el.style.fontSize = `${size}px`
         if (el.scrollWidth <= el.clientWidth) return
       }
-      // ensure min applied
       el.style.fontSize = `${MIN}px`
     }
 
@@ -93,7 +84,6 @@ export function ExperienceCarousel({ items, className }: Props) {
   return (
     <div className={className}>
       <div className="relative">
-        {/* Scroll container */}
         <motion.div
           ref={containerRef}
           className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 py-2"
@@ -111,26 +101,15 @@ export function ExperienceCarousel({ items, className }: Props) {
               className="w-[17rem] shrink-0 snap-center sm:w-[19rem] md:w-[21rem] xl:w-[23rem]"
               whileHover={{ scale: 1.01 }}
             >
-              <Link
+              <a
                 href={`/experiences/${slugify(exp.company)}`}
                 className="group block h-full focus:outline-none"
                 aria-label={`${exp.company} ${exp.position?.en || exp.position?.es}`}
               >
                 <div className="flex h-full flex-col rounded-2xl bg-white p-4 shadow-sm ring-1 ring-zinc-200 transition-all duration-300 group-hover:shadow-md dark:bg-zinc-900 dark:ring-zinc-700">
                   <div className="flex items-start gap-3">
-                    <div className="relative h-12 w-12 flex-none overflow-hidden rounded-xl bg-zinc-50 ring-1 ring-zinc-200 dark:bg-zinc-800/50 dark:ring-zinc-700">
-                      {exp.logo ? (
-                        <Image
-                          src={exp.logo}
-                          alt={exp.company}
-                          fill
-                          className="object-contain p-2"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-teal-600 text-sm font-bold text-white">
-                          {exp.company.charAt(0)}
-                        </div>
-                      )}
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-600 text-sm font-bold text-white">
+                      {exp.company.charAt(0)}
                     </div>
                     <div className="min-w-0">
                       <h3
@@ -152,13 +131,11 @@ export function ExperienceCarousel({ items, className }: Props) {
                     </div>
                   </div>
 
-                  {/* Content spacer to align cards */}
                   <div className="mt-3 flex min-h-[72px] flex-col">
                     <p className="truncate text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                       {(exp.description?.[locale]?.[0] || '').toString()}
                     </p>
 
-                    {/* Tech row always rendered to keep equal height */}
                     <div className="mt-3 flex min-h-[28px] flex-wrap gap-2">
                       {(exp.technologies?.slice(0, 2) || []).map((tech) => (
                         <TechBadge key={tech} size="sm">
@@ -188,12 +165,11 @@ export function ExperienceCarousel({ items, className }: Props) {
                     </svg>
                   </div>
                 </div>
-              </Link>
+              </a>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Dots below (no arrows) */}
         <div className="mt-3 flex justify-center gap-2">
           {items.map((exp, i) => (
             <button

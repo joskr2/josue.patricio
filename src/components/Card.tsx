@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import Link from "next/link";
 import { motion } from "motion/react";
 
 function ChevronRightIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
@@ -45,8 +44,15 @@ export function Card<T extends React.ElementType = "div">({
 
 Card.Link = function CardLink({
 	children,
+	href,
 	...props
-}: React.ComponentPropsWithoutRef<typeof Link>) {
+}: {
+	children: React.ReactNode;
+	href: string;
+	target?: string;
+	rel?: string;
+	className?: string;
+}) {
 	return (
 		<>
 			<motion.div 
@@ -55,10 +61,10 @@ Card.Link = function CardLink({
 				whileHover={{ scale: 1, opacity: 1 }}
 				transition={{ type: "spring", stiffness: 300, damping: 30 }}
 			/>
-			<Link className="relative" {...props}>
+			<a href={href} className="relative" {...props}>
 				<span className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
 				<span className="relative z-10">{children}</span>
-			</Link>
+			</a>
 		</>
 	);
 };
@@ -123,9 +129,9 @@ Card.Cta = function CardCta({ children, href }: { children: React.ReactNode; hre
 
 	if (href) {
 		return (
-			<Link href={href} className="relative z-30 mt-auto pt-4 inline-flex items-center text-sm font-medium text-teal-500 group pointer-events-auto">
+			<a href={href} className="relative z-30 mt-auto pt-4 inline-flex items-center text-sm font-medium text-teal-500 group pointer-events-auto">
 				{inner}
-			</Link>
+			</a>
 		);
 	}
 

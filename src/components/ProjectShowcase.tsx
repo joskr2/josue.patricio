@@ -2,7 +2,6 @@ import { Card } from "@/components/Card";
 import { TechBadge } from "@/components/TechBadge";
 import { useTranslation } from "@/hooks/useTranslation";
 import type { Project } from "@/lib/projects-data";
-import Link from "next/link";
 
 interface ProjectShowcaseProps {
 	project: Project;
@@ -52,7 +51,6 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 				{t("home.featuredProject")}
 			</Card.Eyebrow>
 
-			{/* Technologies */}
 			<div className="relative z-10 mt-4 flex flex-wrap gap-2">
 				{project.technologies.slice(0, 6).map((tech) => (
 					<TechBadge key={tech} variant="primary">
@@ -66,10 +64,9 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 				)}
 			</div>
 
-			{/* Links */}
 			<div className="relative z-10 mt-6 flex flex-wrap gap-4">
 				{project.links.live && (
-					<Link
+					<a
 						href={project.links.live}
 						target="_blank"
 						rel="noopener noreferrer"
@@ -77,10 +74,10 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 					>
 						<ExternalLinkIcon className="h-4 w-4 transition group-hover:scale-110" />
 						{t("projects.viewLive")}
-					</Link>
+					</a>
 				)}
 				{project.links.frontend && (
-					<Link
+					<a
 						href={project.links.frontend}
 						target="_blank"
 						rel="noopener noreferrer"
@@ -88,10 +85,10 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 					>
 						<GitHubIcon className="h-4 w-4 fill-current transition group-hover:scale-110" />
 						Frontend
-					</Link>
+					</a>
 				)}
 				{project.links.backend && (
-					<Link
+					<a
 						href={project.links.backend}
 						target="_blank"
 						rel="noopener noreferrer"
@@ -99,7 +96,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 					>
 						<GitHubIcon className="h-4 w-4 fill-current transition group-hover:scale-110" />
 						Backend
-					</Link>
+					</a>
 				)}
 			</div>
 

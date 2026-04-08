@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 function ChevronUpIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {

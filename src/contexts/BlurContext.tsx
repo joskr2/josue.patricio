@@ -27,7 +27,8 @@ export function BlurProvider({ children }: Readonly<{ children: ReactNode }>) {
 export function useBlur() {
   const context = useContext(BlurContext);
   if (!context) {
-    throw new Error('useBlur must be used within a BlurProvider');
+    // SSR-safe fallback — returns no-op during SSR when provider isn't mounted yet
+    return { isBlurred: false, setBlur: () => {} };
   }
   return context;
 }

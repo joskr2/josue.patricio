@@ -1,6 +1,5 @@
-'use client'
-
-import Link from 'next/link'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { motion } from 'motion/react'
 
 import { SimpleLayout } from '@/components/SimpleLayout'
 import {
@@ -13,9 +12,11 @@ import {
 } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
 import { personalInfo } from '@/lib/personal-data'
-import { motion } from 'motion/react'
 
-// Motion variants for staggered entrances
+export const Route = createFileRoute('/contact')({
+  component: Contact,
+})
+
 const listVariants = {
   hidden: { opacity: 1 },
   show: {
@@ -76,7 +77,7 @@ function ContactCard({
 
     return (
       <Link
-        href={href}
+        to={href}
         {...(shouldOpenNewTab && {
           target: '_blank',
           rel: 'noopener noreferrer',
@@ -91,7 +92,7 @@ function ContactCard({
   return content
 }
 
-export default function Contact() {
+function Contact() {
   const { t, locale } = useTranslation()
   const whatsappHref = (() => {
     const phoneSanitized = personalInfo.phone.replace(/\D/g, '')
@@ -103,7 +104,6 @@ export default function Contact() {
   return (
     <SimpleLayout title={t('contact.title')} intro={t('contact.subtitle')}>
       <div className="mx-auto max-w-4xl">
-        {/* Contact Information */}
         <motion.div
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           variants={listVariants}
@@ -144,7 +144,6 @@ export default function Contact() {
           />
         </motion.div>
 
-        {/* Social Links */}
         <div className="mt-16">
           <h2 className="mb-8 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
             {t('contact.connectWithMe')}
@@ -174,7 +173,6 @@ export default function Contact() {
           </motion.div>
         </div>
 
-        {/* Call to Action */}
         <motion.div
           className="mt-16 rounded-3xl bg-gradient-to-br from-teal-50 to-blue-50 p-8 text-center dark:from-teal-900/20 dark:to-blue-900/20"
           initial={{ opacity: 0, y: 24 }}
@@ -189,24 +187,23 @@ export default function Contact() {
             {t('contact.alwaysInterested')}
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link
+            <a
               href={`mailto:${personalInfo.email}`}
               className="rounded-full bg-teal-600 px-8 py-4 text-sm font-semibold text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 active:scale-[0.98]"
             >
               {t('contact.sendEmail')}
-            </Link>
-            <Link
+            </a>
+            <a
               href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full bg-zinc-900 px-8 py-4 text-sm font-semibold text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
             >
               {t('contact.connectOnLinkedIn')}
-            </Link>
+            </a>
           </div>
         </motion.div>
 
-        {/* Download CV Section */}
         <motion.div
           className="mt-16 rounded-3xl border border-zinc-200 p-8 dark:border-zinc-700"
           initial={{ opacity: 0, y: 24 }}
@@ -261,7 +258,6 @@ export default function Contact() {
           </div>
         </motion.div>
 
-        {/* Additional Information */}
         <motion.div
           className="mt-16 border-t border-zinc-200 pt-16 dark:border-zinc-700"
           initial={{ opacity: 0, y: 24 }}

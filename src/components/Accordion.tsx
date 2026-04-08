@@ -1,5 +1,3 @@
-"use client";
-
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import { ReactNode, MouseEvent } from "react";
 import { motion } from "motion/react";

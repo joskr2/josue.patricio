@@ -1,9 +1,5 @@
-'use client'
-
-import Image from 'next/image'
-import Link from 'next/link'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { use } from 'react'
 
 import { Container } from '@/components/Container'
 import { TechBadge } from '@/components/TechBadge'
@@ -11,13 +7,13 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { experiences } from '@/lib/experience-data'
 import { slugify } from '@/lib/slugify'
 
-export default function ExperienceDetail({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export const Route = createFileRoute('/experiences/$slug')({
+  component: ExperienceDetail,
+})
+
+function ExperienceDetail() {
   const { locale, t } = useTranslation()
-  const { slug } = use(params)
+  const { slug } = Route.useParams()
   const experience = experiences.find((e) => slugify(e.company) === slug)
 
   if (!experience) {
@@ -28,8 +24,8 @@ export default function ExperienceDetail({
         </p>
         <div className="mt-6 text-center">
           <Link
+            to="/about"
             className="text-teal-600 hover:underline dark:text-teal-400"
-            href="/about"
           >
             {t('nav.about')}
           </Link>
@@ -46,20 +42,6 @@ export default function ExperienceDetail({
         transition={{ duration: 0.6 }}
       >
         <div className="flex items-start gap-4">
-          <div className="relative hidden h-16 w-16 overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-200 md:block dark:bg-zinc-900 dark:ring-zinc-700">
-            {experience.logo ? (
-              <Image
-                src={experience.logo}
-                alt={experience.company}
-                fill
-                className="object-contain p-3"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-lg font-bold text-teal-600 dark:text-teal-400">
-                {experience.company.charAt(0)}
-              </div>
-            )}
-          </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
               {experience.position[locale]}
@@ -73,7 +55,6 @@ export default function ExperienceDetail({
           </div>
         </div>
 
-        {/* Body */}
         <div className="prose prose-zinc dark:prose-invert mt-8 max-w-none">
           <ul>
             {experience.description[locale].map((line) => (
@@ -97,7 +78,7 @@ export default function ExperienceDetail({
 
         <div className="mt-10">
           <Link
-            href="/about"
+            to="/about"
             className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
           >
             <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">

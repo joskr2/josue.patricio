@@ -1,49 +1,36 @@
-"use client";
-
-import { type Locale, defaultLocale, detectLocale } from "@/lib/i18n";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useMemo, type ReactNode } from 'react'
+import type { Locale } from '@/lib/i18n'
+import { defaultLocale } from '@/lib/i18n'
 
 interface LocaleContextType {
-	locale: Locale;
-	setLocale: (locale: Locale) => void;
+  locale: Locale
+  setLocale: (locale: Locale) => void
 }
 
-const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
+const LocaleContext = createContext<LocaleContextType | undefined>(undefined)
 
-export function LocaleProvider({ children }: { children: React.ReactNode }) {
-	const [locale, setLocaleState] = useState<Locale>(defaultLocale);
-	const [isInitialized, setIsInitialized] = useState(false);
+interface LocaleProviderProps {
+  children: ReactNode
+  initialLocale: Locale
+}
 
-	useEffect(() => {
-		// Only run on client side
-		const detectedLocale = detectLocale();
-		setLocaleState(detectedLocale);
-		setIsInitialized(true);
-	}, []);
+export function LocaleProvider({ children, initialLocale }: LocaleProviderProps) {
+  const [locale, setLocale] = useState<Locale>(initialLocale)
 
-	const setLocale = (newLocale: Locale) => {
-		setLocaleState(newLocale);
-		if (typeof window !== "undefined") {
-			localStorage.setItem("locale", newLocale);
-		}
-	};
+  const value = useMemo(() => ({ locale, setLocale }), [locale])
 
-	// Don't render children until locale is initialized to prevent hydration mismatch
-	if (!isInitialized) {
-		return null;
-	}
-
-	return (
-		<LocaleContext.Provider value={{ locale, setLocale }}>
-			{children}
-		</LocaleContext.Provider>
-	);
+  return (
+    <LocaleContext.Provider value={value}>
+      {children}
+    </LocaleContext.Provider>
+  )
 }
 
 export function useLocale() {
-	const context = useContext(LocaleContext);
-	if (context === undefined) {
-		throw new Error("useLocale must be used within a LocaleProvider");
-	}
-	return context;
+  const context = useContext(LocaleContext)
+  if (!context) {
+    // SSR fallback
+    return { locale: defaultLocale, setLocale: () => {} }
+  }
+  return context
 }

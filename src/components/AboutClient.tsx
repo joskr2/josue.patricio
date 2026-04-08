@@ -1,11 +1,5 @@
-'use client'
-
 import clsx from 'clsx'
-import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
-import type { StaticImageData } from 'next/image'
 
 import { Container } from '@/components/Container'
 import { ExperienceCarousel } from '@/components/ExperienceCarousel'
@@ -13,27 +7,8 @@ import { SkillCategory } from '@/components/SkillCategory'
 import { GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
-import { Accordion } from '@/components/Accordion'
 import { slugify } from '@/lib/slugify'
-import { useRouter } from 'next/navigation'
 import type { Experience } from '@/lib/experience-data'
-
-const ExperienceCarouselDynamic = dynamic(
-  () =>
-    import('@/components/ExperienceCarousel').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return mod.ExperienceCarousel || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-48 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: false,
-  },
-) as unknown as React.ComponentType<{
-  items: Experience[]
-  className?: string
-}>
 
 type Props = {
   personalInfo: {
@@ -43,7 +18,7 @@ type Props = {
     email: string
     linkedin: string
     github: string
-    portraitImage: StaticImageData | string
+    portraitImage: string
   }
   experiences: Experience[]
 }
@@ -61,13 +36,15 @@ function SocialLink({
 }>) {
   return (
     <li className={clsx(className, 'flex')}>
-      <Link
+      <a
         href={href}
+        target="_blank"
+        rel="noopener noreferrer"
         className="group flex text-sm font-medium text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
       >
         <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
         <span className="ml-4">{children}</span>
-      </Link>
+      </a>
     </li>
   )
 }
@@ -93,7 +70,6 @@ export function AboutClient({ personalInfo, experiences }: Props) {
 
   return (
     <Container className="mt-16 sm:mt-32">
-      {/* Mobile Layout: Name first, then image */}
       <div className="block lg:hidden">
         <motion.div
           className="text-center sm:text-left"
@@ -139,11 +115,11 @@ export function AboutClient({ personalInfo, experiences }: Props) {
               transition: { type: 'spring', stiffness: 300, damping: 30 },
             }}
           >
-            <Image
-              src={personalInfo.portraitImage}
+            <img
+              src={typeof personalInfo.portraitImage === 'string' 
+                ? personalInfo.portraitImage 
+                : '/portrait.webp'}
               alt={personalInfo.name}
-              sizes="20rem"
-              priority
               className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
             />
           </motion.div>
@@ -179,7 +155,6 @@ export function AboutClient({ personalInfo, experiences }: Props) {
         </motion.div>
       </div>
 
-      {/* Desktop Layout: Original grid layout with typewriter effect */}
       <motion.div
         className="hidden lg:grid lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12"
         initial={{ opacity: 0 }}
@@ -200,11 +175,11 @@ export function AboutClient({ personalInfo, experiences }: Props) {
               transition: { type: 'spring', stiffness: 300, damping: 30 },
             }}
           >
-            <Image
-              src={personalInfo.portraitImage}
+            <img
+              src={typeof personalInfo.portraitImage === 'string' 
+                ? personalInfo.portraitImage 
+                : '/portrait.webp'}
               alt={personalInfo.name}
-              sizes="(min-width: 1024px) 32rem, 20rem"
-              priority
               className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
             />
           </motion.div>
@@ -263,7 +238,6 @@ export function AboutClient({ personalInfo, experiences }: Props) {
         </motion.div>
       </motion.div>
 
-      {/* Experience Section */}
       <motion.div
         className="mt-16 sm:mt-24"
         initial={{ opacity: 0, y: 60 }}
@@ -272,7 +246,6 @@ export function AboutClient({ personalInfo, experiences }: Props) {
         viewport={{ once: true }}
       >
         <div className="mx-auto max-w-7xl">
-          {/* Mobile View: carousel only */}
           <motion.div
             className="block md:hidden"
             initial={{ opacity: 0 }}
@@ -294,7 +267,6 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             </motion.div>
           </motion.div>
 
-          {/* Desktop View: link-like accordions mimicking mobile cards */}
           <motion.div
             className="hidden md:block"
             initial={{ opacity: 0 }}
@@ -313,7 +285,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             </motion.h2>
             <div className="mt-6 space-y-3">
               {experiences.map((exp) => (
-                <Link
+                <a
                   key={`${exp.company}-${exp.start}`}
                   href={`/experiences/${slugify(exp.company)}`}
                   className="flex w-full items-center gap-3 rounded-lg bg-zinc-50 px-4 py-3 text-left shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md dark:bg-zinc-800/50 dark:hover:bg-zinc-800"
@@ -332,14 +304,13 @@ export function AboutClient({ personalInfo, experiences }: Props) {
                   <span className="text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
                     {t('about.viewDetail')}
                   </span>
-                </Link>
+                </a>
               ))}
             </div>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Skills Section */}
       <motion.div
         className="mt-16 sm:mt-24"
         initial={{ opacity: 0, y: 60 }}

@@ -1,10 +1,4 @@
-'use client'
-
-import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
-import type { StaticImageData } from 'next/image'
 
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
@@ -14,24 +8,7 @@ import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
 import type { Project } from '@/lib/projects-data'
-
-const ImageCarousel = dynamic(
-  () =>
-    import('@/components/ImageCarousel').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return mod.ImageCarousel || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-64 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: false,
-  },
-) as unknown as React.ComponentType<{
-  items: Array<{ src: StaticImageData | string; alt: string }>
-  className?: string
-  intervalMs?: number
-}>
+import { ImageCarousel } from '@/components/ImageCarousel'
 
 type Props = {
   personalInfo: {
@@ -43,13 +20,12 @@ type Props = {
     linkedin: string
     github: string
     summary: { en: string; es: string }
-    portraitImage: StaticImageData | string
+    portraitImage: string
   }
   featuredProject: Project | undefined
-  galleryImages: Array<{ src: StaticImageData | string; alt: string }>
+  galleryImages: Array<{ src: string; alt: string }>
 }
 
-// Hoisted motion variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -78,23 +54,38 @@ function SocialLink({
   href,
   children,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Link> & {
+}: {
   icon: React.ComponentType<{ className?: string }>
+  href: string
+  children?: React.ReactNode
+  'aria-label'?: string
+  target?: string
+  rel?: string
 }) {
+  const isExternal = href.startsWith('http') || href.startsWith('mailto')
+  const shouldOpenNewTab = !href.startsWith('mailto') && !href.startsWith('/')
+
   return (
     <motion.div
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.95 }}
       transition={{ type: 'spring', stiffness: 400, damping: 17 }}
     >
-      <Link className="group -m-1 p-1" href={href} {...props}>
+      <a
+        className="group -m-1 p-1"
+        href={href}
+        target={shouldOpenNewTab ? '_blank' : undefined}
+        rel={shouldOpenNewTab ? 'noopener noreferrer' : undefined}
+        aria-label={props['aria-label']}
+        {...props}
+      >
         <Icon className="h-6 w-6 fill-zinc-500 transition-colors duration-300 group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
         {children && (
           <span className="ml-4 text-sm font-medium text-zinc-800 dark:text-zinc-200">
             {children}
           </span>
         )}
-      </Link>
+      </a>
     </motion.div>
   )
 }
@@ -118,7 +109,6 @@ export function HomeClient({
 
   return (
     <>
-      {/* Hero Section */}
       <Container className="mt-9">
         <motion.div
           className="max-w-2xl"
@@ -177,7 +167,6 @@ export function HomeClient({
         </motion.div>
       </Container>
 
-      {/* Photo Gallery */}
       <Container className="mt-16 sm:mt-20">
         <motion.div
           className="mx-auto grid max-w-xl grid-cols-1 gap-y-8 lg:max-w-none lg:grid-cols-2"
@@ -196,12 +185,12 @@ export function HomeClient({
               whileHover={{ rotate: 1 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
-              <Image
-                src={personalInfo.portraitImage}
+              <img
+                src={typeof personalInfo.portraitImage === 'string'
+                  ? personalInfo.portraitImage
+                  : '/portrait.webp'}
                 alt={personalInfo.name}
-                sizes="(min-width: 1024px) 24rem, 20rem"
                 className="absolute inset-0 h-full w-full object-cover"
-                priority
               />
             </motion.div>
           </motion.div>
@@ -240,7 +229,6 @@ export function HomeClient({
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          {/* Featured Project */}
           <motion.div
             className="flex flex-col gap-16"
             initial={{ opacity: 0, x: -50 }}
@@ -275,7 +263,6 @@ export function HomeClient({
             )}
           </motion.div>
 
-          {/* Skills and Contact */}
           <motion.div
             className="space-y-10 lg:pl-16 xl:pl-24"
             initial={{ opacity: 0, x: 50 }}
@@ -283,7 +270,6 @@ export function HomeClient({
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            {/* Skills Overview */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
