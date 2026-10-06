@@ -41,9 +41,9 @@ export function ExperiencesClient() {
               </div>
 
               <ul className="mb-4 space-y-2">
-                {exp.description[locale].map((desc, idx) => (
+                {exp.description[locale].map((desc) => (
                   <li
-                    key={idx}
+                    key={desc}
                     className="flex gap-2 text-zinc-600 dark:text-zinc-300"
                   >
                     <span className="mt-1.5 shrink-0 text-teal-500">
@@ -51,6 +51,7 @@ export function ExperiencesClient() {
                         className="h-2 w-2"
                         fill="currentColor"
                         viewBox="0 0 8 8"
+                        aria-hidden="true"
                       >
                         <circle cx="4" cy="4" r="3" />
                       </svg>

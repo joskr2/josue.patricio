@@ -16,6 +16,7 @@ export function useTypewriter({
   const [isComplete, setIsComplete] = useState(false)
   const [started, setStarted] = useState(false)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally resets the typewriter state when `text` changes; `text` is the re-run trigger, not a value read inside the body.
   useEffect(() => {
     // Reset state when text changes
     setDisplayText('')

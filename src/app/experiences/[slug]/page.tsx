@@ -87,7 +87,12 @@ export default function ExperienceDetail({
             href="/about"
             className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
           >
-            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path
                 fillRule="evenodd"
                 d="M12.79 14.77a.75.75 0 001.06-1.06L10.94 10l2.91-2.91a.75.75 0 10-1.06-1.06L8.59 9.23a.75.75 0 000 1.06l3.2 3.2z"

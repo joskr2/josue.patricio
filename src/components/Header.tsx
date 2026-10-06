@@ -33,23 +33,6 @@ function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   )
 }
 
-function ChevronDownIcon(
-  props: Readonly<React.ComponentPropsWithoutRef<'svg'>>,
-) {
-  return (
-    <svg viewBox="0 0 8 6" aria-hidden="true" {...props}>
-      <path
-        d="M1.75 1.75 4 4.25l2.25-2.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
 function MenuIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
     <svg

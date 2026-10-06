@@ -40,10 +40,7 @@ export function ExperienceItem({ experience }: Readonly<ExperienceItemProps>) {
           {experience.company}
         </dd>
         <dt className="sr-only">Date</dt>
-        <dd
-          className="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
-          aria-label={experience.duration[locale]}
-        >
+        <dd className="ml-auto text-xs text-zinc-400 dark:text-zinc-500">
           {experience.duration[locale]}
         </dd>
         <dt className="sr-only">Description</dt>

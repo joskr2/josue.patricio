@@ -56,6 +56,7 @@ export function ExperienceCarousel({ items, className }: Props) {
   }, [slideRefs])
 
   // Auto-fit title font-size to avoid overflow (down to a minimum)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: must refit title font sizes when `items` or `locale` change because they change the rendered title text, even though the body only reads `titleRefs`.
   useEffect(() => {
     const MIN = 13 // px
     const MAX = 16 // px (~text-base)
@@ -74,9 +75,14 @@ export function ExperienceCarousel({ items, className }: Props) {
       el.style.fontSize = `${MIN}px`
     }
 
-    titleRefs.forEach((r) => fitOne(r.current))
+    titleRefs.forEach((r) => {
+      fitOne(r.current)
+    })
 
-    const handle = () => titleRefs.forEach((r) => fitOne(r.current))
+    const handle = () =>
+      titleRefs.forEach((r) => {
+        fitOne(r.current)
+      })
     window.addEventListener('resize', handle)
     return () => window.removeEventListener('resize', handle)
   }, [titleRefs, items, locale])
@@ -179,6 +185,7 @@ export function ExperienceCarousel({ items, className }: Props) {
                       className="h-4 w-4"
                       viewBox="0 0 20 20"
                       fill="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         fillRule="evenodd"

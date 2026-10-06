@@ -6,29 +6,11 @@ import {
   DisclosurePanel,
 } from '@headlessui/react'
 import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
-import type { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { projects } from '@/lib/projects-data'
-
-const ProjectShowcase = dynamic(
-  () =>
-    import('@/components/ProjectShowcase').then((mod) => {
-      return mod.ProjectShowcase || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-64 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: true,
-  },
-  // SAFETY: dynamic() import resolves ProjectShowcase to the declared component shape.
-) as unknown as React.ComponentType<{
-  project: (typeof projects)[0]
-}>
 
 function ExternalLinkIcon(
   props: Readonly<React.ComponentPropsWithoutRef<'svg'>>,
