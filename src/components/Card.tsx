@@ -81,7 +81,7 @@ Card.Title = function CardTitle<T extends React.ElementType = 'h2'>({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Component className="relative z-10 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+      <Component className="relative z-10 font-semibold text-base text-zinc-800 tracking-tight dark:text-zinc-100">
         {href ? <Card.Link href={href}>{children}</Card.Link> : children}
       </Component>
     </motion.div>
@@ -139,7 +139,7 @@ Card.Cta = function CardCta({
     return (
       <Link
         href={href}
-        className="relative z-30 mt-auto pt-4 inline-flex items-center text-sm font-medium text-teal-500 group pointer-events-auto"
+        className="group pointer-events-auto relative z-30 mt-auto inline-flex items-center pt-4 font-medium text-sm text-teal-500"
       >
         {inner}
       </Link>
@@ -149,7 +149,7 @@ Card.Cta = function CardCta({
   return (
     <motion.div
       aria-hidden="true"
-      className="relative z-30 mt-auto pt-4 flex items-center text-sm font-medium text-teal-500"
+      className="relative z-30 mt-auto flex items-center pt-4 font-medium text-sm text-teal-500"
     >
       {inner}
     </motion.div>
@@ -179,7 +179,7 @@ Card.Eyebrow = function CardEyebrow<T extends React.ElementType = 'p'>({
     >
       {decorate && (
         <span
-          className="absolute inset-y-0 left-0 flex items-center z-10"
+          className="absolute inset-y-0 left-0 z-10 flex items-center"
           aria-hidden="true"
         >
           <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />

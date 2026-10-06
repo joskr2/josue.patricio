@@ -75,7 +75,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
             href={project.links.live}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-sm font-medium text-teal-600 transition hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300"
+            className="group flex items-center gap-2 font-medium text-sm text-teal-600 transition hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300"
           >
             <ExternalLinkIcon className="h-4 w-4 transition group-hover:scale-110" />
             {t('projects.viewLive')}
@@ -86,7 +86,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
             href={project.links.frontend}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+            className="group flex items-center gap-2 font-medium text-sm text-zinc-600 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
           >
             <GitHubIcon className="h-4 w-4 fill-current transition group-hover:scale-110" />
             {t('projects.frontend')}
@@ -97,7 +97,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
             href={project.links.backend}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+            className="group flex items-center gap-2 font-medium text-sm text-zinc-600 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
           >
             <GitHubIcon className="h-4 w-4 fill-current transition group-hover:scale-110" />
             {t('projects.backend')}

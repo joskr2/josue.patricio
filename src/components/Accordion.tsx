@@ -38,7 +38,7 @@ export function Accordion({
   const linkMode = typeof onClick === 'function'
 
   return (
-    <div className="border border-zinc-200 dark:border-zinc-700 rounded-xl overflow-hidden">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
       <Disclosure defaultOpen={linkMode ? false : defaultOpen}>
         {({ open }) => (
           <>
@@ -46,7 +46,7 @@ export function Accordion({
               as={motion.button}
               whileHover={{ scale: 1.01, y: -1 }}
               whileTap={{ scale: 0.99 }}
-              className="flex w-full justify-between items-center px-6 py-4 text-left text-base font-semibold text-zinc-800 bg-zinc-50 hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-inset dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-all"
+              className="flex w-full items-center justify-between bg-zinc-50 px-6 py-4 text-left font-semibold text-base text-zinc-800 transition-all hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-inset dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800"
               onClick={(e: MouseEvent) => {
                 if (linkMode && onClick) {
                   e.preventDefault()
@@ -72,7 +72,7 @@ export function Accordion({
             {!linkMode && (
               <DisclosurePanel
                 static
-                className="px-6 py-0 bg-white dark:bg-zinc-900 overflow-hidden"
+                className="overflow-hidden bg-white px-6 py-0 dark:bg-zinc-900"
               >
                 <motion.div
                   initial={false}

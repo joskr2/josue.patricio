@@ -91,10 +91,10 @@ function MetricsCard({
 }) {
   return (
     <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
-      <div className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+      <div className="font-medium text-xs text-zinc-500 dark:text-zinc-400">
         {title}
       </div>
-      <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+      <div className="font-semibold text-sm text-zinc-900 dark:text-zinc-100">
         {value}
       </div>
     </div>
@@ -151,7 +151,7 @@ function ProjectsClientInner() {
         >
           {/* Project Header */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h2 className="font-bold text-3xl text-zinc-900 tracking-tight dark:text-zinc-100">
               {project.title[locale]}
             </h2>
             <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
@@ -166,7 +166,7 @@ function ProjectsClientInner() {
                 href={project.links.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-teal-500 hover:shadow-lg"
+                className="group inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 font-semibold text-sm text-white shadow-md transition-all duration-200 hover:bg-teal-500 hover:shadow-lg"
               >
                 <ExternalLinkIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 {t('projects.viewLive')}
@@ -177,7 +177,7 @@ function ProjectsClientInner() {
                 href={project.links.backend}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-zinc-800 hover:shadow-lg dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                className="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 font-semibold text-sm text-white shadow-md transition-all duration-200 hover:bg-zinc-800 hover:shadow-lg dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 {t('projects.backend')}
@@ -188,7 +188,7 @@ function ProjectsClientInner() {
                 href={project.links.frontend}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-md transition-all duration-200 hover:bg-zinc-50 hover:shadow-lg dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+                className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 font-semibold text-sm text-zinc-900 shadow-md transition-all duration-200 hover:bg-zinc-50 hover:shadow-lg dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 {t('projects.frontend')}
@@ -199,7 +199,7 @@ function ProjectsClientInner() {
                 href={project.links.bff}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-md transition-all duration-200 hover:bg-zinc-50 hover:shadow-lg dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+                className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 font-semibold text-sm text-zinc-900 shadow-md transition-all duration-200 hover:bg-zinc-50 hover:shadow-lg dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
                 {t('projects.bffService')}
@@ -211,7 +211,7 @@ function ProjectsClientInner() {
           {project.featured &&
             (project.links.apiHealth || project.links.bffHealth) && (
               <div className="mb-8">
-                <h3 className="mb-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                <h3 className="mb-3 font-semibold text-sm text-zinc-800 dark:text-zinc-200">
                   {t('projects.liveServices')}
                 </h3>
                 <div className="flex flex-wrap gap-3">
@@ -220,7 +220,7 @@ function ProjectsClientInner() {
                       href={project.links.apiHealth}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 shadow-sm transition-all duration-200 hover:bg-green-200 hover:shadow-md dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 font-medium text-green-800 text-xs shadow-sm transition-all duration-200 hover:bg-green-200 hover:shadow-md dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
                     >
                       <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
                       {t('projects.apiHealthCheck')}
@@ -231,7 +231,7 @@ function ProjectsClientInner() {
                       href={project.links.bffHealth}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 shadow-sm transition-all duration-200 hover:bg-green-200 hover:shadow-md dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 font-medium text-green-800 text-xs shadow-sm transition-all duration-200 hover:bg-green-200 hover:shadow-md dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
                     >
                       <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
                       {t('projects.bffHealthCheck')}
@@ -243,7 +243,7 @@ function ProjectsClientInner() {
 
           {/* Technologies */}
           <div className="mb-8">
-            <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h3 className="mb-4 font-bold text-xl text-zinc-900 tracking-tight dark:text-zinc-100">
               {t('projects.technologies')}
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -257,7 +257,7 @@ function ProjectsClientInner() {
           <Disclosure>
             {({ open }) => (
               <>
-                <DisclosureButton className="focus-visible:ring-opacity-75 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
+                <DisclosureButton className="flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left font-medium text-sm text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
                   <span>{t('projects.features')}</span>
                   <ChevronDownIcon
                     className={`${
@@ -266,7 +266,7 @@ function ProjectsClientInner() {
                   />
                 </DisclosureButton>
                 <div className="mb-8 hidden md:block">
-                  <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  <h3 className="mb-4 font-bold text-xl text-zinc-900 tracking-tight dark:text-zinc-100">
                     {t('projects.features')}
                   </h3>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -298,7 +298,7 @@ function ProjectsClientInner() {
           <Disclosure>
             {({ open }) => (
               <>
-                <DisclosureButton className="focus-visible:ring-opacity-75 mt-3 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
+                <DisclosureButton className="mt-3 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left font-medium text-sm text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
                   <span>{t('projects.architecture')}</span>
                   <ChevronDownIcon
                     className={`${
@@ -307,7 +307,7 @@ function ProjectsClientInner() {
                   />
                 </DisclosureButton>
                 <div className="mb-8 hidden md:block">
-                  <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  <h3 className="mb-4 font-bold text-xl text-zinc-900 tracking-tight dark:text-zinc-100">
                     {t('projects.architecture')}
                   </h3>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -339,7 +339,7 @@ function ProjectsClientInner() {
           <Disclosure>
             {({ open }) => (
               <>
-                <DisclosureButton className="focus-visible:ring-opacity-75 mt-3 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
+                <DisclosureButton className="mt-3 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left font-medium text-sm text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 focus-visible:ring-opacity-75 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
                   <span>{t('projects.performance')}</span>
                   <ChevronDownIcon
                     className={`${
@@ -348,7 +348,7 @@ function ProjectsClientInner() {
                   />
                 </DisclosureButton>
                 <div className="mb-8 hidden md:block">
-                  <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  <h3 className="mb-4 font-bold text-xl text-zinc-900 tracking-tight dark:text-zinc-100">
                     {t('projects.performance')}
                   </h3>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -389,7 +389,7 @@ function ProjectsClientInner() {
           {/* Separator line between projects */}
           {projectIndex < sortedProjects.length - 1 && (
             <motion.div
-              className="mt-16 border-t border-zinc-200 dark:border-zinc-700"
+              className="mt-16 border-zinc-200 border-t dark:border-zinc-700"
               initial={{ opacity: 0, scaleX: 0 }}
               whileInView={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}

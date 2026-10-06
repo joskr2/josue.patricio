@@ -25,7 +25,7 @@ export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
       <div className="relative flex w-full flex-col">
         <Header />
         <main
-          className={`flex-auto pt-20 transition-all duration-300 ${isBlurred ? 'blur-sm opacity-80' : ''}`}
+          className={`flex-auto pt-20 transition-all duration-300 ${isBlurred ? 'opacity-80 blur-sm' : ''}`}
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div

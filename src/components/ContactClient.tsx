@@ -55,7 +55,7 @@ function ContactCard({
           <Icon className="h-6 w-6 flex-shrink-0 text-teal-600 dark:text-teal-400" />
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          <h3 className="font-semibold text-base text-zinc-900 dark:text-zinc-100">
             {title}
           </h3>
           <p className="truncate text-zinc-600 dark:text-zinc-400">{value}</p>
@@ -145,7 +145,7 @@ export function ContactClient() {
 
         {/* Social Links */}
         <div className="mt-16">
-          <h2 className="mb-8 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+          <h2 className="mb-8 font-bold text-xl text-zinc-900 tracking-tight dark:text-zinc-100">
             {t('contact.connectWithMe')}
           </h2>
           <motion.div
@@ -181,7 +181,7 @@ export function ContactClient() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+          <h2 className="font-bold text-2xl text-zinc-900 tracking-tight dark:text-zinc-100">
             {t('contact.letsWorkTogether')}
           </h2>
           <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
@@ -190,7 +190,7 @@ export function ContactClient() {
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href={`mailto:${personalInfo.email}`}
-              className="rounded-full bg-teal-600 px-8 py-4 text-sm font-semibold text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 active:scale-[0.98]"
+              className="rounded-full bg-teal-600 px-8 py-4 font-semibold text-sm text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 active:scale-[0.98]"
             >
               {t('contact.sendEmail')}
             </Link>
@@ -198,7 +198,7 @@ export function ContactClient() {
               href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-zinc-900 px-8 py-4 text-sm font-semibold text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="rounded-full bg-zinc-900 px-8 py-4 font-semibold text-sm text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-zinc-900 focus-visible:outline-offset-2 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
             >
               {t('contact.connectOnLinkedIn')}
             </Link>
@@ -213,14 +213,14 @@ export function ContactClient() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-center text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-center font-bold text-xl text-zinc-900 tracking-tight dark:text-zinc-100">
             {t('contact.downloadCV') || 'Download my CV'}
           </h2>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <a
               href="/josue-patricio-retamozo-vargas-desarrollador-software-por-defecto.pdf"
               download="Josue-Patricio-Desarrollador-Software.pdf"
-              className="flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-6 py-4 text-sm font-medium text-zinc-800 transition-all hover:border-teal-500 hover:bg-teal-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-teal-500 dark:hover:bg-teal-900/20"
+              className="flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-6 py-4 font-medium text-sm text-zinc-800 transition-all hover:border-teal-500 hover:bg-teal-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-teal-500 dark:hover:bg-teal-900/20"
             >
               <svg
                 className="h-5 w-5 text-teal-600 dark:text-teal-400"
@@ -241,7 +241,7 @@ export function ContactClient() {
             <a
               href="/josue-patricio-retamozo-vargas-software-developer-english-default.pdf"
               download="Josue-Patricio-Software-Developer.pdf"
-              className="flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-6 py-4 text-sm font-medium text-zinc-800 transition-all hover:border-teal-500 hover:bg-teal-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-teal-500 dark:hover:bg-teal-900/20"
+              className="flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-6 py-4 font-medium text-sm text-zinc-800 transition-all hover:border-teal-500 hover:bg-teal-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-teal-500 dark:hover:bg-teal-900/20"
             >
               <svg
                 className="h-5 w-5 text-teal-600 dark:text-teal-400"
@@ -264,7 +264,7 @@ export function ContactClient() {
 
         {/* Additional Information */}
         <motion.div
-          className="mt-16 border-t border-zinc-200 pt-16 dark:border-zinc-700"
+          className="mt-16 border-zinc-200 border-t pt-16 dark:border-zinc-700"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -278,7 +278,7 @@ export function ContactClient() {
             viewport={{ once: true, amount: 0.2 }}
           >
             <motion.div variants={itemVariants}>
-              <h3 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+              <h3 className="mb-4 font-semibold text-lg text-zinc-900 dark:text-zinc-100">
                 {t('contact.availability')}
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400">
@@ -286,7 +286,7 @@ export function ContactClient() {
               </p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <h3 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+              <h3 className="mb-4 font-semibold text-lg text-zinc-900 dark:text-zinc-100">
                 {t('contact.expertise')}
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400">

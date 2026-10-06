@@ -13,7 +13,7 @@ export function SkillCategory({
 }: SkillCategoryProps) {
   return (
     <div>
-      <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-3">
+      <h3 className="mb-3 font-semibold text-sm text-zinc-800 dark:text-zinc-200">
         {title}
       </h3>
       <div className="flex flex-wrap gap-2">

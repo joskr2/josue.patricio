@@ -17,7 +17,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => handleLocaleChange('en')}
         className={clsx(
-          'rounded px-2 py-1 text-sm font-medium transition-colors',
+          'rounded px-2 py-1 font-medium text-sm transition-colors',
           locale === 'en'
             ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100'
             : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100',
@@ -30,7 +30,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => handleLocaleChange('es')}
         className={clsx(
-          'rounded px-2 py-1 text-sm font-medium transition-colors',
+          'rounded px-2 py-1 font-medium text-sm transition-colors',
           locale === 'es'
             ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100'
             : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100',

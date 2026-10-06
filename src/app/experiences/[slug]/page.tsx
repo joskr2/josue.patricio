@@ -42,13 +42,13 @@ export default function ExperienceDetail({
                 className="object-contain p-3"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-lg font-bold text-teal-600 dark:text-teal-400">
+              <div className="flex h-full w-full items-center justify-center font-bold text-lg text-teal-600 dark:text-teal-400">
                 {experience.company.charAt(0)}
               </div>
             )}
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
+            <h1 className="font-bold text-3xl text-zinc-800 tracking-tight dark:text-zinc-100">
               {experience.position[locale]}
             </h1>
             <p className="mt-2 text-zinc-600 dark:text-zinc-400">
@@ -71,7 +71,7 @@ export default function ExperienceDetail({
 
         {experience.technologies.length > 0 && (
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+            <h3 className="font-semibold text-sm text-zinc-800 dark:text-zinc-200">
               {t('experiences.technologies')}
             </h3>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -85,7 +85,7 @@ export default function ExperienceDetail({
         <div className="mt-10">
           <Link
             href="/about"
-            className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
+            className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 font-medium text-sm text-white transition hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
           >
             <svg
               className="h-4 w-4"

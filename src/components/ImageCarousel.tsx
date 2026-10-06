@@ -75,7 +75,7 @@ export function ImageCarousel({
           onClick={() => setPaused((p) => !p)}
           aria-label={paused ? t('carousel.play') : t('carousel.pause')}
           aria-pressed={paused}
-          className="absolute right-3 bottom-3 z-10 rounded-full bg-zinc-900/60 p-2 text-white backdrop-blur transition-colors hover:bg-zinc-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="absolute right-3 bottom-3 z-10 rounded-full bg-zinc-900/60 p-2 text-white backdrop-blur transition-colors hover:bg-zinc-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
         >
           {paused ? (
             <Play aria-hidden="true" className="h-4 w-4" />

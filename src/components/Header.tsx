@@ -121,7 +121,7 @@ function MobileNavigationContent({
 
   return (
     <>
-      <PopoverButton className="group rounded-lg bg-white/90 px-3 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+      <PopoverButton className="group rounded-lg bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
         <MenuIcon className="h-6 w-6 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-400 dark:group-hover:stroke-zinc-300" />
       </PopoverButton>
       <PopoverBackdrop
@@ -201,7 +201,7 @@ function DesktopNavigation(
 
   return (
     <nav {...props}>
-      <ul className="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+      <ul className="flex rounded-full bg-white/90 px-3 font-medium text-sm text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
         <NavItem href="/">{t('nav.home')}</NavItem>
         <NavItem href="/about">
           <span className="whitespace-nowrap">{t('nav.about')}</span>
@@ -226,11 +226,11 @@ function ThemeToggle() {
     <button
       type="button"
       aria-label={mounted ? `Switch to ${otherTheme} theme` : 'Toggle theme'}
-      className="group rounded-full bg-white/90 px-3 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+      className="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
       onClick={() => setTheme(otherTheme)}
     >
       <SunIcon className="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600" />
-      <MoonIcon className="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition not-[@media_(prefers-color-scheme:dark)]:fill-teal-400/10 not-[@media_(prefers-color-scheme:dark)]:stroke-teal-500 dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400" />
+      <MoonIcon className="hidden h-6 w-6 fill-zinc-700 not-[@media_(prefers-color-scheme:dark)]:fill-teal-400/10 not-[@media_(prefers-color-scheme:dark)]:stroke-teal-500 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400" />
     </button>
   )
 }
@@ -238,7 +238,7 @@ function ThemeToggle() {
 export function Header() {
   const pathname = usePathname()
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-fit [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30 dark:bg-zinc-900/80 dark:ring-white/10">
+    <header className="fixed top-0 right-0 left-0 z-50 h-fit bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-900/80 dark:ring-white/10 [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30">
       <Container>
         <div className="flex items-center justify-between py-4">
           {/* Mobile: left spacer to keep center/right aligned; shows avatar on non-home */}
@@ -252,7 +252,7 @@ export function Header() {
                   transition={{ duration: 0.25 }}
                   className="relative h-10 w-10 select-none rounded-full bg-gradient-to-br from-teal-500/90 to-teal-600/90 text-white shadow ring-1 ring-white/40 dark:ring-white/20"
                 >
-                  <span className="absolute inset-0 grid place-items-center text-sm font-bold tracking-wide">
+                  <span className="absolute inset-0 grid place-items-center font-bold text-sm tracking-wide">
                     JP
                   </span>
                 </motion.div>

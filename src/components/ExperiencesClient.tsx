@@ -13,7 +13,7 @@ export function ExperiencesClient() {
   return (
     <Container className="mt-16">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-2 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="mb-2 font-bold text-4xl text-zinc-900 tracking-tight dark:text-zinc-100">
           {t('about.experience')}
         </h1>
         <p className="mb-12 text-lg text-zinc-600 dark:text-zinc-400">
@@ -28,14 +28,14 @@ export function ExperiencesClient() {
             >
               <div className="mb-4 flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+                  <h2 className="font-bold text-xl text-zinc-900 dark:text-zinc-100">
                     {exp.position[locale]}
                   </h2>
                   <p className="font-medium text-teal-600 dark:text-teal-400">
                     {exp.company}
                   </p>
                 </div>
-                <span className="text-sm whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+                <span className="whitespace-nowrap text-sm text-zinc-500 dark:text-zinc-400">
                   {exp.duration[locale]}
                 </span>
               </div>
@@ -67,10 +67,10 @@ export function ExperiencesClient() {
                 ))}
               </div>
 
-              <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-700">
+              <div className="mt-4 border-zinc-200 border-t pt-4 dark:border-zinc-700">
                 <Link
                   href={`/experiences/${slugify(exp.company)}`}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
+                  className="inline-flex items-center gap-2 font-medium text-sm text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
                 >
                   {t('about.viewDetail')} →
                 </Link>
