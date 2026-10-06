@@ -103,6 +103,15 @@ export const translations = {
       pause: 'Pause slideshow',
       play: 'Play slideshow',
     },
+    // Photo gallery
+    gallery: {
+      alts: [
+        'Stone monument topped by a winged statue, seen from below',
+        'Machu Picchu ruins with the Huayna Picchu peak behind them',
+        'Josue in a red jacket and helmet on a paragliding launch slope above the city',
+        'Josue standing between the giant buttress roots of a jungle tree',
+      ],
+    },
   },
   es: {
     // Navigation
@@ -205,34 +214,59 @@ export const translations = {
       pause: 'Pausar presentación',
       play: 'Reproducir presentación',
     },
+    // Photo gallery
+    gallery: {
+      alts: [
+        'Monumento de piedra coronado por una estatua alada, visto desde abajo',
+        'Ruinas de Machu Picchu con el Huayna Picchu al fondo',
+        'Josue con casco y chaqueta roja en la rampa de despegue de parapente sobre la ciudad',
+        'Josue entre las raíces gigantes de un árbol de la selva',
+      ],
+    },
   },
 } as const
 
-export function getTranslation(locale: Locale, key: string): string {
-  const keys = key.split('.')
-  // biome-ignore lint/suspicious/noExplicitAny: required for dynamic property access
-  let value: any = translations[locale]
+type TranslationNode =
+  | string
+  | readonly string[]
+  | { readonly [key: string]: TranslationNode }
 
-  for (const k of keys) {
-    value = value?.[k]
+const translationTree: { readonly [key: string]: TranslationNode } =
+  translations
+
+function isPlainTranslationNode(
+  node: TranslationNode | undefined,
+): node is { readonly [key: string]: TranslationNode } {
+  return typeof node === 'object' && node !== null && !Array.isArray(node)
+}
+
+export function lookupTranslation(
+  locale: Locale,
+  key: string,
+): TranslationNode | undefined {
+  let node: TranslationNode | undefined = translationTree[locale]
+
+  for (const part of key.split('.')) {
+    if (!isPlainTranslationNode(node)) {
+      return undefined
+    }
+    node = node[part]
   }
 
-  return value || key
+  return node
+}
+
+export function getTranslation(locale: Locale, key: string): string {
+  const value = lookupTranslation(locale, key)
+  return typeof value === 'string' ? value : key
 }
 
 import { cache } from 'react'
 
 export const cachedGetTranslation = cache(
   (locale: Locale, key: string): string => {
-    const keys = key.split('.')
-    // biome-ignore lint/suspicious/noExplicitAny: required for dynamic property access
-    let value: any = translations[locale]
-
-    for (const k of keys) {
-      value = value?.[k]
-    }
-
-    return value || key
+    const value = lookupTranslation(locale, key)
+    return typeof value === 'string' ? value : key
   },
 )
 

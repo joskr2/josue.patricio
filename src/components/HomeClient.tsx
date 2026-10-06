@@ -29,7 +29,7 @@ type Props = {
     portraitImage: StaticImageData | string
   }
   featuredProject: Project | undefined
-  galleryImages: Array<{ src: StaticImageData | string; alt: string }>
+  galleryImages: Array<{ src: StaticImageData | string }>
 }
 
 // Hoisted motion variants
@@ -87,16 +87,17 @@ export function HomeClient({
   featuredProject,
   galleryImages,
 }: Props) {
-  const { t, locale } = useTranslation()
+  const { t, tArray, locale } = useTranslation()
   const { displayText: typedName, isComplete } = useTypewriter({
     text: personalInfo.name,
     speed: 100,
     delay: 300,
   })
 
+  const galleryAlts = tArray('gallery.alts')
   const carouselItems = galleryImages.map((img, i) => ({
     src: img.src,
-    alt: img.alt || `image${i + 1}`,
+    alt: galleryAlts[i] ?? '',
   }))
 
   return (

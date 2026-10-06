@@ -34,10 +34,10 @@ export default async function Home() {
       }}
       featuredProject={featuredProject}
       galleryImages={[
-        { src: image1, alt: 'Gallery 1' },
-        { src: image2, alt: 'Gallery 2' },
-        { src: image3, alt: 'Gallery 3' },
-        { src: image4, alt: 'Gallery 4' },
+        { src: image1 },
+        { src: image2 },
+        { src: image3 },
+        { src: image4 },
       ]}
     />
   )
