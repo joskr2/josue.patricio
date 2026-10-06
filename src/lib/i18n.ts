@@ -37,6 +37,7 @@ export const translations = {
     // Experiences detail page
     experiences: {
       technologies: 'Technologies',
+      subtitle: 'My professional journey and work experience',
     },
     // Projects page
     projects: {
@@ -47,6 +48,15 @@ export const translations = {
       viewCode: 'View Code',
       technologies: 'Technologies',
       features: 'Key Features',
+      backend: 'Backend',
+      frontend: 'Frontend',
+      bffService: 'BFF Service',
+      architecture: 'Architecture',
+      performance: 'Performance',
+      liveServices: 'Live Services',
+      apiHealthCheck: 'API Health Check',
+      bffHealthCheck: 'BFF Health Check',
+      more: 'more',
     },
     // Contact page
     contact: {
@@ -95,6 +105,12 @@ export const translations = {
         'JWT authentication and atomic transactions',
       ],
     },
+    // Not found page
+    notFound: {
+      title: 'Page not found',
+      description: 'Sorry, we couldn’t find the page you’re looking for.',
+      backHome: 'Go back home',
+    },
   },
   es: {
     // Navigation
@@ -131,6 +147,7 @@ export const translations = {
     // Experiences detail page
     experiences: {
       technologies: 'Tecnologías',
+      subtitle: 'Mi trayectoria profesional y experiencia laboral',
     },
     // Projects page
     projects: {
@@ -141,6 +158,15 @@ export const translations = {
       viewCode: 'Ver Código',
       technologies: 'Tecnologías',
       features: 'Características Principales',
+      backend: 'Backend',
+      frontend: 'Frontend',
+      bffService: 'Servicio BFF',
+      architecture: 'Arquitectura',
+      performance: 'Rendimiento',
+      liveServices: 'Servicios en Vivo',
+      apiHealthCheck: 'Health Check de API',
+      bffHealthCheck: 'Health Check de BFF',
+      more: 'más',
     },
     // Contact page
     contact: {
@@ -188,6 +214,12 @@ export const translations = {
         'Servicio BFF FastAPI optimizado para AWS Lambda',
         'Autenticación JWT y transacciones atómicas',
       ],
+    },
+    // Not found page
+    notFound: {
+      title: 'Página no encontrada',
+      description: 'Lo sentimos, no encontramos la página que buscas.',
+      backHome: 'Volver al inicio',
     },
   },
 } as const

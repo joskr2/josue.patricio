@@ -1,3 +1,5 @@
+export const siteUrl = 'https://josue-patricio.vercel.app'
+
 export const personalInfo = {
   name: 'Josue Patricio Retamozo Vargas',
   title: {

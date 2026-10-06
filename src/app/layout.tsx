@@ -2,25 +2,47 @@ import type { Metadata } from "next";
 
 import { Providers } from "@/app/providers";
 import { Layout } from "@/components/Layout";
+import { siteUrl } from "@/lib/personal-data";
 
 import "@/styles/tailwind.css";
 
 export const metadata: Metadata = {
+	metadataBase: new URL(siteUrl),
 	title: {
 		template: "%s - Josue Retamozo",
-		default: "Josue Retamozo - Software Engineer | React, Python, .NET",
+		default: "Josue Retamozo - Software Engineer | React, .NET, Java",
 	},
 	description:
-		"Software Engineer with 5+ years of experience in React, Angular, Python, FastAPI, .NET. Specialized in frontend development and microservices architecture.",
+		"Software Engineer with 5+ years of experience building React.js and React Native frontends, with a full-stack foundation in C# (.NET), Java, and microservices. Experienced with GeneXus, SQL Server, and IBM AS/400 on banking applications.",
+	alternates: { canonical: "/" },
+	openGraph: {
+		type: "website",
+		url: siteUrl,
+		siteName: "Josue Retamozo",
+		title: "Josue Retamozo - Software Engineer | React, .NET, Java",
+		description:
+			"Software Engineer with 5+ years of experience building React.js and React Native frontends, with a full-stack foundation in C# (.NET), Java, and microservices. Experienced with GeneXus, SQL Server, and IBM AS/400 on banking applications.",
+		locale: "en_US",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Josue Retamozo - Software Engineer | React, .NET, Java",
+		description:
+			"Software Engineer with 5+ years of experience building React.js and React Native frontends, with a full-stack foundation in C# (.NET), Java, and microservices. Experienced with GeneXus, SQL Server, and IBM AS/400 on banking applications.",
+	},
+	robots: { index: true, follow: true },
 	keywords: [
-		"Software Engineer",
 		"React",
-		"Python",
-		".NET",
-		"Frontend Developer",
-		"Full Stack",
+		"React Native",
+		"Next.js",
 		"TypeScript",
-		"JavaScript",
+		".NET",
+		"C#",
+		"Java",
+		"GeneXus",
+		"SQL Server",
+		"Microservices",
+		"Frontend",
 	],
 	authors: [{ name: "Josue Patricio Retamozo Vargas" }],
 	creator: "Josue Retamozo",

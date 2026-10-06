@@ -188,7 +188,7 @@ function ProjectsClientInner() {
                 className="group inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-teal-500 hover:shadow-lg"
               >
                 <ExternalLinkIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
-                View Live
+                {t('projects.viewLive')}
               </Link>
             )}
             {project.links.backend && (
@@ -199,7 +199,7 @@ function ProjectsClientInner() {
                 className="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-zinc-800 hover:shadow-lg dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
-                Backend
+                {t('projects.backend')}
               </Link>
             )}
             {project.links.frontend && (
@@ -210,7 +210,7 @@ function ProjectsClientInner() {
                 className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-md transition-all duration-200 hover:bg-zinc-50 hover:shadow-lg dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
-                Frontend
+                {t('projects.frontend')}
               </Link>
             )}
             {project.links.bff && (
@@ -221,7 +221,7 @@ function ProjectsClientInner() {
                 className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow-md transition-all duration-200 hover:bg-zinc-50 hover:shadow-lg dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
               >
                 <GitHubIcon className="h-4 w-4 flex-shrink-0 transition group-hover:scale-110" />
-                BFF Service
+                {t('projects.bffService')}
               </Link>
             )}
           </div>
@@ -231,7 +231,7 @@ function ProjectsClientInner() {
             (project.links.apiHealth || project.links.bffHealth) && (
               <div className="mb-8">
                 <h3 className="mb-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
-                  Live Services
+                  {t('projects.liveServices')}
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {project.links.apiHealth && (
@@ -242,7 +242,7 @@ function ProjectsClientInner() {
                       className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 shadow-sm transition-all duration-200 hover:bg-green-200 hover:shadow-md dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
                     >
                       <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
-                      API Health Check
+                      {t('projects.apiHealthCheck')}
                     </Link>
                   )}
                   {project.links.bffHealth && (
@@ -253,7 +253,7 @@ function ProjectsClientInner() {
                       className="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-medium text-green-800 shadow-sm transition-all duration-200 hover:bg-green-200 hover:shadow-md dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
                     >
                       <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
-                      BFF Health Check
+                      {t('projects.bffHealthCheck')}
                     </Link>
                   )}
                 </div>
@@ -263,7 +263,7 @@ function ProjectsClientInner() {
           {/* Technologies */}
           <div className="mb-8">
             <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              Technologies
+              {t('projects.technologies')}
             </h3>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech) => (
@@ -277,7 +277,7 @@ function ProjectsClientInner() {
             {({ open }) => (
               <>
                 <DisclosureButton className="focus-visible:ring-opacity-75 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                  <span>Key Features</span>
+                  <span>{t('projects.features')}</span>
                   <ChevronDownIcon
                     className={`${
                       open ? 'rotate-180 transform' : ''
@@ -286,7 +286,7 @@ function ProjectsClientInner() {
                 </DisclosureButton>
                 <div className="mb-8 hidden md:block">
                   <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                    Key Features
+                    {t('projects.features')}
                   </h3>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {project.features[locale].map((feature) => (
@@ -318,7 +318,7 @@ function ProjectsClientInner() {
             {({ open }) => (
               <>
                 <DisclosureButton className="focus-visible:ring-opacity-75 mt-3 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                  <span>Architecture</span>
+                  <span>{t('projects.architecture')}</span>
                   <ChevronDownIcon
                     className={`${
                       open ? 'rotate-180 transform' : ''
@@ -327,7 +327,7 @@ function ProjectsClientInner() {
                 </DisclosureButton>
                 <div className="mb-8 hidden md:block">
                   <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                    Architecture
+                    {t('projects.architecture')}
                   </h3>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {project.architecture[locale].map((item) => (
@@ -359,7 +359,7 @@ function ProjectsClientInner() {
             {({ open }) => (
               <>
                 <DisclosureButton className="focus-visible:ring-opacity-75 mt-3 flex w-full justify-between rounded-lg bg-zinc-50 px-4 py-3 text-left text-sm font-medium text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus:outline-none focus-visible:ring focus-visible:ring-teal-500 md:hidden dark:bg-zinc-800/50 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                  <span>Performance</span>
+                  <span>{t('projects.performance')}</span>
                   <ChevronDownIcon
                     className={`${
                       open ? 'rotate-180 transform' : ''
@@ -368,7 +368,7 @@ function ProjectsClientInner() {
                 </DisclosureButton>
                 <div className="mb-8 hidden md:block">
                   <h3 className="mb-4 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                    Performance
+                    {t('projects.performance')}
                   </h3>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <MetricsCard

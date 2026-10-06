@@ -61,7 +61,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 				))}
 				{project.technologies.length > 6 && (
 					<TechBadge variant="default">
-						+{project.technologies.length - 6} more
+						+{project.technologies.length - 6} {t("projects.more")}
 					</TechBadge>
 				)}
 			</div>
@@ -87,7 +87,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 						className="group flex items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
 					>
 						<GitHubIcon className="h-4 w-4 fill-current transition group-hover:scale-110" />
-						Frontend
+						{t("projects.frontend")}
 					</Link>
 				)}
 				{project.links.backend && (
@@ -98,7 +98,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 						className="group flex items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
 					>
 						<GitHubIcon className="h-4 w-4 fill-current transition group-hover:scale-110" />
-						Backend
+						{t("projects.backend")}
 					</Link>
 				)}
 			</div>
