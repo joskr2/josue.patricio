@@ -2,41 +2,84 @@
 
 ## Context
 
-Full read-only audit of the project surfaced bugs, duplication, i18n gaps, SEO gaps,
-accessibility issues, and config drift. The user selected all four blocks for
-implementation, delivered as four work units.
-
-Reference: this document. Branch: `feat/portfolio-profile-refresh`.
+A full read-only audit of the project surfaced bugs, duplication, i18n gaps, SEO
+gaps, accessibility issues, and config drift. The user selected all four blocks,
+delivered as four work units on branch `feat/portfolio-profile-refresh`.
 
 ## Tasks
 
 ### Work unit 1 — Correctness bugs
 
-- [ ] H1 — Remove the LocaleContext mount gate that served empty HTML on every route, and sync `<html lang>`
-- [ ] H2 — Regenerate `package-lock.json` (still pinned to Next 14 / React 18, missing `lucide-react`)
-- [ ] H3 — Fix the contact map link (Arequipa → Lima)
-- [ ] H4 — Return a real 404 for unknown experience slugs and translate the detail page
-- [ ] H5 — Delete the dead `src/app/about/page-new.tsx` and the dead AboutClient imports
+- [x] H1 — Remove the LocaleContext mount gate that served empty HTML on every route, and sync `<html lang>`
+- [x] H2 — Regenerate `package-lock.json` (still pinned to Next 14 / React 18, missing `lucide-react`)
+- [x] H3 — Fix the contact map link (Arequipa → Lima)
+- [x] H4 — Return a real 404 for unknown experience slugs and translate the detail page
+- [x] H5 — Delete the dead `src/app/about/page-new.tsx` and the dead AboutClient imports
 
 ### Work unit 2 — i18n and SEO
 
-- [ ] H6 — Complete i18n coverage (ProjectsClient, not-found, showcase, experiences list)
-- [ ] H7 — SEO: per-route metadata, OpenGraph, canonical, sitemap, robots
+- [x] H6 — Complete i18n coverage (ProjectsClient, not-found, showcase, experiences list)
+- [x] H7 — SEO: per-route metadata, OpenGraph, canonical, sitemap, robots
 
 ### Work unit 3 — Single source of truth and hygiene
 
-- [ ] H8 — Remove duplicated data (HomeClient skills, contact social handles, i18n sportsBetting)
-- [ ] H9 — Repo hygiene (package name, scripts, README, unused deps, biome, formatting, gitignore)
+- [x] H8 — Remove duplicated data (HomeClient skills, contact social handles, i18n sportsBetting)
+- [x] H9 — Repo hygiene (package name, scripts, README, unused deps, eslint toolchain, gitignore)
 
 ### Work unit 4 — Accessibility and performance
 
-- [ ] H10 — Accessibility (heading order, gallery alts, carousel pause control)
-- [ ] H11 — Performance (hero carousel CLS, server/client split)
+- [x] H10 — Accessibility (heading order, carousel pause control, `<html lang>`)
+- [x] H11 — Performance (hero carousel CLS, experiences/contact server wrappers)
 
 ### Verification
 
-- [ ] H12 — Install dependencies and run typecheck, lint, and build
+- [x] H12 — Install dependencies and run typecheck, lint, and build
 
 ## Evidence
 
-Pending.
+### Commits
+
+| Commit | Work unit |
+| --- | --- |
+| `836d525` | H2 — regenerate package-lock |
+| `1d1ac6d` | H1, H3, H4, H5 — correctness bugs |
+| `f1c6708` | H6, H7 — i18n and SEO |
+| `25dd2d3` | H8, H9 — single source of truth and toolchain |
+| `053035d` | H10, H11 — accessibility and hero performance |
+
+### Gates (independently re-verified, read-only)
+
+- `npm run typecheck` → exit 0.
+- `npm run lint` → exit 0, 0 errors, 6 warnings (5× `react-hooks/set-state-in-effect`,
+  1× `react-hooks/refs`). Both rules are React Compiler-era checks the codebase
+  predates; they are kept as visible warnings with the rationale recorded in
+  `eslint.config.mjs`.
+- `npm run build` → exit 0 on Next 16.3.8; 10 static pages; `/robots.txt` and
+  `/sitemap.xml` generated; `Proxy (Middleware)` recognised.
+- Prerendered HTML is no longer empty: `index.html` 48.2K, `about.html` 70.5K,
+  `projects.html` 50.0K, `contact.html` 32.0K.
+- `sitemap.xml` lists 12 URLs (5 static routes + 7 experience slugs) on
+  `https://josue-patricio.vercel.app`.
+- i18n key parity: `en` 66 keys, `es` 66 keys, zero asymmetric keys; all 57 static
+  `t('...')` keys in `src/` resolve in both locales.
+- `npm ls --depth=0` → no `invalid` or `missing` entries.
+- Both `public/*.pdf` are the current 2-page CVs containing GNB and GeneXus.
+
+### Open items (not done, deliberately)
+
+- **Gallery alt text.** `src/app/page.tsx` still passes `alt: 'Gallery 1'` … `'Gallery 4'`.
+  Writing honest descriptions requires knowing what each photo shows; inventing
+  them would be worse than the generic text. Needs the user's descriptions.
+- **`biome.json`.** A formatter/linter config for a tool that is not installed.
+  Prettier is the configured formatter and ESLint the linter. Left in place
+  because it may be read by local tooling; decide whether to delete it or add
+  `@biomejs/biome`.
+- **Formatting drift.** Tabs and spaces are mixed across files. A global Prettier
+  run would produce a large review-visible diff, so it was deferred rather than
+  bundled into these work units.
+- **`projects-data.ts` metrics.** `bundleSize`, `coldStart`, and `cacheReduction`
+  are declared but never rendered.
+- **`src/app/experiences/[slug]/page.tsx`** is still a client component; it could
+  become a server wrapper like the other routes.
+- **`.atl/skill-registry.md`** remains uncommitted: it was already modified before
+  this work and is autogenerated. Its unreviewed candidate had consent declined.
