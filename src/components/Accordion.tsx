@@ -1,17 +1,23 @@
-"use client";
+'use client'
 
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import { ReactNode, MouseEvent } from "react";
-import { motion } from "motion/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from '@headlessui/react'
+import { motion } from 'motion/react'
+import type { MouseEvent, ReactNode } from 'react'
 
 interface AccordionProps {
-  title: ReactNode;
-  children?: ReactNode;
-  defaultOpen?: boolean;
-  onClick?: (e: MouseEvent) => void; // when provided, act like a link (no panel)
+  title: ReactNode
+  children?: ReactNode
+  defaultOpen?: boolean
+  onClick?: (e: MouseEvent) => void // when provided, act like a link (no panel)
 }
 
-function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
+function ChevronDownIcon(
+  props: Readonly<React.ComponentPropsWithoutRef<'svg'>>,
+) {
   return (
     <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
       <path
@@ -20,11 +26,16 @@ function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>)
         clipRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export function Accordion({ title, children, defaultOpen = false, onClick }: Readonly<AccordionProps>) {
-  const linkMode = typeof onClick === "function";
+export function Accordion({
+  title,
+  children,
+  defaultOpen = false,
+  onClick,
+}: Readonly<AccordionProps>) {
+  const linkMode = typeof onClick === 'function'
 
   return (
     <div className="border border-zinc-200 dark:border-zinc-700 rounded-xl overflow-hidden">
@@ -38,9 +49,9 @@ export function Accordion({ title, children, defaultOpen = false, onClick }: Rea
               className="flex w-full justify-between items-center px-6 py-4 text-left text-base font-semibold text-zinc-800 bg-zinc-50 hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-inset dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-all"
               onClick={(e: MouseEvent) => {
                 if (linkMode && onClick) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onClick(e);
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onClick(e)
                 }
               }}
             >
@@ -59,12 +70,15 @@ export function Accordion({ title, children, defaultOpen = false, onClick }: Rea
               </div>
             </DisclosureButton>
             {!linkMode && (
-              <DisclosurePanel static className="px-6 py-0 bg-white dark:bg-zinc-900 overflow-hidden">
+              <DisclosurePanel
+                static
+                className="px-6 py-0 bg-white dark:bg-zinc-900 overflow-hidden"
+              >
                 <motion.div
                   initial={false}
-                  animate={open ? "open" : "collapsed"}
+                  animate={open ? 'open' : 'collapsed'}
                   variants={{
-                    open: { opacity: 1, height: "auto" },
+                    open: { opacity: 1, height: 'auto' },
                     collapsed: { opacity: 0, height: 0 },
                   }}
                   transition={{ duration: 0.25 }}
@@ -77,5 +91,5 @@ export function Accordion({ title, children, defaultOpen = false, onClick }: Rea
         )}
       </Disclosure>
     </div>
-  );
+  )
 }

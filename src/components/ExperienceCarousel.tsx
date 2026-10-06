@@ -1,9 +1,9 @@
 'use client'
 
+import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useRef, useState, useEffect } from 'react'
-import { motion } from 'motion/react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'

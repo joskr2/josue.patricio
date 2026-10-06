@@ -1,21 +1,20 @@
 'use client'
 
 import clsx from 'clsx'
-import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
-
+import Image from 'next/image'
+import Link from 'next/link'
+import { Accordion } from '@/components/Accordion'
 import { Container } from '@/components/Container'
 import { ExperienceCarousel } from '@/components/ExperienceCarousel'
 import { SkillCategory } from '@/components/SkillCategory'
 import { GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
-import { Accordion } from '@/components/Accordion'
-import { slugify } from '@/lib/slugify'
-import { skills } from '@/lib/personal-data'
 import type { Experience } from '@/lib/experience-data'
+import { skills } from '@/lib/personal-data'
+import { slugify } from '@/lib/slugify'
 
 type Props = {
   personalInfo: {

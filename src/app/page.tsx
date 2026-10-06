@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
-
-import { personalInfo } from '@/lib/personal-data'
-import { projects } from '@/lib/projects-data'
 import { HomeClient } from '@/components/HomeClient'
-import portraitImage from '@/images/portrait.webp'
 import image1 from '@/images/photos/image-1.webp'
 import image2 from '@/images/photos/image-2.webp'
 import image3 from '@/images/photos/image-3.webp'
 import image4 from '@/images/photos/image-4.webp'
+import portraitImage from '@/images/portrait.webp'
+import { personalInfo } from '@/lib/personal-data'
+import { projects } from '@/lib/projects-data'
 
 export const metadata: Metadata = {
   title: 'Software Engineer',

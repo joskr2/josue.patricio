@@ -1,19 +1,18 @@
 'use client'
 
+import { motion } from 'motion/react'
 import Link from 'next/link'
-
 import { SimpleLayout } from '@/components/SimpleLayout'
 import {
   GitHubIcon,
   LinkedInIcon,
-  WhatsAppIcon,
+  LocationIcon,
   MailIcon,
   PhoneIcon,
-  LocationIcon,
+  WhatsAppIcon,
 } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
 import { personalInfo } from '@/lib/personal-data'
-import { motion } from 'motion/react'
 
 // Motion variants for staggered entrances
 const listVariants = {

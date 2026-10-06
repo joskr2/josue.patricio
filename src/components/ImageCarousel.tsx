@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
-import type { StaticImageData } from 'next/image'
-import { AnimatePresence, motion } from 'motion/react'
 import { Pause, Play } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import type { StaticImageData } from 'next/image'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useTranslation } from '@/hooks/useTranslation'

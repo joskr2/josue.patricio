@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react'
+import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 
 export function XIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (

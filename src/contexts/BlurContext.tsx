@@ -1,33 +1,35 @@
-"use client";
+'use client'
 
-import { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 
 interface BlurContextType {
-  isBlurred: boolean;
-  setBlur: (blur: boolean) => void;
+  isBlurred: boolean
+  setBlur: (blur: boolean) => void
 }
 
-const BlurContext = createContext<BlurContextType | undefined>(undefined);
+const BlurContext = createContext<BlurContextType | undefined>(undefined)
 
 export function BlurProvider({ children }: Readonly<{ children: ReactNode }>) {
-  const [isBlurred, setIsBlurred] = useState(false);
+  const [isBlurred, setIsBlurred] = useState(false)
 
   const value = useMemo(
     () => ({ isBlurred, setBlur: setIsBlurred }),
-    [isBlurred]
-  );
+    [isBlurred],
+  )
 
-  return (
-    <BlurContext.Provider value={value}>
-      {children}
-    </BlurContext.Provider>
-  );
+  return <BlurContext.Provider value={value}>{children}</BlurContext.Provider>
 }
 
 export function useBlur() {
-  const context = useContext(BlurContext);
+  const context = useContext(BlurContext)
   if (!context) {
-    throw new Error('useBlur must be used within a BlurProvider');
+    throw new Error('useBlur must be used within a BlurProvider')
   }
-  return context;
+  return context
 }

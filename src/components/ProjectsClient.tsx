@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import {
   Disclosure,
   DisclosureButton,
@@ -8,12 +7,12 @@ import {
 } from '@headlessui/react'
 import { motion } from 'motion/react'
 import dynamic from 'next/dynamic'
-
+import type { StaticImageData } from 'next/image'
+import Link from 'next/link'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { projects } from '@/lib/projects-data'
-import type { StaticImageData } from 'next/image'
 
 const ProjectShowcase = dynamic(
   () =>

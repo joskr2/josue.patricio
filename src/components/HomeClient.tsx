@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'

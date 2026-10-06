@@ -1,10 +1,10 @@
 'use client'
 
-import { LocaleProvider } from '@/contexts/LocaleContext'
-import { BlurProvider } from '@/contexts/BlurContext'
-import { ThemeProvider, useTheme } from 'next-themes'
 import { usePathname } from 'next/navigation'
-import { createContext, useEffect, useRef, useMemo } from 'react'
+import { ThemeProvider, useTheme } from 'next-themes'
+import { createContext, useEffect, useMemo, useRef } from 'react'
+import { BlurProvider } from '@/contexts/BlurContext'
+import { LocaleProvider } from '@/contexts/LocaleContext'
 
 function usePrevious<T>(value: T) {
   const ref = useRef<T | undefined>(undefined)

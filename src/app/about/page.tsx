@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
-
-import { personalInfo } from '@/lib/personal-data'
-import { experiences } from '@/lib/experience-data'
 import { AboutClient } from '@/components/AboutClient'
 import portraitImage from '@/images/portrait.webp'
+import { experiences } from '@/lib/experience-data'
+import { personalInfo } from '@/lib/personal-data'
 
 export const metadata: Metadata = {
   title: 'About',

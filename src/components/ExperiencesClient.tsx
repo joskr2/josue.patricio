@@ -1,11 +1,11 @@
 'use client'
 
-import { experiences } from '@/lib/experience-data'
-import { useTranslation } from '@/hooks/useTranslation'
+import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { TechBadge } from '@/components/TechBadge'
+import { useTranslation } from '@/hooks/useTranslation'
+import { experiences } from '@/lib/experience-data'
 import { slugify } from '@/lib/slugify'
-import Link from 'next/link'
 
 export function ExperiencesClient() {
   const { locale, t } = useTranslation()
