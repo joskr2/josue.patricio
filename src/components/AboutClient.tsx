@@ -4,7 +4,6 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
 import type { StaticImageData } from 'next/image'
 
 import { Container } from '@/components/Container'
@@ -16,25 +15,7 @@ import { useTypewriter } from '@/hooks/useTypewriter'
 import { Accordion } from '@/components/Accordion'
 import { slugify } from '@/lib/slugify'
 import { skills } from '@/lib/personal-data'
-import { useRouter } from 'next/navigation'
 import type { Experience } from '@/lib/experience-data'
-
-const ExperienceCarouselDynamic = dynamic(
-  () =>
-    import('@/components/ExperienceCarousel').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return mod.ExperienceCarousel || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-48 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: false,
-  },
-) as unknown as React.ComponentType<{
-  items: Experience[]
-  className?: string
-}>
 
 type Props = {
   personalInfo: {

@@ -139,7 +139,7 @@ export default function Contact() {
             icon={LocationIcon}
             title={t('contact.location')}
             value={personalInfo.location[locale]}
-            href="https://maps.google.com/?q=Arequipa,Peru"
+            href="https://maps.google.com/?q=Lima,Peru"
             description={t('contact.currentlyBased')}
           />
         </motion.div>

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
+import { notFound } from 'next/navigation'
 import { use } from 'react'
 
 import { Container } from '@/components/Container'
@@ -21,21 +22,7 @@ export default function ExperienceDetail({
   const experience = experiences.find((e) => slugify(e.company) === slug)
 
   if (!experience) {
-    return (
-      <Container className="mt-16 sm:mt-24">
-        <p className="text-center text-zinc-600 dark:text-zinc-400">
-          Experience not found.
-        </p>
-        <div className="mt-6 text-center">
-          <Link
-            className="text-teal-600 hover:underline dark:text-teal-400"
-            href="/about"
-          >
-            {t('nav.about')}
-          </Link>
-        </div>
-      </Container>
-    )
+    notFound()
   }
 
   return (
@@ -85,7 +72,7 @@ export default function ExperienceDetail({
         {experience.technologies.length > 0 && (
           <div className="mt-8">
             <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
-              Technologies
+              {t('experiences.technologies')}
             </h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {experience.technologies.map((tech) => (

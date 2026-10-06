@@ -12,14 +12,16 @@ const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
 	const [locale, setLocaleState] = useState<Locale>(defaultLocale);
-	const [isInitialized, setIsInitialized] = useState(false);
+
+	// Reconcile the detected locale after mount. The initial client render stays
+	// defaultLocale so it matches the server HTML.
+	useEffect(() => {
+		setLocaleState(detectLocale());
+	}, []);
 
 	useEffect(() => {
-		// Only run on client side
-		const detectedLocale = detectLocale();
-		setLocaleState(detectedLocale);
-		setIsInitialized(true);
-	}, []);
+		document.documentElement.lang = locale;
+	}, [locale]);
 
 	const setLocale = (newLocale: Locale) => {
 		setLocaleState(newLocale);
@@ -27,11 +29,6 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
 			localStorage.setItem("locale", newLocale);
 		}
 	};
-
-	// Don't render children until locale is initialized to prevent hydration mismatch
-	if (!isInitialized) {
-		return null;
-	}
 
 	return (
 		<LocaleContext.Provider value={{ locale, setLocale }}>

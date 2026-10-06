@@ -34,6 +34,10 @@ export const translations = {
       location: 'Lima, Peru',
       viewDetail: 'View detail',
     },
+    // Experiences detail page
+    experiences: {
+      technologies: 'Technologies',
+    },
     // Projects page
     projects: {
       title: 'Projects',
@@ -123,6 +127,10 @@ export const translations = {
       certifications: 'Certificaciones',
       location: 'Lima, Perú',
       viewDetail: 'Ver detalle',
+    },
+    // Experiences detail page
+    experiences: {
+      technologies: 'Tecnologías',
     },
     // Projects page
     projects: {
