@@ -20,20 +20,48 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    company: 'Banco GNB Perú',
+    position: {
+      en: 'Digital Channels Analyst',
+      es: 'Analista de Canales Digitales',
+    },
+    duration: {
+      en: 'Jun 2026 - Present',
+      es: 'Jun 2026 - Presente',
+    },
+    start: '2026-06',
+    end: {
+      label: 'Present',
+      dateTime: new Date().getFullYear().toString(),
+    },
+    description: {
+      en: [
+        "Develop and maintain banking applications using GeneXus, Java, and .NET, working across technologies according to each system's requirements.",
+        'Handle requests from internal bank users who rely on these applications to serve end customers, translating their needs into software updates and improvements.',
+        'Use SQL extensively across IBM AS/400 and SQL Server environments to query and work with data during application development and maintenance.',
+        "Participate in the controlled, responsible adoption of AI to support the team's work.",
+      ],
+      es: [
+        'Desarrollo y mantengo aplicaciones bancarias con GeneXus, Java y .NET, trabajando con distintas tecnologías según los requisitos de cada sistema.',
+        'Atiendo solicitudes de los usuarios internos del banco que utilizan estas aplicaciones para atender a los clientes finales, traduciendo sus necesidades en actualizaciones y mejoras de software.',
+        'Utilizo SQL de forma intensiva en entornos IBM AS/400 y SQL Server para consultar y trabajar con datos durante el desarrollo y mantenimiento de aplicaciones.',
+        'Participo en la adopción acotada y responsable de IA para apoyar el trabajo del equipo.',
+      ],
+    },
+    technologies: ['GeneXus', 'Java', '.NET', 'SQL Server', 'IBM AS/400'],
+  },
+  {
     company: 'Softtek / RIMAC',
     position: {
       en: 'Software Engineer',
       es: 'Ingeniero de Software',
     },
     duration: {
-      en: 'Oct 2025 - Present',
-      es: 'Oct 2025 - Presente',
+      en: 'Oct 2025 - May 2026',
+      es: 'Oct 2025 - May 2026',
     },
     start: '2025-10',
-    end: {
-      label: 'Present',
-      dateTime: new Date().getFullYear().toString(),
-    },
+    end: '2026-05',
     description: {
       en: [
         'Design System: Led the implementation of the corporate Design System using Next.js, TypeScript, and Storybook, achieving a 50%+ improvement in development velocity for the Frontend team.',

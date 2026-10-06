@@ -316,7 +316,7 @@ export function HomeClient({
                       Backend
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {['Python', 'FastAPI', '.NET', 'Node.js'].map((tech) => (
+                      {['C# (.NET)', 'Java', 'Spring Boot', 'GeneXus'].map((tech) => (
                         <TechBadge key={tech} variant="secondary">
                           {tech}
                         </TechBadge>
@@ -328,7 +328,7 @@ export function HomeClient({
                       Infrastructure
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {['AWS', 'Docker', 'PostgreSQL', 'Redis'].map((tech) => (
+                      {['AWS', 'Docker', 'SQL Server', 'PostgreSQL'].map((tech) => (
                         <TechBadge key={tech}>{tech}</TechBadge>
                       ))}
                     </div>
