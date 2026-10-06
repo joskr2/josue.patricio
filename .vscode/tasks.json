@@ -1,89 +1,38 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "next-build",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$eslint-stylish"
-			],
-			"group": "build"
-		},
-		{
-			"label": "next-build",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$eslint-stylish"
-			],
-			"group": "build"
-		},
-		{
-			"label": "next-build",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$eslint-stylish"
-			],
-			"group": "build"
-		},
-		{
-			"label": "next-build",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$eslint-stylish"
-			],
-			"group": "build"
-		},
-		{
-			"label": "next-build",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$eslint-stylish"
-			],
-			"group": "build"
-		},
-		{
-			"label": "next-build",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$eslint-stylish"
-			],
-			"group": "build"
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "next-build",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build"],
+      "isBackground": false,
+      "problemMatcher": ["$tsc"],
+      "group": "build"
+    },
+    {
+      "label": "next-dev",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "biome-check",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "lint"],
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "typecheck",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "typecheck"],
+      "isBackground": false,
+      "problemMatcher": ["$tsc"]
+    }
+  ]
 }
