@@ -98,6 +98,11 @@ export const translations = {
       description: 'Sorry, we couldn’t find the page you’re looking for.',
       backHome: 'Go back home',
     },
+    // Image carousel
+    carousel: {
+      pause: 'Pause slideshow',
+      play: 'Play slideshow',
+    },
   },
   es: {
     // Navigation
@@ -194,6 +199,11 @@ export const translations = {
       title: 'Página no encontrada',
       description: 'Lo sentimos, no encontramos la página que buscas.',
       backHome: 'Volver al inicio',
+    },
+    // Image carousel
+    carousel: {
+      pause: 'Pausar presentación',
+      play: 'Reproducir presentación',
     },
   },
 } as const

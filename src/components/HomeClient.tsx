@@ -3,11 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
 import type { StaticImageData } from 'next/image'
 
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
+import { ImageCarousel } from '@/components/ImageCarousel'
 import { ProjectShowcase } from '@/components/ProjectShowcase'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
@@ -15,24 +15,6 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
 import { skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
-
-const ImageCarousel = dynamic(
-  () =>
-    import('@/components/ImageCarousel').then((mod) => {
-      return mod.ImageCarousel || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-64 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: false,
-  },
-  // SAFETY: dynamic() import resolves ImageCarousel to the declared component shape.
-) as unknown as React.ComponentType<{
-  items: Array<{ src: StaticImageData | string; alt: string }>
-  className?: string
-  intervalMs?: number
-}>
 
 type Props = {
   personalInfo: {
@@ -296,9 +278,9 @@ export function HomeClient({
                 <Card.Description>{t('home.subtitle')}</Card.Description>
                 <div className="mt-6 space-y-4">
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                       Frontend
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {skills.highlights.frontend.map((tech) => (
                         <TechBadge key={tech} variant="primary">
@@ -308,9 +290,9 @@ export function HomeClient({
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                       Backend
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {skills.highlights.backend.map((tech) => (
                         <TechBadge key={tech} variant="secondary">
@@ -320,9 +302,9 @@ export function HomeClient({
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                       Infrastructure
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {skills.highlights.infrastructure.map((tech) => (
                         <TechBadge key={tech}>{tech}</TechBadge>
