@@ -159,7 +159,7 @@ export function ContactClient() {
             <ContactCard
               icon={LinkedInIcon}
               title={t('contact.linkedin')}
-              value="josue-retamozo"
+              value={personalInfo.linkedinHandle}
               href={personalInfo.linkedin}
               description={t('contact.professionalNetwork')}
             />
@@ -167,7 +167,7 @@ export function ContactClient() {
             <ContactCard
               icon={GitHubIcon}
               title={t('contact.github')}
-              value="joskr2"
+              value={personalInfo.githubHandle}
               href={personalInfo.github}
               description={t('contact.openSourceProjects')}
             />

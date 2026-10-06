@@ -9,7 +9,6 @@ export interface Experience {
     es: string
   }
   start: string
-  end: string | { label: string; dateTime: string }
   description: {
     en: string[]
     es: string[]
@@ -30,10 +29,6 @@ export const experiences: Experience[] = [
       es: 'Jun 2026 - Presente',
     },
     start: '2026-06',
-    end: {
-      label: 'Present',
-      dateTime: new Date().getFullYear().toString(),
-    },
     description: {
       en: [
         "Develop and maintain banking applications using GeneXus, Java, and .NET, working across technologies according to each system's requirements.",
@@ -61,7 +56,6 @@ export const experiences: Experience[] = [
       es: 'Oct 2025 - May 2026',
     },
     start: '2025-10',
-    end: '2026-05',
     description: {
       en: [
         'Design System: Led the implementation of the corporate Design System using Next.js, TypeScript, and Storybook, achieving a 50%+ improvement in development velocity for the Frontend team.',
@@ -97,7 +91,6 @@ export const experiences: Experience[] = [
       es: 'Feb 2023 - Jun 2025',
     },
     start: '2023-02',
-    end: '2025-06',
     description: {
       en: [
         'Taught Frontend technologies (React, Next.js, JavaScript) to over 200 students in a Bootcamp format.',
@@ -130,7 +123,6 @@ export const experiences: Experience[] = [
       es: 'Sep 2023 - Abr 2024',
     },
     start: '2023-09',
-    end: '2024-04',
     description: {
       en: [
         'Led the migration towards a modern architecture based on ReactJS with Micro Frontends.',
@@ -165,7 +157,6 @@ export const experiences: Experience[] = [
       es: 'Dic 2021 - Feb 2023',
     },
     start: '2021-12',
-    end: '2023-02',
     description: {
       en: [
         'Developed new features that improved project allocation by 15%.',
@@ -200,7 +191,6 @@ export const experiences: Experience[] = [
       es: 'Dic 2020 - Dic 2021',
     },
     start: '2020-12',
-    end: '2021-12',
     description: {
       en: [
         'Participated in the tech stack migration to ReactJS and NextJS, improving site load speed by 15%.',
@@ -233,7 +223,6 @@ export const experiences: Experience[] = [
       es: 'Mayo 2022 - Sep 2022 & Oct 2019 - Mar 2020',
     },
     start: '2019-10',
-    end: '2022-09',
     description: {
       en: [
         'Collaborated on the development of a financial asset management application in React Native and Angular, improving user experience by 25%.',

@@ -92,19 +92,6 @@ export const translations = {
     footer: {
       allRightsReserved: 'All rights reserved.',
     },
-    // Sports Betting Project
-    sportsBetting: {
-      title: 'Sports Betting Platform',
-      description:
-        'Comprehensive sports betting platform using microservices architecture with frontend, API, and BFF components available on GitHub',
-      features: [
-        'Microservices architecture with 3 interconnected components',
-        'High-performance frontend with Next.js 15 and TypeScript',
-        'Robust .NET 9 API with PostgreSQL and Redis caching',
-        'FastAPI BFF service optimized for AWS Lambda',
-        'JWT authentication and atomic transactions',
-      ],
-    },
     // Not found page
     notFound: {
       title: 'Page not found',
@@ -201,19 +188,6 @@ export const translations = {
     // Footer
     footer: {
       allRightsReserved: 'Todos los derechos reservados.',
-    },
-    // Sports Betting Project
-    sportsBetting: {
-      title: 'Plataforma de Apuestas Deportivas',
-      description:
-        'Plataforma integral de apuestas deportivas usando arquitectura de microservicios con frontend, API y BFF disponibles en GitHub',
-      features: [
-        'Arquitectura de microservicios con 3 componentes interconectados',
-        'Frontend de alto rendimiento con Next.js 15 y TypeScript',
-        'API robusta en .NET 9 con PostgreSQL y caché Redis',
-        'Servicio BFF FastAPI optimizado para AWS Lambda',
-        'Autenticación JWT y transacciones atómicas',
-      ],
     },
     // Not found page
     notFound: {

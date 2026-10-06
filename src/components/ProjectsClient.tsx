@@ -18,7 +18,6 @@ import type { StaticImageData } from 'next/image'
 const ProjectShowcase = dynamic(
   () =>
     import('@/components/ProjectShowcase').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return mod.ProjectShowcase || mod
     }),
   {
@@ -27,6 +26,7 @@ const ProjectShowcase = dynamic(
     ),
     ssr: true,
   },
+  // SAFETY: dynamic() import resolves ProjectShowcase to the declared component shape.
 ) as unknown as React.ComponentType<{
   project: (typeof projects)[0]
 }>

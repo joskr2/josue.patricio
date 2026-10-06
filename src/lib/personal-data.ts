@@ -13,7 +13,9 @@ export const personalInfo = {
   email: 'josretamozovar@gmail.com',
   phone: '+51 983 765 362',
   linkedin: 'https://www.linkedin.com/in/josue-retamozo',
+  linkedinHandle: 'josue-retamozo',
   github: 'https://github.com/joskr2',
+  githubHandle: 'joskr2',
   summary: {
     en: 'Software Engineer with over 5 years of experience developing solutions across education, finance, retail, and e-commerce sectors. My specialty and passion lies in Frontend development with React.js and React Native, building scalable, high-performance, and accessible interfaces. I complement my profile with a solid Full-Stack foundation in C# (.NET), Java, and Microservices, as well as enterprise application development and maintenance. My experience combines banking application modernization, internal user support, and AI integration, with a focus on controlled and responsible adoption. Comfortable working with AWS Cloud environments and Docker deployments.',
     es: 'Ingeniero de Software con más de 5 años de experiencia desarrollando soluciones en los sectores de educación, finanzas, retail y comercio electrónico. Mi especialidad y pasión es el desarrollo Frontend con React.js y React Native, creando interfaces escalables, de alto rendimiento y accesibles. Complemento mi perfil con una sólida base Full-Stack en C# (.NET), Java y microservicios, además del desarrollo y mantenimiento de aplicaciones empresariales. Mi experiencia combina la modernización de aplicaciones bancarias, la atención a usuarios internos y la integración de IA, con un enfoque de adopción acotada y responsable. Trabajo con comodidad en entornos AWS y despliegues con Docker.',
@@ -72,6 +74,11 @@ export const skills = {
     'A/B Testing (VWO)',
   ],
   methodologies: ['Scrum', 'Agile'],
+  highlights: {
+    frontend: ['React.js', 'React Native', 'Next.js', 'TypeScript'],
+    backend: ['C# (.NET)', 'Java', 'Spring Boot', 'GeneXus'],
+    infrastructure: ['AWS', 'Docker', 'SQL Server', 'PostgreSQL'],
+  },
   languages: [
     {
       name: 'Spanish',

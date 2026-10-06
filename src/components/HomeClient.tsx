@@ -13,12 +13,12 @@ import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
+import { skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
 
 const ImageCarousel = dynamic(
   () =>
     import('@/components/ImageCarousel').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return mod.ImageCarousel || mod
     }),
   {
@@ -27,6 +27,7 @@ const ImageCarousel = dynamic(
     ),
     ssr: false,
   },
+  // SAFETY: dynamic() import resolves ImageCarousel to the declared component shape.
 ) as unknown as React.ComponentType<{
   items: Array<{ src: StaticImageData | string; alt: string }>
   className?: string
@@ -299,12 +300,7 @@ export function HomeClient({
                       Frontend
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {[
-                        'React.js',
-                        'Next.js',
-                        'TypeScript',
-                        'Tailwind CSS',
-                      ].map((tech) => (
+                      {skills.highlights.frontend.map((tech) => (
                         <TechBadge key={tech} variant="primary">
                           {tech}
                         </TechBadge>
@@ -316,7 +312,7 @@ export function HomeClient({
                       Backend
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {['C# (.NET)', 'Java', 'Spring Boot', 'GeneXus'].map((tech) => (
+                      {skills.highlights.backend.map((tech) => (
                         <TechBadge key={tech} variant="secondary">
                           {tech}
                         </TechBadge>
@@ -328,7 +324,7 @@ export function HomeClient({
                       Infrastructure
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {['AWS', 'Docker', 'SQL Server', 'PostgreSQL'].map((tech) => (
+                      {skills.highlights.infrastructure.map((tech) => (
                         <TechBadge key={tech}>{tech}</TechBadge>
                       ))}
                     </div>
