@@ -15,6 +15,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
 import { Accordion } from '@/components/Accordion'
 import { slugify } from '@/lib/slugify'
+import { skills } from '@/lib/personal-data'
 import { useRouter } from 'next/navigation'
 import type { Experience } from '@/lib/experience-data'
 
@@ -379,10 +380,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
                 show: { opacity: 1, y: 0 },
               }}
             >
-              <SkillCategory
-                title="Frontend"
-                skills={['React', 'Next.js', 'TypeScript', 'Tailwind CSS']}
-              />
+              <SkillCategory title="Frontend" skills={skills.frontend} />
             </motion.div>
             <motion.div
               variants={{
@@ -390,10 +388,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
                 show: { opacity: 1, y: 0 },
               }}
             >
-              <SkillCategory
-                title="Backend"
-                skills={['Node.js', 'Python', 'PostgreSQL', 'API REST']}
-              />
+              <SkillCategory title="Backend" skills={skills.backend} />
             </motion.div>
             <motion.div
               variants={{
@@ -401,10 +396,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
                 show: { opacity: 1, y: 0 },
               }}
             >
-              <SkillCategory
-                title="Tools"
-                skills={['Git', 'Docker', 'AWS', 'Figma']}
-              />
+              <SkillCategory title="Tools" skills={skills.tools} />
             </motion.div>
           </motion.div>
         </div>
