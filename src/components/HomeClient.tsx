@@ -1,16 +1,15 @@
 'use client'
 
-import clsx from 'clsx'
 import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
 
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import { ImageCarousel } from '@/components/ImageCarousel'
 import { ProjectShowcase } from '@/components/ProjectShowcase'
+import { ReadMore } from '@/components/ReadMore'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -90,7 +89,6 @@ export function HomeClient({
   galleryImages,
 }: Props) {
   const { t, tArray, locale } = useTranslation()
-  const [expanded, setExpanded] = useState(false)
   const { displayText: typedName, isComplete } = useTypewriter({
     text: personalInfo.name,
     speed: 100,
@@ -139,25 +137,9 @@ export function HomeClient({
           >
             {personalInfo.title[locale]}
           </motion.p>
-          <motion.p
-            id="hero-summary"
-            className={clsx(
-              'mt-6 text-[clamp(1rem,3.4vw,1.125rem)] text-zinc-600 leading-relaxed dark:text-zinc-400',
-              expanded ? null : 'line-clamp-3 sm:line-clamp-none',
-            )}
-            variants={itemVariants}
-          >
+          <ReadMore variants={itemVariants}>
             {personalInfo.summary[locale]}
-          </motion.p>
-          <button
-            type="button"
-            onClick={() => setExpanded((value) => !value)}
-            aria-expanded={expanded}
-            aria-controls="hero-summary"
-            className="mt-3 font-medium text-sm text-teal-600 sm:hidden dark:text-teal-400"
-          >
-            {expanded ? t('home.readLess') : t('home.readMore')}
-          </button>
+          </ReadMore>
           <motion.div className="mt-6 flex gap-6" variants={itemVariants}>
             <SocialLink
               href={`mailto:${personalInfo.email}`}
