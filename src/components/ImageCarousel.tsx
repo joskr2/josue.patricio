@@ -19,10 +19,12 @@ export function ImageCarousel({
   items,
   intervalMs = 30000,
   className,
+  sizes = '(min-width: 640px) 18rem, 20rem',
 }: Readonly<{
   items: CarouselItem[]
   intervalMs?: number
   className?: string
+  sizes?: string
 }>) {
   const { t } = useTranslation()
   const [index, setIndex] = useState(0)
@@ -63,7 +65,7 @@ export function ImageCarousel({
               alt={current.alt}
               width={current.width || 400}
               height={current.height || 400}
-              sizes="(min-width: 640px) 18rem, 20rem"
+              sizes={sizes}
               className="absolute inset-0 h-full w-full object-cover"
               priority={index === 0}
             />

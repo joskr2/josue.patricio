@@ -1,9 +1,11 @@
 'use client'
 
+import clsx from 'clsx'
 import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
@@ -88,6 +90,7 @@ export function HomeClient({
   galleryImages,
 }: Props) {
   const { t, tArray, locale } = useTranslation()
+  const [expanded, setExpanded] = useState(false)
   const { displayText: typedName, isComplete } = useTypewriter({
     text: personalInfo.name,
     speed: 100,
@@ -99,6 +102,11 @@ export function HomeClient({
     src: img.src,
     alt: galleryAlts[i] ?? '',
   }))
+  // Mobile shows one carousel: portrait first, then the gallery photos.
+  const mobileCarouselItems = [
+    { src: personalInfo.portraitImage, alt: personalInfo.name },
+    ...carouselItems,
+  ]
 
   return (
     <>
@@ -111,7 +119,7 @@ export function HomeClient({
           animate="visible"
         >
           <motion.h1
-            className="min-h-[4rem] font-bold text-5xl text-zinc-800 tracking-tight sm:min-h-[5rem] sm:text-6xl lg:min-h-[6rem] lg:text-7xl dark:text-zinc-100"
+            className="min-h-[3.4em] font-bold text-[clamp(1.875rem,6.5vw,4.5rem)] text-zinc-800 tracking-tight sm:min-h-[2.4em] lg:min-h-[1.4em] dark:text-zinc-100"
             variants={itemVariants}
           >
             {typedName}
@@ -126,17 +134,30 @@ export function HomeClient({
             )}
           </motion.h1>
           <motion.p
-            className="mt-4 text-teal-600 text-xl sm:text-2xl dark:text-teal-400"
+            className="mt-4 text-[clamp(1.0625rem,3.2vw,1.5rem)] text-teal-600 dark:text-teal-400"
             variants={itemVariants}
           >
             {personalInfo.title[locale]}
           </motion.p>
           <motion.p
-            className="mt-6 text-base text-zinc-600 leading-relaxed sm:text-lg dark:text-zinc-400"
+            id="hero-summary"
+            className={clsx(
+              'mt-6 text-[clamp(1rem,3.4vw,1.125rem)] text-zinc-600 leading-relaxed dark:text-zinc-400',
+              expanded ? null : 'line-clamp-3 sm:line-clamp-none',
+            )}
             variants={itemVariants}
           >
             {personalInfo.summary[locale]}
           </motion.p>
+          <button
+            type="button"
+            onClick={() => setExpanded((value) => !value)}
+            aria-expanded={expanded}
+            aria-controls="hero-summary"
+            className="mt-3 font-medium text-sm text-teal-600 sm:hidden dark:text-teal-400"
+          >
+            {expanded ? t('home.readLess') : t('home.readMore')}
+          </button>
           <motion.div className="mt-6 flex gap-6" variants={itemVariants}>
             <SocialLink
               href={`mailto:${personalInfo.email}`}
@@ -163,8 +184,24 @@ export function HomeClient({
 
       {/* Photo Gallery */}
       <Container className="mt-16 sm:mt-20">
+        {/* Mobile: the portrait and the gallery share one carousel */}
         <motion.div
-          className="mx-auto grid max-w-xl grid-cols-1 gap-y-8 lg:max-w-none lg:grid-cols-2"
+          className="lg:hidden"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <ImageCarousel
+            className="w-full"
+            items={mobileCarouselItems}
+            intervalMs={30000}
+            sizes="(min-width: 1024px) 24rem, 100vw"
+          />
+        </motion.div>
+
+        <motion.div
+          className="mx-auto hidden max-w-xl grid-cols-1 gap-y-8 lg:grid lg:max-w-none lg:grid-cols-2"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -183,7 +220,7 @@ export function HomeClient({
               <Image
                 src={personalInfo.portraitImage}
                 alt={personalInfo.name}
-                sizes="(min-width: 1024px) 24rem, 20rem"
+                sizes="(min-width: 1024px) 24rem, 100vw"
                 className="absolute inset-0 h-full w-full object-cover"
                 priority
               />
