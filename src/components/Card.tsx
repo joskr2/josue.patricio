@@ -1,174 +1,191 @@
-import clsx from "clsx";
-import Link from "next/link";
-import { motion } from "motion/react";
+import clsx from 'clsx'
+import { motion } from 'motion/react'
+import Link from 'next/link'
 
-function ChevronRightIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
-	return (
-		<svg
-			viewBox="0 0 16 16"
-			fill="none"
-			stroke="currentColor"
-			aria-hidden="true"
-			{...props}
-		>
-			<path
-				d="M6.75 5.75 9.25 8l-2.5 2.25"
-				strokeWidth="1.5"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</svg>
-	);
+function ChevronRightIcon(
+  props: Readonly<React.ComponentPropsWithoutRef<'svg'>>,
+) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      aria-hidden="true"
+      {...props}
+    >
+      <path
+        d="M6.75 5.75 9.25 8l-2.5 2.25"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
 }
 
-export function Card<T extends React.ElementType = "div">({
-	as,
-	className,
-	children,
-}: Omit<React.ComponentPropsWithoutRef<T>, "as" | "className"> & {
-	as?: T;
-	className?: string;
+export function Card<T extends React.ElementType = 'div'>({
+  as,
+  className,
+  children,
+}: Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'className'> & {
+  as?: T
+  className?: string
 }) {
-	const Component = as ?? "div";
+  const Component = as ?? 'div'
 
-	return (
-		<Component
-			className={clsx(
-				className,
-				"group relative flex h-full flex-col items-start",
-			)}
-		>
-			{children}
-		</Component>
-	);
+  return (
+    <Component
+      className={clsx(
+        className,
+        'group relative flex h-full flex-col items-start',
+      )}
+    >
+      {children}
+    </Component>
+  )
 }
 
 Card.Link = function CardLink({
-	children,
-	...props
+  children,
+  ...props
 }: React.ComponentPropsWithoutRef<typeof Link>) {
-	return (
-		<>
-			<motion.div 
-				className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/30"
-				initial={{ scale: 0.95, opacity: 0 }}
-				whileHover={{ scale: 1, opacity: 1 }}
-				transition={{ type: "spring", stiffness: 300, damping: 30 }}
-			/>
-			<Link className="relative" {...props}>
-				<span className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
-				<span className="relative z-10">{children}</span>
-			</Link>
-		</>
-	);
-};
+  return (
+    <>
+      <motion.div
+        className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/30"
+        initial={{ scale: 0.95, opacity: 0 }}
+        whileHover={{ scale: 1, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      />
+      <Link className="relative" {...props}>
+        <span className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
+        <span className="relative z-10">{children}</span>
+      </Link>
+    </>
+  )
+}
 
-Card.Title = function CardTitle<T extends React.ElementType = "h2">({
-	as,
-	href,
-	children,
-}: Omit<React.ComponentPropsWithoutRef<T>, "as" | "href"> & {
-	as?: T;
-	href?: string;
+Card.Title = function CardTitle<T extends React.ElementType = 'h2'>({
+  as,
+  href,
+  children,
+}: Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'href'> & {
+  as?: T
+  href?: string
 }) {
-	const Component = as ?? "h2";
+  const Component = as ?? 'h2'
 
-	return (
-		<motion.div
-			initial={{ opacity: 0, y: 10 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.3 }}
-		>
-			<Component className="relative z-10 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-				{href ? <Card.Link href={href}>{children}</Card.Link> : children}
-			</Component>
-		</motion.div>
-	);
-};
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Component className="relative z-10 font-semibold text-base text-zinc-800 tracking-tight dark:text-zinc-100">
+        {href ? <Card.Link href={href}>{children}</Card.Link> : children}
+      </Component>
+    </motion.div>
+  )
+}
 
 Card.Description = function CardDescription({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode
 }) {
-	return (
-		<motion.p 
-			className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
-			initial={{ opacity: 0, y: 10 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.3, delay: 0.1 }}
-		>
-			{children}
-		</motion.p>
-	);
-};
+  return (
+    <motion.p
+      className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: 0.1 }}
+    >
+      {children}
+    </motion.p>
+  )
+}
 
-Card.Cta = function CardCta({ children, href }: { children: React.ReactNode; href?: string }) {
-	const inner = (
-		<>
-			<motion.span
-				initial={{ opacity: 0, x: -10 }}
-				animate={{ opacity: 1, x: 0 }}
-				transition={{ duration: 0.3, delay: 0.2 }}
-				whileHover={{ x: 4, transition: { type: "spring", stiffness: 300, damping: 30 } }}
-				className="inline-flex items-center"
-			>
-				{children}
-			</motion.span>
-			<motion.div whileHover={{ x: 2 }} transition={{ type: "spring", stiffness: 400, damping: 30 }}>
-				<ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
-			</motion.div>
-		</>
-	);
-
-	if (href) {
-		return (
-			<Link href={href} className="relative z-30 mt-auto pt-4 inline-flex items-center text-sm font-medium text-teal-500 group pointer-events-auto">
-				{inner}
-			</Link>
-		);
-	}
-
-	return (
-		<motion.div
-			aria-hidden="true"
-			className="relative z-30 mt-auto pt-4 flex items-center text-sm font-medium text-teal-500"
-		>
-			{inner}
-		</motion.div>
-	);
-};
-
-Card.Eyebrow = function CardEyebrow<T extends React.ElementType = "p">({
-	as,
-	decorate = false,
-	className,
-	children,
-	...props
-}: Omit<React.ComponentPropsWithoutRef<T>, "as" | "decorate"> & {
-	as?: T;
-	decorate?: boolean;
+Card.Cta = function CardCta({
+  children,
+  href,
+}: {
+  children: React.ReactNode
+  href?: string
 }) {
-	const Component = as ?? "p";
+  const inner = (
+    <>
+      <motion.span
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        whileHover={{
+          x: 4,
+          transition: { type: 'spring', stiffness: 300, damping: 30 },
+        }}
+        className="inline-flex items-center"
+      >
+        {children}
+      </motion.span>
+      <motion.div
+        whileHover={{ x: 2 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+      >
+        <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+      </motion.div>
+    </>
+  )
 
-	return (
-		<Component
-			className={clsx(
-				className,
-				"relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500",
-				decorate && "pl-3.5",
-			)}
-			{...props}
-		>
-			{decorate && (
-				<span
-					className="absolute inset-y-0 left-0 flex items-center z-10"
-					aria-hidden="true"
-				>
-					<span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
-				</span>
-			)}
-			{children}
-		</Component>
-	);
-};
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="group pointer-events-auto relative z-30 mt-auto inline-flex items-center pt-4 font-medium text-sm text-teal-500"
+      >
+        {inner}
+      </Link>
+    )
+  }
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="relative z-30 mt-auto flex items-center pt-4 font-medium text-sm text-teal-500"
+    >
+      {inner}
+    </motion.div>
+  )
+}
+
+Card.Eyebrow = function CardEyebrow<T extends React.ElementType = 'p'>({
+  as,
+  decorate = false,
+  className,
+  children,
+  ...props
+}: Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'decorate'> & {
+  as?: T
+  decorate?: boolean
+}) {
+  const Component = as ?? 'p'
+
+  return (
+    <Component
+      className={clsx(
+        className,
+        'relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500',
+        decorate && 'pl-3.5',
+      )}
+      {...props}
+    >
+      {decorate && (
+        <span
+          className="absolute inset-y-0 left-0 z-10 flex items-center"
+          aria-hidden="true"
+        >
+          <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
+        </span>
+      )}
+      {children}
+    </Component>
+  )
+}

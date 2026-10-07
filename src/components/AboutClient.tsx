@@ -1,40 +1,19 @@
 'use client'
 
 import clsx from 'clsx'
+import { motion } from 'motion/react'
+import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
-import type { StaticImageData } from 'next/image'
-
 import { Container } from '@/components/Container'
 import { ExperienceCarousel } from '@/components/ExperienceCarousel'
 import { SkillCategory } from '@/components/SkillCategory'
 import { GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
-import { Accordion } from '@/components/Accordion'
-import { slugify } from '@/lib/slugify'
-import { skills } from '@/lib/personal-data'
-import { useRouter } from 'next/navigation'
 import type { Experience } from '@/lib/experience-data'
-
-const ExperienceCarouselDynamic = dynamic(
-  () =>
-    import('@/components/ExperienceCarousel').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return mod.ExperienceCarousel || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-48 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: false,
-  },
-) as unknown as React.ComponentType<{
-  items: Experience[]
-  className?: string
-}>
+import { skills } from '@/lib/personal-data'
+import { slugify } from '@/lib/slugify'
 
 type Props = {
   personalInfo: {
@@ -64,7 +43,7 @@ function SocialLink({
     <li className={clsx(className, 'flex')}>
       <Link
         href={href}
-        className="group flex text-sm font-medium text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
+        className="group flex font-medium text-sm text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
       >
         <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
         <span className="ml-4">{children}</span>
@@ -102,7 +81,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="min-h-[3rem] text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+          <h1 className="min-h-[3rem] font-bold text-4xl text-zinc-800 tracking-tight sm:text-5xl dark:text-zinc-100">
             {typedName}
             {!isComplete && (
               <span className="animate-pulse text-teal-600 dark:text-teal-400">
@@ -111,7 +90,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             )}
           </h1>
           <motion.p
-            className="mt-2 text-xl text-teal-600 dark:text-teal-400"
+            className="mt-2 text-teal-600 text-xl dark:text-teal-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -217,7 +196,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h1 className="min-h-[4rem] text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+          <h1 className="min-h-[4rem] font-bold text-4xl text-zinc-800 tracking-tight sm:text-5xl dark:text-zinc-100">
             {typedName}
             {!isComplete && (
               <span className="animate-pulse text-teal-600 dark:text-teal-400">
@@ -226,7 +205,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             )}
           </h1>
           <motion.p
-            className="mt-2 text-xl text-teal-600 dark:text-teal-400"
+            className="mt-2 text-teal-600 text-xl dark:text-teal-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -282,7 +261,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             viewport={{ once: true }}
           >
             <motion.h2
-              className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
+              className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -304,7 +283,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             viewport={{ once: true }}
           >
             <motion.h2
-              className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
+              className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
@@ -319,18 +298,18 @@ export function AboutClient({ personalInfo, experiences }: Props) {
                   href={`/experiences/${slugify(exp.company)}`}
                   className="flex w-full items-center gap-3 rounded-lg bg-zinc-50 px-4 py-3 text-left shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md dark:bg-zinc-800/50 dark:hover:bg-zinc-800"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 text-sm font-bold text-white">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 font-bold text-sm text-white">
                     {exp.company.charAt(0)}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-base font-semibold text-zinc-800 dark:text-zinc-100">
+                    <p className="truncate font-semibold text-base text-zinc-800 dark:text-zinc-100">
                       {exp.position[locale]}
                     </p>
                     <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
                       {exp.company} • {exp.duration[locale]}
                     </p>
                   </div>
-                  <span className="text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
+                  <span className="font-medium text-sm text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
                     {t('about.viewDetail')}
                   </span>
                 </Link>
@@ -350,7 +329,7 @@ export function AboutClient({ personalInfo, experiences }: Props) {
       >
         <div className="mx-auto max-w-7xl">
           <motion.h2
-            className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
+            className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}

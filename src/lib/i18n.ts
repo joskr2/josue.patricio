@@ -34,6 +34,11 @@ export const translations = {
       location: 'Lima, Peru',
       viewDetail: 'View detail',
     },
+    // Experiences detail page
+    experiences: {
+      technologies: 'Technologies',
+      subtitle: 'My professional journey and work experience',
+    },
     // Projects page
     projects: {
       title: 'Projects',
@@ -43,6 +48,15 @@ export const translations = {
       viewCode: 'View Code',
       technologies: 'Technologies',
       features: 'Key Features',
+      backend: 'Backend',
+      frontend: 'Frontend',
+      bffService: 'BFF Service',
+      architecture: 'Architecture',
+      performance: 'Performance',
+      liveServices: 'Live Services',
+      apiHealthCheck: 'API Health Check',
+      bffHealthCheck: 'BFF Health Check',
+      more: 'more',
     },
     // Contact page
     contact: {
@@ -78,17 +92,24 @@ export const translations = {
     footer: {
       allRightsReserved: 'All rights reserved.',
     },
-    // Sports Betting Project
-    sportsBetting: {
-      title: 'Sports Betting Platform',
-      description:
-        'Comprehensive sports betting platform using microservices architecture with frontend, API, and BFF components available on GitHub',
-      features: [
-        'Microservices architecture with 3 interconnected components',
-        'High-performance frontend with Next.js 15 and TypeScript',
-        'Robust .NET 9 API with PostgreSQL and Redis caching',
-        'FastAPI BFF service optimized for AWS Lambda',
-        'JWT authentication and atomic transactions',
+    // Not found page
+    notFound: {
+      title: 'Page not found',
+      description: 'Sorry, we couldn’t find the page you’re looking for.',
+      backHome: 'Go back home',
+    },
+    // Image carousel
+    carousel: {
+      pause: 'Pause slideshow',
+      play: 'Play slideshow',
+    },
+    // Photo gallery
+    gallery: {
+      alts: [
+        'Stone monument topped by a winged statue, seen from below',
+        'Machu Picchu ruins with the Huayna Picchu peak behind them',
+        'Josue in a red jacket and helmet on a paragliding launch slope above the city',
+        'Josue standing between the giant buttress roots of a jungle tree',
       ],
     },
   },
@@ -124,6 +145,11 @@ export const translations = {
       location: 'Lima, Perú',
       viewDetail: 'Ver detalle',
     },
+    // Experiences detail page
+    experiences: {
+      technologies: 'Tecnologías',
+      subtitle: 'Mi trayectoria profesional y experiencia laboral',
+    },
     // Projects page
     projects: {
       title: 'Proyectos',
@@ -133,6 +159,15 @@ export const translations = {
       viewCode: 'Ver Código',
       technologies: 'Tecnologías',
       features: 'Características Principales',
+      backend: 'Backend',
+      frontend: 'Frontend',
+      bffService: 'Servicio BFF',
+      architecture: 'Arquitectura',
+      performance: 'Rendimiento',
+      liveServices: 'Servicios en Vivo',
+      apiHealthCheck: 'Health Check de API',
+      bffHealthCheck: 'Health Check de BFF',
+      more: 'más',
     },
     // Contact page
     contact: {
@@ -168,47 +203,70 @@ export const translations = {
     footer: {
       allRightsReserved: 'Todos los derechos reservados.',
     },
-    // Sports Betting Project
-    sportsBetting: {
-      title: 'Plataforma de Apuestas Deportivas',
-      description:
-        'Plataforma integral de apuestas deportivas usando arquitectura de microservicios con frontend, API y BFF disponibles en GitHub',
-      features: [
-        'Arquitectura de microservicios con 3 componentes interconectados',
-        'Frontend de alto rendimiento con Next.js 15 y TypeScript',
-        'API robusta en .NET 9 con PostgreSQL y caché Redis',
-        'Servicio BFF FastAPI optimizado para AWS Lambda',
-        'Autenticación JWT y transacciones atómicas',
+    // Not found page
+    notFound: {
+      title: 'Página no encontrada',
+      description: 'Lo sentimos, no encontramos la página que buscas.',
+      backHome: 'Volver al inicio',
+    },
+    // Image carousel
+    carousel: {
+      pause: 'Pausar presentación',
+      play: 'Reproducir presentación',
+    },
+    // Photo gallery
+    gallery: {
+      alts: [
+        'Monumento de piedra coronado por una estatua alada, visto desde abajo',
+        'Ruinas de Machu Picchu con el Huayna Picchu al fondo',
+        'Josue con casco y chaqueta roja en la rampa de despegue de parapente sobre la ciudad',
+        'Josue entre las raíces gigantes de un árbol de la selva',
       ],
     },
   },
 } as const
 
-export function getTranslation(locale: Locale, key: string): string {
-  const keys = key.split('.')
-  // biome-ignore lint/suspicious/noExplicitAny: required for dynamic property access
-  let value: any = translations[locale]
+type TranslationNode =
+  | string
+  | readonly string[]
+  | { readonly [key: string]: TranslationNode }
 
-  for (const k of keys) {
-    value = value?.[k]
+const translationTree: { readonly [key: string]: TranslationNode } =
+  translations
+
+function isPlainTranslationNode(
+  node: TranslationNode | undefined,
+): node is { readonly [key: string]: TranslationNode } {
+  return typeof node === 'object' && node !== null && !Array.isArray(node)
+}
+
+export function lookupTranslation(
+  locale: Locale,
+  key: string,
+): TranslationNode | undefined {
+  let node: TranslationNode | undefined = translationTree[locale]
+
+  for (const part of key.split('.')) {
+    if (!isPlainTranslationNode(node)) {
+      return undefined
+    }
+    node = node[part]
   }
 
-  return value || key
+  return node
+}
+
+export function getTranslation(locale: Locale, key: string): string {
+  const value = lookupTranslation(locale, key)
+  return typeof value === 'string' ? value : key
 }
 
 import { cache } from 'react'
 
 export const cachedGetTranslation = cache(
   (locale: Locale, key: string): string => {
-    const keys = key.split('.')
-    // biome-ignore lint/suspicious/noExplicitAny: required for dynamic property access
-    let value: any = translations[locale]
-
-    for (const k of keys) {
-      value = value?.[k]
-    }
-
-    return value || key
+    const value = lookupTranslation(locale, key)
+    return typeof value === 'string' ? value : key
   },
 )
 

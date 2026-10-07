@@ -13,7 +13,7 @@ const badgeClasses = (
   size: 'sm' | 'md' = 'sm',
 ) =>
   clsx(
-    'inline-flex items-center rounded-full font-medium cursor-default',
+    'inline-flex cursor-default items-center rounded-full font-medium',
     {
       'px-2 py-1 text-xs': size === 'sm',
       'px-3 py-1.5 text-sm': size === 'md',

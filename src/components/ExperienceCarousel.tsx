@@ -1,9 +1,9 @@
 'use client'
 
+import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useRef, useState, useEffect } from 'react'
-import { motion } from 'motion/react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -56,6 +56,7 @@ export function ExperienceCarousel({ items, className }: Props) {
   }, [slideRefs])
 
   // Auto-fit title font-size to avoid overflow (down to a minimum)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: must refit title font sizes when `items` or `locale` change because they change the rendered title text, even though the body only reads `titleRefs`.
   useEffect(() => {
     const MIN = 13 // px
     const MAX = 16 // px (~text-base)
@@ -74,9 +75,14 @@ export function ExperienceCarousel({ items, className }: Props) {
       el.style.fontSize = `${MIN}px`
     }
 
-    titleRefs.forEach((r) => fitOne(r.current))
+    titleRefs.forEach((r) => {
+      fitOne(r.current)
+    })
 
-    const handle = () => titleRefs.forEach((r) => fitOne(r.current))
+    const handle = () =>
+      titleRefs.forEach((r) => {
+        fitOne(r.current)
+      })
     window.addEventListener('resize', handle)
     return () => window.removeEventListener('resize', handle)
   }, [titleRefs, items, locale])
@@ -127,7 +133,7 @@ export function ExperienceCarousel({ items, className }: Props) {
                           className="object-contain p-2"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-teal-600 text-sm font-bold text-white">
+                        <div className="flex h-full w-full items-center justify-center bg-teal-600 font-bold text-sm text-white">
                           {exp.company.charAt(0)}
                         </div>
                       )}
@@ -154,7 +160,7 @@ export function ExperienceCarousel({ items, className }: Props) {
 
                   {/* Content spacer to align cards */}
                   <div className="mt-3 flex min-h-[72px] flex-col">
-                    <p className="truncate text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    <p className="truncate text-sm text-zinc-600 leading-relaxed dark:text-zinc-400">
                       {(exp.description?.[locale]?.[0] || '').toString()}
                     </p>
 
@@ -173,12 +179,13 @@ export function ExperienceCarousel({ items, className }: Props) {
                     </div>
                   </div>
 
-                  <div className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-teal-600 transition-colors group-hover:text-teal-700 dark:text-teal-400 dark:group-hover:text-teal-300">
+                  <div className="mt-auto inline-flex items-center gap-1 font-medium text-sm text-teal-600 transition-colors group-hover:text-teal-700 dark:text-teal-400 dark:group-hover:text-teal-300">
                     <span>{t('about.viewDetail')}</span>
                     <svg
                       className="h-4 w-4"
                       viewBox="0 0 20 20"
                       fill="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         fillRule="evenodd"
@@ -202,7 +209,7 @@ export function ExperienceCarousel({ items, className }: Props) {
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => scrollTo(i)}
               className={
-                'h-2 w-2 rounded-full transition-colors ' +
+                'h-2 w-2 rounded-full transition-colors' +
                 (i === active ? 'bg-teal-500' : 'bg-zinc-300 dark:bg-zinc-600')
               }
             />

@@ -1,49 +1,46 @@
-"use client";
+'use client'
 
-import { type Locale, defaultLocale, detectLocale } from "@/lib/i18n";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from 'react'
+import { defaultLocale, detectLocale, type Locale } from '@/lib/i18n'
 
 interface LocaleContextType {
-	locale: Locale;
-	setLocale: (locale: Locale) => void;
+  locale: Locale
+  setLocale: (locale: Locale) => void
 }
 
-const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
+const LocaleContext = createContext<LocaleContextType | undefined>(undefined)
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-	const [locale, setLocaleState] = useState<Locale>(defaultLocale);
-	const [isInitialized, setIsInitialized] = useState(false);
+  const [locale, setLocaleState] = useState<Locale>(defaultLocale)
 
-	useEffect(() => {
-		// Only run on client side
-		const detectedLocale = detectLocale();
-		setLocaleState(detectedLocale);
-		setIsInitialized(true);
-	}, []);
+  // Reconcile the detected locale after mount. The initial client render stays
+  // defaultLocale so it matches the server HTML.
+  useEffect(() => {
+    setLocaleState(detectLocale())
+  }, [])
 
-	const setLocale = (newLocale: Locale) => {
-		setLocaleState(newLocale);
-		if (typeof window !== "undefined") {
-			localStorage.setItem("locale", newLocale);
-		}
-	};
+  useEffect(() => {
+    document.documentElement.lang = locale
+  }, [locale])
 
-	// Don't render children until locale is initialized to prevent hydration mismatch
-	if (!isInitialized) {
-		return null;
-	}
+  const setLocale = (newLocale: Locale) => {
+    setLocaleState(newLocale)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('locale', newLocale)
+    }
+  }
 
-	return (
-		<LocaleContext.Provider value={{ locale, setLocale }}>
-			{children}
-		</LocaleContext.Provider>
-	);
+  return (
+    <LocaleContext.Provider value={{ locale, setLocale }}>
+      {children}
+    </LocaleContext.Provider>
+  )
 }
 
 export function useLocale() {
-	const context = useContext(LocaleContext);
-	if (context === undefined) {
-		throw new Error("useLocale must be used within a LocaleProvider");
-	}
-	return context;
+  const context = useContext(LocaleContext)
+  if (context === undefined) {
+    throw new Error('useLocale must be used within a LocaleProvider')
+  }
+  return context
 }

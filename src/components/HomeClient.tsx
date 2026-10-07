@@ -1,37 +1,20 @@
 'use client'
 
+import { motion } from 'motion/react'
+import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'motion/react'
-import dynamic from 'next/dynamic'
-import type { StaticImageData } from 'next/image'
 
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
+import { ImageCarousel } from '@/components/ImageCarousel'
 import { ProjectShowcase } from '@/components/ProjectShowcase'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useTypewriter } from '@/hooks/useTypewriter'
+import { skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
-
-const ImageCarousel = dynamic(
-  () =>
-    import('@/components/ImageCarousel').then((mod) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return mod.ImageCarousel || mod
-    }),
-  {
-    loading: () => (
-      <div className="h-64 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-700" />
-    ),
-    ssr: false,
-  },
-) as unknown as React.ComponentType<{
-  items: Array<{ src: StaticImageData | string; alt: string }>
-  className?: string
-  intervalMs?: number
-}>
 
 type Props = {
   personalInfo: {
@@ -46,7 +29,7 @@ type Props = {
     portraitImage: StaticImageData | string
   }
   featuredProject: Project | undefined
-  galleryImages: Array<{ src: StaticImageData | string; alt: string }>
+  galleryImages: Array<{ src: StaticImageData | string }>
 }
 
 // Hoisted motion variants
@@ -90,7 +73,7 @@ function SocialLink({
       <Link className="group -m-1 p-1" href={href} {...props}>
         <Icon className="h-6 w-6 fill-zinc-500 transition-colors duration-300 group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
         {children && (
-          <span className="ml-4 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+          <span className="ml-4 font-medium text-sm text-zinc-800 dark:text-zinc-200">
             {children}
           </span>
         )}
@@ -104,16 +87,17 @@ export function HomeClient({
   featuredProject,
   galleryImages,
 }: Props) {
-  const { t, locale } = useTranslation()
+  const { t, tArray, locale } = useTranslation()
   const { displayText: typedName, isComplete } = useTypewriter({
     text: personalInfo.name,
     speed: 100,
     delay: 300,
   })
 
+  const galleryAlts = tArray('gallery.alts')
   const carouselItems = galleryImages.map((img, i) => ({
     src: img.src,
-    alt: img.alt || `image${i + 1}`,
+    alt: galleryAlts[i] ?? '',
   }))
 
   return (
@@ -127,7 +111,7 @@ export function HomeClient({
           animate="visible"
         >
           <motion.h1
-            className="min-h-[4rem] text-5xl font-bold tracking-tight text-zinc-800 sm:min-h-[5rem] sm:text-6xl lg:min-h-[6rem] lg:text-7xl dark:text-zinc-100"
+            className="min-h-[4rem] font-bold text-5xl text-zinc-800 tracking-tight sm:min-h-[5rem] sm:text-6xl lg:min-h-[6rem] lg:text-7xl dark:text-zinc-100"
             variants={itemVariants}
           >
             {typedName}
@@ -142,13 +126,13 @@ export function HomeClient({
             )}
           </motion.h1>
           <motion.p
-            className="mt-4 text-xl text-teal-600 sm:text-2xl dark:text-teal-400"
+            className="mt-4 text-teal-600 text-xl sm:text-2xl dark:text-teal-400"
             variants={itemVariants}
           >
             {personalInfo.title[locale]}
           </motion.p>
           <motion.p
-            className="mt-6 text-base leading-relaxed text-zinc-600 sm:text-lg dark:text-zinc-400"
+            className="mt-6 text-base text-zinc-600 leading-relaxed sm:text-lg dark:text-zinc-400"
             variants={itemVariants}
           >
             {personalInfo.summary[locale]}
@@ -251,7 +235,7 @@ export function HomeClient({
             {featuredProject && (
               <>
                 <motion.h2
-                  className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"
+                  className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
@@ -295,16 +279,11 @@ export function HomeClient({
                 <Card.Description>{t('home.subtitle')}</Card.Description>
                 <div className="mt-6 space-y-4">
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 font-semibold text-sm text-zinc-800 dark:text-zinc-200">
                       Frontend
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
-                      {[
-                        'React.js',
-                        'Next.js',
-                        'TypeScript',
-                        'Tailwind CSS',
-                      ].map((tech) => (
+                      {skills.highlights.frontend.map((tech) => (
                         <TechBadge key={tech} variant="primary">
                           {tech}
                         </TechBadge>
@@ -312,11 +291,11 @@ export function HomeClient({
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 font-semibold text-sm text-zinc-800 dark:text-zinc-200">
                       Backend
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
-                      {['C# (.NET)', 'Java', 'Spring Boot', 'GeneXus'].map((tech) => (
+                      {skills.highlights.backend.map((tech) => (
                         <TechBadge key={tech} variant="secondary">
                           {tech}
                         </TechBadge>
@@ -324,11 +303,11 @@ export function HomeClient({
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 font-semibold text-sm text-zinc-800 dark:text-zinc-200">
                       Infrastructure
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
-                      {['AWS', 'Docker', 'SQL Server', 'PostgreSQL'].map((tech) => (
+                      {skills.highlights.infrastructure.map((tech) => (
                         <TechBadge key={tech}>{tech}</TechBadge>
                       ))}
                     </div>

@@ -1,0 +1,84 @@
+'use client'
+
+import Link from 'next/link'
+import { Container } from '@/components/Container'
+import { TechBadge } from '@/components/TechBadge'
+import { useTranslation } from '@/hooks/useTranslation'
+import { experiences } from '@/lib/experience-data'
+import { slugify } from '@/lib/slugify'
+
+export function ExperiencesClient() {
+  const { locale, t } = useTranslation()
+
+  return (
+    <Container className="mt-16">
+      <div className="mx-auto max-w-4xl">
+        <h1 className="mb-2 font-bold text-4xl text-zinc-900 tracking-tight dark:text-zinc-100">
+          {t('about.experience')}
+        </h1>
+        <p className="mb-12 text-lg text-zinc-600 dark:text-zinc-400">
+          {t('experiences.subtitle')}
+        </p>
+
+        <div className="space-y-8">
+          {experiences.map((exp) => (
+            <div
+              key={exp.company}
+              className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/50"
+            >
+              <div className="mb-4 flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="font-bold text-xl text-zinc-900 dark:text-zinc-100">
+                    {exp.position[locale]}
+                  </h2>
+                  <p className="font-medium text-teal-600 dark:text-teal-400">
+                    {exp.company}
+                  </p>
+                </div>
+                <span className="whitespace-nowrap text-sm text-zinc-500 dark:text-zinc-400">
+                  {exp.duration[locale]}
+                </span>
+              </div>
+
+              <ul className="mb-4 space-y-2">
+                {exp.description[locale].map((desc) => (
+                  <li
+                    key={desc}
+                    className="flex gap-2 text-zinc-600 dark:text-zinc-300"
+                  >
+                    <span className="mt-1.5 shrink-0 text-teal-500">
+                      <svg
+                        className="h-2 w-2"
+                        fill="currentColor"
+                        viewBox="0 0 8 8"
+                        aria-hidden="true"
+                      >
+                        <circle cx="4" cy="4" r="3" />
+                      </svg>
+                    </span>
+                    {desc}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-2">
+                {exp.technologies.map((tech) => (
+                  <TechBadge key={tech}>{tech}</TechBadge>
+                ))}
+              </div>
+
+              <div className="mt-4 border-zinc-200 border-t pt-4 dark:border-zinc-700">
+                <Link
+                  href={`/experiences/${slugify(exp.company)}`}
+                  className="inline-flex items-center gap-2 font-medium text-sm text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
+                >
+                  {t('about.viewDetail')} →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Container>
+  )
+}
