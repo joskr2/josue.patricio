@@ -19,6 +19,7 @@ export function useTypewriter({
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally resets the typewriter state when `text` changes; `text` is the re-run trigger, not a value read inside the body.
   useEffect(() => {
     // Reset state when text changes
+    // biome-ignore lint/nursery/useReactCompiler: the typewriter's timer-driven output must be cleared after commit when `text` changes; clearing it during render would desync the pending timeout chain.
     setDisplayText('')
     setCurrentIndex(0)
     setIsComplete(false)
@@ -41,6 +42,7 @@ export function useTypewriter({
 
       return () => clearTimeout(timeout)
     } else if (currentIndex >= text.length) {
+      // biome-ignore lint/nursery/useReactCompiler: completion is only knowable once the typing timeout has advanced `currentIndex` to the end of `text`, so it cannot be derived during render.
       setIsComplete(true)
     }
   }, [currentIndex, text, speed, delay, started])
