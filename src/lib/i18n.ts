@@ -21,6 +21,8 @@ export const translations = {
       viewProject: 'View Project',
       getInTouch: 'Get in Touch',
       downloadCV: 'Download CV',
+      readMore: 'Read more',
+      readLess: 'Read less',
     },
     // About page
     about: {
@@ -132,6 +134,8 @@ export const translations = {
       viewProject: 'Ver Proyecto',
       getInTouch: 'Contacto',
       downloadCV: 'Descargar CV',
+      readMore: 'Ver más',
+      readLess: 'Ver menos',
     },
     // About page
     about: {

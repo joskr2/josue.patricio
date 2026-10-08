@@ -1,20 +1,9 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import { ThemeProvider, useTheme } from 'next-themes'
-import { createContext, useEffect, useMemo, useRef } from 'react'
+import { useEffect } from 'react'
 import { BlurProvider } from '@/contexts/BlurContext'
 import { LocaleProvider } from '@/contexts/LocaleContext'
-
-function usePrevious<T>(value: T) {
-  const ref = useRef<T | undefined>(undefined)
-
-  useEffect(() => {
-    ref.current = value
-  }, [value])
-
-  return ref.current
-}
 
 function ThemeWatcher() {
   const { resolvedTheme, setTheme } = useTheme()
@@ -40,26 +29,17 @@ function ThemeWatcher() {
   return null
 }
 
-export const AppContext = createContext<{ previousPathname?: string }>({})
-
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const pathname = usePathname()
-  const previousPathname = usePrevious(pathname)
-
-  const value = useMemo(() => ({ previousPathname }), [previousPathname])
-
   return (
-    <AppContext.Provider value={value}>
-      <ThemeProvider attribute="class" disableTransitionOnChange>
-        <LocaleProvider>
-          <BlurProvider>
-            <ThemeWatcher />
-            {children}
-          </BlurProvider>
-        </LocaleProvider>
-      </ThemeProvider>
-    </AppContext.Provider>
+    <ThemeProvider attribute="class" disableTransitionOnChange>
+      <LocaleProvider>
+        <BlurProvider>
+          <ThemeWatcher />
+          {children}
+        </BlurProvider>
+      </LocaleProvider>
+    </ThemeProvider>
   )
 }

@@ -116,6 +116,7 @@ function MobileNavigationContent({
 
   // Use useEffect to handle state changes safely
   useEffect(() => {
+    // biome-ignore lint/nursery/useReactCompiler: propagates the mobile menu's open state into the shared blur context after commit; a component cannot write another component's state during render.
     setBlur(open)
   }, [open, setBlur])
 
@@ -219,6 +220,7 @@ function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // biome-ignore lint/nursery/useReactCompiler: post-mount flag that keeps the first client render identical to the prerendered HTML; it cannot be true during the hydration render.
     setMounted(true)
   }, [])
 

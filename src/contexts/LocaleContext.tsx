@@ -16,6 +16,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   // Reconcile the detected locale after mount. The initial client render stays
   // defaultLocale so it matches the server HTML.
   useEffect(() => {
+    // biome-ignore lint/nursery/useReactCompiler: mount-time reconciliation of the locale from localStorage/system preference; it must run after hydration so the first client render matches the prerendered HTML.
     setLocaleState(detectLocale())
   }, [])
 

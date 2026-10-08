@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -208,10 +209,10 @@ export function ExperienceCarousel({ items, className }: Props) {
               type="button"
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => scrollTo(i)}
-              className={
-                'h-2 w-2 rounded-full transition-colors' +
-                (i === active ? 'bg-teal-500' : 'bg-zinc-300 dark:bg-zinc-600')
-              }
+              className={clsx(
+                'h-2 w-2 rounded-full transition-colors',
+                i === active ? 'bg-teal-500' : 'bg-zinc-300 dark:bg-zinc-600',
+              )}
             />
           ))}
         </div>
