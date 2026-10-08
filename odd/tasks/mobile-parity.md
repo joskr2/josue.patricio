@@ -169,6 +169,36 @@ Independent verification of the built output:
 - `aria-label="Open menu"` appears once in both `index.html` and `about.html`.
 - `git diff 3c805df..HEAD -- package.json` is empty: no new dependency.
 
+## Native review
+
+Candidate: `3c805df..HEAD` (the work unit above). Inspected once, then scoped
+with an explicit `baseRef` so the earlier candidate that the user already waived
+is not re-reviewed.
+
+- Lineage `review-90d7c06acf2856b0`, risk tier `medium`, lens `review-reliability`.
+- Outcome: **approved**. Authority burned (`gentle-ai.review-acknowledged/v1`).
+- Delivery follows ordinary repository policy: commit, push and PR stay the
+  user's decision.
+
+### Advisory findings (non-blocking)
+
+The review approved the candidate and offered no correction transition. These
+were returned as informational only, and are separate later work rather than a
+reason to re-run review on this candidate.
+
+| id | lens | location | severity |
+| --- | --- | --- | --- |
+| R3-001 | reliability | `src/components/Header.tsx:126` | WARNING |
+| R3-002 | reliability | `src/components/ImageCarousel.tsx:136-170` | WARNING |
+| R3-003 | reliability | `src/components/ImageCarousel.tsx:76-104` | SUGGESTION |
+| R3-004 | reliability | `src/components/ImageCarousel.tsx:155` | SUGGESTION |
+| R3-005 | reliability | `src/components/ExperienceCarousel.test.tsx:99` | SUGGESTION |
+| R3-006 | reliability | `src/components/Header.tsx:126` | SUGGESTION |
+
+The envelope exposes ids, locations and severities but not the finding text, so
+the descriptions are not reproduced here; read them from the native record
+before acting on them.
+
 ## Open items
 
 - No browser or device verification yet. The audit's findings are static reads.
