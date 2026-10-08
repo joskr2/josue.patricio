@@ -33,43 +33,43 @@ The desktop layout stays unchanged unless a task says otherwise.
 
 ### P1 - broken or degraded on a phone
 
-- [ ] P1-1 Fluid type scale for every non-home heading. `AboutClient.tsx:84,199`,
-      `SimpleLayout.tsx:15`, `ExperiencesClient.tsx:16`, `ProjectsClient.tsx:154`,
-      `experiences/[slug]/page.tsx:51` and `not-found.tsx:16` use a fixed
-      `text-4xl` (32px) or `text-3xl`; the home uses `clamp()`.
-- [ ] P1-2 Touch targets >=44px: `AboutClient.tsx:44-50` (the only links on the
-      page), `ExperiencesClient.tsx:70-73`, `ProjectsClient.tsx:210-235`,
-      `ProjectShowcase.tsx:72-102`, `Card.tsx:139-146`,
-      `LanguageSwitcher.tsx:20,33`, `Footer.tsx` links, `Button.tsx:24`,
-      `Header.tsx:231`.
-- [ ] P1-3 Floating controls: `FloatingWhatsAppButton.tsx:34` and
-      `ScrollToTop.tsx:43` both use `z-[1000]`, above the open menu panel
-      (`z-40`) and its backdrop (`z-30`), so they paint over the menu. Both also
-      need `env(safe-area-inset-bottom)`, which requires a `viewportFit: 'cover'`
-      export in `app/layout.tsx`.
-- [ ] P1-4 `Header.tsx:117-121,128-152`: no body scroll lock while the mobile
-      menu is open; the backdrop is visual only and the page scrolls behind it.
-- [ ] P1-5 `styles/tailwind.css`: add `scroll-padding-top` for the fixed header,
-      plus `-webkit-tap-highlight-color`, `overscroll-behavior-y` and
-      `text-size-adjust`.
-- [ ] P1-6 `Layout.tsx`: `min-h-dvh` for short pages, `prefers-reduced-motion`
-      for the page transition, and a skip link to `#main`.
+- [~] P1-1 Fluid type scale for every non-home heading. Done for
+      `SimpleLayout.tsx:15`, `ExperiencesClient.tsx:16`,
+      `experiences/[slug]/page.tsx:51` and `not-found.tsx:16` (`3ac17e2`).
+      Still open: `AboutClient.tsx:84,199` and `ProjectsClient.tsx:154`.
+- [~] P1-2 Touch targets >=44px. Done for `LanguageSwitcher.tsx:20,33`,
+      `Footer.tsx` links, `Button.tsx:24`, `Header.tsx:231`, the avatar and the
+      close button (`1982e39`), and `ExperiencesClient.tsx:70-73` (`9e7cff9`).
+      Still open: `AboutClient.tsx:44-50`, `ProjectsClient.tsx:210-235`,
+      `ProjectShowcase.tsx:72-102`, `Card.tsx:139-146` and the home hero's
+      `Read more` toggle and social links.
+- [x] P1-3 Floating controls (`1982e39`). They are unmounted on the
+      BlurContext flag instead of racing z-index, and carry
+      `env(safe-area-inset-bottom)`; `app/layout.tsx` now exports `viewport`
+      with `viewportFit: 'cover'`.
+- [x] P1-4 Scroll lock while the mobile menu is open (`1982e39`). Browser
+      measurement showed that locking `body` alone did not hold: the document
+      scroller is the `html` element, so both are locked now.
+- [x] P1-5 `styles/tailwind.css` base layer (`1982e39`).
+- [x] P1-6 `Layout.tsx` `min-h-dvh`, reduced-motion and skip link (`1982e39`).
 - [ ] P1-7 `ContactClient.tsx:267` (and `:147,:178,:210`): the stacked
       `mt-16 border-t pt-16` leaves ~128px of dead space; several wasted phone
       screens before "Additional Information".
 - [ ] P1-8 `AboutClient.tsx:84,199`: two `<h1>` in the DOM with two typewriters
       animating concurrently, so the name is announced twice and pays double
       animation cost on mobile.
-- [ ] P1-9 `focus:outline-none` without a `focus-visible` replacement:
-      `ExperienceCarousel.tsx:124`, `ScrollToTop.tsx:43`,
-      `FloatingWhatsAppButton.tsx:34`.
+- [x] P1-9 `focus:outline-none` without a `focus-visible` replacement
+      (`9e7cff9`). Only `ExperienceCarousel.tsx:123` actually lacked a visible
+      ring; `ScrollToTop`, `FloatingWhatsAppButton`, `Accordion` and the
+      `ProjectsClient` disclosures already had one.
 - [ ] P1-10 `ProjectsClient.tsx:163-166`: the project description is always
       expanded, unlike the home which collapses it behind `ReadMore`.
 - [ ] P1-11 `ContactClient.tsx:57` vs `:149`: card titles are `h3` before any
       `h2`, so the heading outline jumps h1 to h3.
-- [ ] P1-12 `ExperiencesClient.tsx:43-46`: `whitespace-nowrap` duration inside a
-      header whose left child cannot shrink risks overflow at 320px with the
-      Spanish role string. Borderline; verify on a device before changing.
+- [x] P1-12 Overflow in `ExperiencesClient.tsx` (`9e7cff9`). Not borderline: it
+      scrolled 117px sideways at 320px (47px at 390) because the
+      `whitespace-nowrap` duration rendered 294px inside a flex row whose left
+      child had `min-width: auto`, inside a 240px card interior.
 
 ### P2 - polish
 
@@ -199,10 +199,80 @@ The envelope exposes ids, locations and severities but not the finding text, so
 the descriptions are not reproduced here; read them from the native record
 before acting on them.
 
+## Work unit 2 - shell, overflow and fluid titles
+
+Base `ea258b9`, three commits, 15 files, 149 insertions.
+
+- `1982e39` - `feat(mobile): make the shared shell work on a phone`
+- `3ac17e2` - `style(mobile): fluid page titles instead of a fixed 32px`
+- `9e7cff9` - `fix(mobile): stop /experiences overflowing horizontally at 320px`
+
+### Browser verification
+
+The Playwright MCP is not reachable from a Pi session as configured:
+`~/.pi/agent/settings.json` disables the builtin MCP extension
+(`"-builtin:mcp"`), and the server is also `deferred` exposure. The same engine
+was driven locally instead, with no repository change: `npx playwright@1.64.0
+install chromium` plus a scratch harness in `/tmp/pw/` that measures horizontal
+overflow, every sub-44px control, computed `h1` size and the header height at
+320, 390 and 1280 with touch enabled.
+
+Measured, before and after:
+
+| Metric | Before | After |
+| --- | --- | --- |
+| `/experiences` horizontal overflow at 320px | **117px** | 0px |
+| Header height vs the 80px `main` reservation | 80px | 76px |
+| `/experiences` controls under 44px | 9 | 2 |
+| Sub-44px controls on `/projects`, `/contact` | 7, 7 | 2, 2 |
+| Non-home `h1` at 320px | fixed 32px | fluid 28px |
+| Desktop `h1` on `SimpleLayout`/404 | 48px | 48px |
+| Home image preloads | 2 | 2 |
+
+### Four defects that only the browser revealed
+
+1. The `/experiences` overflow was real, not borderline (see P1-12).
+2. The scroll lock **passed its jsdom test and did not hold in the browser**.
+   Locking `body` alone left the page scrolling behind the open menu; the
+   document scroller is `html`. It now locks both and the test asserts
+   `documentElement`.
+3. The new 44px targets pushed the header from 80px to 92px while `main` still
+   reserved `pt-20` (80px), hiding 12px of content. The header row now uses
+   `py-2` (76px), leaving 4px of slack.
+4. `clamp()` initially shrank desktop titles from 48px to 40px, and pushed
+   `/experiences` the other way to 40px. Both corrected: max 3rem for
+   `SimpleLayout`/`not-found`, max 2rem for `ExperiencesClient`.
+
+Also confirmed in the browser: the floating buttons are absent while the menu
+is open and present when it is closed (WhatsApp 56x56, scroll-to-top 48x48
+appearing only after scrolling, 16px apart, no overlap).
+
+### Gates
+
+Lint 59 files, `tsc --noEmit`, 19 tests in 5 files, `npm run build` exit 0 with
+an unchanged route table.
+
+## Native review (work unit 2)
+
+Lineage `review-9f93cd7d032ae4c6`, risk tier `medium`, lens `review-reliability`,
+scoped with `baseRef=ea258b9`. Outcome: **approved**, authority burned
+(`gentle-ai.review-acknowledged/v1`).
+
+Advisory, non-blocking, separate later work: `Layout.tsx:18` (behaviour not
+covered by a test), `tailwind.css:41` (overscroll on `body` rather than the
+root), `Header.test.tsx:28-31` (state leaking between test cases).
+
 ## Open items
 
-- No browser or device verification yet. The audit's findings are static reads.
-- Device-dependent risks carried forward: whether 44px targets change carousel
-  card height (CLS); whether `ExperiencesClient.tsx:43` actually overflows at
-  320px; iOS scroll behaviour on the new carousel; the ~1-2px header/`pt-20`
-  overlap; iOS `backdrop-blur` repaint cost; dark-mode flash on cold load.
+- **Nothing has been verified on a real phone.** Every measurement is Chromium
+  emulation at 320, 390 and 1280, so `env(safe-area-inset-*)` resolves to 0 and
+  the notch and home-indicator behaviour are unverified.
+- Resolved by measurement, previously open: there is no header/`pt-20` overlap
+  (80px reserved vs 76px header), and `/experiences` did overflow at 320px.
+- Still device-dependent: whether iOS scroll-snap on the new carousel behaves,
+  iOS `backdrop-blur` repaint cost, dark-mode flash on a cold load, and whether
+  the 28px fluid heading is comfortable at a large user font-size setting.
+- Unverified by any test: the safe-area offsets, the hover-capability guards,
+  the reduced-motion branch and the skip link's focus visuals.
+- `FloatingWhatsAppButton` exports both a named and a default binding; only the
+  default is imported, so the named one is dead code flagged by Knip.
