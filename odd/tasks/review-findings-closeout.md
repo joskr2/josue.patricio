@@ -75,3 +75,72 @@ while scrolled off screen.
   rationale for `useReactCompiler` lives in the in-source suppression reasons.
 - **No browser verification** of the mobile home layout or the carousel behaviour;
   both are established by construction and by the build, not by an executed render.
+
+## Native review attempt — blocked on scope, retry pending
+
+RDD is on for this clone. The candidate offered by the native preflight is the whole
+branch against base `529c486` (`68` files, `16038` changed lines). The attempt did not
+create review authority, and the retry needs one host change.
+
+### Attempts and their exact outcomes
+
+| Attempt | Route | Outcome |
+| --- | --- | --- |
+| Facade `START` ×3 | `gentle_review start` with `{"mode":"ordinary"}` | `consent-binding-stale` → `consent-binding-expired` after ~10 min each; `lineage_created: false`, `mutation_outcome: none` |
+| Provider relay envelope | `gentle-ai review start … --consent=relay` | returned the typed `gentle-ai.review-integration.consent/v3` question |
+| Granted invocation | the envelope's `granted` invocation, verbatim | `guarded-ai.review-integration.failure/v2` → code `lens_context_budget_exceeded`, phase `preflight`, `mutation_outcome: not_started`, `authority_applicability: not_evaluated`, `next_action: stop` |
+| Earlier session, same repo | lineage `review-04133d1c96a0ed49` over `dc3370a` → HEAD (`15` paths, `4986` changed lines) | lens `review-reliability` killed: `relay_transport_bound_exceeded`, `killed after 1415576ms against a 932766ms relay bound` |
+
+The `lens_context_budget_exceeded` failure is terminal for this candidate and creates
+nothing to repair: the immutable evidence is never truncated, so retrying the same
+scope cannot succeed. The earlier lineage proves the complementary point — a slice
+small enough to pass preflight still needs a host relay bound large enough to let the
+reviewer finish.
+
+### The host knob
+
+`GENTLE_PI_REVIEW_RELAY_PI_TIMEOUT_MS` replaces the derived relay bound (15-minute
+floor + 15 minutes per mebibyte of reviewer prompt, 2-hour ceiling). It must be set in
+the Pi host process, so it survives only a restart:
+
+```sh
+export GENTLE_PI_REVIEW_RELAY_PI_TIMEOUT_MS=7200000
+pi
+```
+
+### Retry recipe
+
+The facade consent relay does not resolve in this host (three blocking expiries above),
+so `START` is driven through the provider's own relay envelope and the verbatim
+invocation it prints for the chosen answer. Everything after `START` stays on the
+facade (`status`, `gentle_review_capture`) because the lineage is workspace-scoped.
+
+1. Reduced scope first — this slice already passes preflight:
+
+   ```sh
+   gentle-ai review start --contract gentle-ai.review-integration/v2 --cwd /Users/josue/Documents/josue.patricio \
+     --base-ref dc3370afbe845867d0d5db2e81d09a9c6042860d --committed-only --agent pi --consent=relay
+   ```
+
+2. Relay the printed envelope to the user, then run the invocation printed for the
+   chosen answer, verbatim.
+3. `gentle_review` `status` with the returned `lineageId`, then collect exactly the
+   returned slots with `gentle_review_capture` / `gentle_review_capture_group`.
+
+`--base-ref` rejects abbreviated commit ids, so the full 40-character id is required.
+
+### Slice sizes for the remaining scope
+
+The whole branch does not fit; these are the work-unit boundaries already in history
+(`insertions + deletions`, which is the unit the native `changed_lines` reports):
+
+| Slice | Range | Files | Lines |
+| --- | --- | --- | --- |
+| S4 (retry first) | `dc3370a` → HEAD | 15 | 4986 |
+| S3 | `053035d` → `dc3370a` | 48 | 8571 |
+| S2 | `1d1ac6d` → `053035d` | 26 | 5826 |
+| S1 | `529c486` → `1d1ac6d` | 13 | 13383 |
+
+S1 is dominated by the regenerated `package-lock.json` and is the most likely to fail
+preflight again; if it does, the delivery candidate has to be reduced rather than
+retried.
