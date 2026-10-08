@@ -76,7 +76,7 @@ while scrolled off screen.
 - **No browser verification** of the mobile home layout or the carousel behaviour;
   both are established by construction and by the build, not by an executed render.
 
-## Native review attempt — blocked on scope, retry pending
+## Native review attempt — blocked on scope, then waived by the user
 
 RDD is on for this clone. The candidate offered by the native preflight is the whole
 branch against base `529c486` (`68` files, `16038` changed lines). The attempt did not
@@ -144,3 +144,36 @@ The whole branch does not fit; these are the work-unit boundaries already in his
 S1 is dominated by the regenerated `package-lock.json` and is the most likely to fail
 preflight again; if it does, the delivery candidate has to be reduced rather than
 retried.
+
+## Decision — the candidate is delivered without native review
+
+The user explicitly left **this** candidate unreviewed after seeing the blocker above
+and the two available routes (restart the Pi host with
+`GENTLE_PI_REVIEW_RELAY_PI_TIMEOUT_MS` and retry slice S4, or attempt S4 against the
+unchanged derived relay bound). No review lineage was created for this candidate, so
+there is no authority to acknowledge, reuse, or burn.
+
+Scope of the waiver: it covers the current branch tip only. A later candidate (a new
+work unit, or the same content re-submitted) starts from a fresh preflight, and the
+retry recipe above stays valid for it.
+
+### Residual risk accepted with the waiver
+
+- No native review ran against any slice of this branch.
+- No browser or device verification of the mobile home layout or either carousel;
+  both rest on construction and a passing production build.
+- The negative branches of `npm run verify:cv` (missing file, undersized file, absent
+  marker, byte-identical pair) were never executed.
+- `vitest.config.ts` is still loaded as CommonJS and prints a Vite deprecation
+  warning; it will break when Vite flips `configLoader` to native.
+
+Everything else in this document was verified by executed commands, listed under
+*Gates*.
+
+## Commits
+
+| Commit | What |
+| --- | --- |
+| `7d5a814` | F1, F2 |
+| `619f0d7` | F3, F4, F5 |
+| `820837e` | Blocked-review record and retry recipe |
