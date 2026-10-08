@@ -40,7 +40,7 @@ export function ScrollToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed right-4 bottom-[88px] z-[1000] rounded-full bg-teal-600 p-3 text-white shadow-lg transition-all duration-300 hover:scale-110 hover:bg-teal-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 md:right-6 md:bottom-[96px] dark:bg-teal-500 dark:hover:bg-teal-600"
+      className="fixed right-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[1000] rounded-full bg-teal-600 p-3 text-white shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 md:right-6 md:bottom-[calc(6rem+env(safe-area-inset-bottom))] dark:bg-teal-500 [@media(hover:hover)]:hover:scale-110 [@media(hover:hover)]:hover:bg-teal-700 [@media(hover:hover)]:hover:shadow-xl dark:[@media(hover:hover)]:hover:bg-teal-600"
       aria-label="Scroll to top"
       type="button"
     >

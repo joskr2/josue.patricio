@@ -30,3 +30,15 @@
   --text-9xl: 8rem;
   --text-9xl--line-height: 1;
 }
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: contain;
+    text-size-adjust: 100%;
+  }
+}

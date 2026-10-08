@@ -16,7 +16,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="transition hover:text-teal-500 dark:hover:text-teal-400"
+      className="inline-flex min-h-11 items-center transition hover:text-teal-500 dark:hover:text-teal-400"
     >
       {children}
     </Link>
@@ -32,7 +32,7 @@ export function Footer() {
         <div className="border-zinc-100 border-t pt-6 pb-8 dark:border-zinc-700/40">
           <ContainerInner>
             <div className="flex flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6">
-              <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 font-medium text-sm text-zinc-800 dark:text-zinc-200">
+              <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-medium text-sm text-zinc-800 dark:text-zinc-200">
                 <NavLink href="/about">{t('nav.about')}</NavLink>
                 <NavLink href="/projects">{t('nav.projects')}</NavLink>
                 <NavLink href="/contact">{t('nav.contact')}</NavLink>

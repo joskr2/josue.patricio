@@ -120,6 +120,24 @@ function MobileNavigationContent({
     setBlur(open)
   }, [open, setBlur])
 
+  // Lock scroll while the menu is open, restoring the prior inline values.
+  // The document scroller is the html element here, so locking `body` alone
+  // still let the page move behind the open menu.
+  useEffect(() => {
+    if (!open) return
+    const root = document.documentElement
+    const previous = {
+      body: document.body.style.overflow,
+      root: root.style.overflow,
+    }
+    document.body.style.overflow = 'hidden'
+    root.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previous.body
+      root.style.overflow = previous.root
+    }
+  }, [open])
+
   return (
     <>
       <PopoverButton
@@ -138,7 +156,10 @@ function MobileNavigationContent({
         className="fixed inset-x-4 top-8 z-40 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 duration-150 data-closed:scale-95 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-zinc-900 dark:ring-zinc-800"
       >
         <div className="flex flex-row-reverse items-center justify-between">
-          <PopoverButton aria-label="Close menu" className="-m-1 p-1">
+          <PopoverButton
+            aria-label="Close menu"
+            className="-m-2 flex h-11 w-11 items-center justify-center"
+          >
             <CloseIcon className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
           </PopoverButton>
         </div>
@@ -231,7 +252,7 @@ function ThemeToggle() {
     <button
       type="button"
       aria-label={mounted ? `Switch to ${otherTheme} theme` : 'Toggle theme'}
-      className="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+      className="group flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
       onClick={() => setTheme(otherTheme)}
     >
       <SunIcon className="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600" />
@@ -245,7 +266,9 @@ export function Header() {
   return (
     <header className="fixed top-0 right-0 left-0 z-50 h-fit bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-900/80 dark:ring-white/10 [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30">
       <Container>
-        <div className="flex items-center justify-between py-4">
+        {/* py-2 keeps this row at 76px so it stays inside the 80px reservation
+            that `main`'s pt-20 in Layout.tsx sets aside for the fixed header. */}
+        <div className="flex items-center justify-between py-2">
           {/* Mobile: left spacer to keep center/right aligned; shows avatar on non-home */}
           <div className="flex flex-1 items-center md:hidden">
             {pathname !== '/' ? (
@@ -255,7 +278,7 @@ export function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.25 }}
-                  className="relative h-10 w-10 select-none rounded-full bg-gradient-to-br from-teal-500/90 to-teal-600/90 text-white shadow ring-1 ring-white/40 dark:ring-white/20"
+                  className="relative h-11 w-11 select-none rounded-full bg-gradient-to-br from-teal-500/90 to-teal-600/90 text-white shadow ring-1 ring-white/40 dark:ring-white/20"
                 >
                   <span className="absolute inset-0 grid place-items-center font-bold text-sm tracking-wide">
                     JP
@@ -263,7 +286,7 @@ export function Header() {
                 </motion.div>
               </Link>
             ) : (
-              <div aria-hidden="true" className="h-10 w-10" />
+              <div aria-hidden="true" className="h-11 w-11" />
             )}
           </div>
           <div className="flex flex-1 justify-end md:justify-center">
