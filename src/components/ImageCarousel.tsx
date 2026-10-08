@@ -1,6 +1,6 @@
 'use client'
 
-import { Pause, Play } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
@@ -13,6 +13,10 @@ type CarouselItem = {
   alt: string
   width?: number
   height?: number
+}
+
+function slideKey(item: CarouselItem) {
+  return typeof item.src === 'string' ? item.src : item.src.src
 }
 
 export function ImageCarousel({
@@ -33,6 +37,7 @@ export function ImageCarousel({
   // `IntersectionObserver` keep the previous always-on autoplay behaviour.
   const [inView, setInView] = useState(true)
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -68,9 +73,43 @@ export function ImageCarousel({
 
   const current = items[index]
 
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    // A gesture that starts on a control belongs to that control: handling it as
+    // a swipe too would advance the carousel twice for one gesture.
+    if ((event.target as HTMLElement).closest('button')) return
+
+    const touch = event.touches[0]
+    touchStartRef.current = touch
+      ? { x: touch.clientX, y: touch.clientY }
+      : null
+  }
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current
+    touchStartRef.current = null
+    const touch = event.changedTouches[0]
+    if (!start || !touch) return
+
+    const deltaX = touch.clientX - start.x
+    const deltaY = touch.clientY - start.y
+    // Require a dominant horizontal gesture so vertical page scrolling is not
+    // hijacked into a slide change.
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return
+
+    setIndex((i) =>
+      deltaX < 0
+        ? (i + 1) % items.length
+        : (i - 1 + items.length) % items.length,
+    )
+  }
+
   return (
     <div className={className} ref={rootRef}>
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800">
+      <div
+        className="relative aspect-square overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
@@ -94,10 +133,48 @@ export function ImageCarousel({
 
         <button
           type="button"
+          onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
+          aria-label={t('carousel.previous')}
+          className="absolute top-1/2 left-3 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-zinc-900/60 text-white backdrop-blur transition-colors hover:bg-zinc-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+        >
+          <ChevronLeft aria-hidden="true" className="h-6 w-6" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setIndex((i) => (i + 1) % items.length)}
+          aria-label={t('carousel.next')}
+          className="absolute top-1/2 right-3 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-zinc-900/60 text-white backdrop-blur transition-colors hover:bg-zinc-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+        >
+          <ChevronRight aria-hidden="true" className="h-6 w-6" />
+        </button>
+
+        <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center">
+          {items.map((item, dotIndex) => (
+            <button
+              key={slideKey(item)}
+              type="button"
+              onClick={() => setIndex(dotIndex)}
+              aria-label={`${t('carousel.goTo')} ${dotIndex + 1}`}
+              aria-current={dotIndex === index ? 'true' : undefined}
+              className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+            >
+              <span
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  dotIndex === index ? 'bg-white' : 'bg-white/50'
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="button"
           onClick={() => setPaused((p) => !p)}
           aria-label={paused ? t('carousel.play') : t('carousel.pause')}
           aria-pressed={paused}
-          className="absolute right-3 bottom-3 z-10 rounded-full bg-zinc-900/60 p-2 text-white backdrop-blur transition-colors hover:bg-zinc-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+          // top-right so it does not collide with the 5 x 44px dot row centered at the bottom.
+          className="absolute top-3 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-zinc-900/60 text-white backdrop-blur transition-colors hover:bg-zinc-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
         >
           {paused ? (
             <Play aria-hidden="true" className="h-4 w-4" />

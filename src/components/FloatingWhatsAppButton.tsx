@@ -31,7 +31,7 @@ export const FloatingWhatsAppButton: React.FC<Props> = ({
       rel="noopener"
       aria-label={tooltip}
       title={tooltip}
-      className={`fixed right-4 bottom-4 z-[1000] inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 md:right-6 md:bottom-6 ${className}`}
+      className={`fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-[1000] inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 md:right-6 md:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] ${className}`}
     >
       {/* WhatsApp Icon */}
       <svg
