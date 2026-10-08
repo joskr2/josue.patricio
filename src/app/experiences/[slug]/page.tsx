@@ -48,7 +48,7 @@ export default function ExperienceDetail({
             )}
           </div>
           <div>
-            <h1 className="font-bold text-3xl text-zinc-800 tracking-tight dark:text-zinc-100">
+            <h1 className="font-bold text-[clamp(1.5rem,5.5vw,1.875rem)] text-zinc-800 tracking-tight dark:text-zinc-100">
               {experience.position[locale]}
             </h1>
             <p className="mt-2 text-zinc-600 dark:text-zinc-400">
