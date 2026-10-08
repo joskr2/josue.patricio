@@ -122,7 +122,10 @@ function MobileNavigationContent({
 
   return (
     <>
-      <PopoverButton className="group rounded-lg bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+      <PopoverButton
+        aria-label="Open menu"
+        className="group flex h-11 w-11 items-center justify-center rounded-lg bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+      >
         <MenuIcon className="h-6 w-6 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-400 dark:group-hover:stroke-zinc-300" />
       </PopoverButton>
       <PopoverBackdrop
