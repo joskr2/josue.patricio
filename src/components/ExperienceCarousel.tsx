@@ -202,18 +202,23 @@ export function ExperienceCarousel({ items, className }: Props) {
         </motion.div>
 
         {/* Dots below (no arrows) */}
-        <div className="mt-3 flex justify-center gap-2">
+        {/* ponytail: 7 dots x 32px + 6 gaps x 4px = 248px, inside the 288px a 320px viewport leaves after px-4. w-11 (44px) needs 332px, and w-8 itself tops out at 8 items. */}
+        <div className="mt-3 flex justify-center gap-1">
           {items.map((exp, i) => (
             <button
               key={`${exp.company}-${exp.start}`}
               type="button"
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={`${t('carousel.goTo')} ${i + 1}`}
               onClick={() => scrollTo(i)}
-              className={clsx(
-                'h-2 w-2 rounded-full transition-colors',
-                i === active ? 'bg-teal-500' : 'bg-zinc-300 dark:bg-zinc-600',
-              )}
-            />
+              className="flex h-11 w-8 items-center justify-center"
+            >
+              <span
+                className={clsx(
+                  'h-2 w-2 rounded-full transition-colors',
+                  i === active ? 'bg-teal-500' : 'bg-zinc-300 dark:bg-zinc-600',
+                )}
+              />
+            </button>
           ))}
         </div>
       </div>
