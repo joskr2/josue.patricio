@@ -120,7 +120,7 @@ export function ExperienceCarousel({ items, className }: Props) {
             >
               <Link
                 href={`/experiences/${slugify(exp.company)}`}
-                className="group block h-full focus:outline-none"
+                className="group block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                 aria-label={`${exp.company} ${exp.position?.en || exp.position?.es}`}
               >
                 <div className="flex h-full flex-col rounded-2xl bg-white p-4 shadow-sm ring-1 ring-zinc-200 transition-all duration-300 group-hover:shadow-md dark:bg-zinc-900 dark:ring-zinc-700">

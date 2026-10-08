@@ -13,7 +13,7 @@ export function ExperiencesClient() {
   return (
     <Container className="mt-16">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-2 font-bold text-4xl text-zinc-900 tracking-tight dark:text-zinc-100">
+        <h1 className="mb-2 font-bold text-[clamp(1.75rem,7vw,2rem)] text-zinc-900 tracking-tight dark:text-zinc-100">
           {t('about.experience')}
         </h1>
         <p className="mb-12 text-lg text-zinc-600 dark:text-zinc-400">
@@ -26,8 +26,8 @@ export function ExperiencesClient() {
               key={exp.company}
               className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/50"
             >
-              <div className="mb-4 flex items-start justify-between gap-4">
-                <div>
+              <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                <div className="min-w-0">
                   <h2 className="font-bold text-xl text-zinc-900 dark:text-zinc-100">
                     {exp.position[locale]}
                   </h2>
@@ -35,7 +35,7 @@ export function ExperiencesClient() {
                     {exp.company}
                   </p>
                 </div>
-                <span className="whitespace-nowrap text-sm text-zinc-500 dark:text-zinc-400">
+                <span className="text-sm text-zinc-500 dark:text-zinc-400">
                   {exp.duration[locale]}
                 </span>
               </div>
@@ -70,7 +70,7 @@ export function ExperiencesClient() {
               <div className="mt-4 border-zinc-200 border-t pt-4 dark:border-zinc-700">
                 <Link
                   href={`/experiences/${slugify(exp.company)}`}
-                  className="inline-flex items-center gap-2 font-medium text-sm text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
+                  className="inline-flex min-h-11 items-center gap-2 font-medium text-sm text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
                 >
                   {t('about.viewDetail')} →
                 </Link>
