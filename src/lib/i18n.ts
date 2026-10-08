@@ -104,6 +104,9 @@ export const translations = {
     carousel: {
       pause: 'Pause slideshow',
       play: 'Play slideshow',
+      previous: 'Previous slide',
+      next: 'Next slide',
+      goTo: 'Go to slide',
     },
     // Photo gallery
     gallery: {
@@ -217,6 +220,9 @@ export const translations = {
     carousel: {
       pause: 'Pausar presentación',
       play: 'Reproducir presentación',
+      previous: 'Diapositiva anterior',
+      next: 'Diapositiva siguiente',
+      goTo: 'Ir a la diapositiva',
     },
     // Photo gallery
     gallery: {
