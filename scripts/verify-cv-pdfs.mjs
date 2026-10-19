@@ -5,10 +5,7 @@ import { inflateSync } from 'node:zlib'
 
 const MIN_BYTES = 10_000
 const MARKERS = ['GNB', 'GeneXus']
-const PDFS = [
-  'josue-patricio-retamozo-vargas-desarrollador-software-por-defecto.pdf',
-  'josue-patricio-retamozo-vargas-software-developer-english-default.pdf',
-]
+const PDFS = ['CV_Josue_Retamozo_Espanol.pdf', 'CV_Josue_Retamozo_English.pdf']
 
 const LITERAL_ESCAPES = { b: '\b', f: '\f', n: '\n', r: '\r', t: '\t' }
 
