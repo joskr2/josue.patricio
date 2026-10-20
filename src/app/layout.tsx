@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 
 import { Providers } from '@/app/providers'
@@ -71,6 +72,7 @@ export default function RootLayout({
             <Layout>{children}</Layout>
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   )
