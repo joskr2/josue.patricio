@@ -17,7 +17,7 @@ import { Container } from '@/components/Container'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { useBlur } from '@/contexts/BlurContext'
 import { useTranslation } from '@/hooks/useTranslation'
-import { localizedPath } from '@/lib/i18n'
+import { localizedPath, unlocalizedPath } from '@/lib/i18n'
 
 function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
@@ -201,16 +201,20 @@ function NavItem({
   children: React.ReactNode
 }>) {
   const pathname = usePathname()
-  // Section pages (and their detail routes) keep the parent item highlighted.
+  // Compare without the locale prefix: every href now starts with /en or /es, so
+  // a raw prefix test made the "Home" item (/en) match every route beneath it.
+  const current = unlocalizedPath(pathname)
+  const target = unlocalizedPath(href)
   const isActive =
-    href === '/'
-      ? pathname === '/'
-      : pathname === href || pathname.startsWith(`${href}/`)
+    target === '/'
+      ? current === '/'
+      : current === target || current.startsWith(`${target}/`)
 
   return (
     <li>
       <Link
         href={href}
+        aria-current={isActive ? 'page' : undefined}
         className={clsx(
           'relative block px-3 py-2 transition',
           isActive
@@ -289,7 +293,16 @@ export function Header() {
   const pathname = usePathname()
   const { t, locale } = useTranslation()
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 h-fit bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-900/80 dark:ring-white/10 [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30">
+    <header className="fixed top-0 right-0 left-0 z-50 h-fit bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-900/80 dark:ring-white/10 [@supports(backdrop-filter:blur(0))]:bg-white/30 dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30">
+      {/* The blur lives on a child layer: `backdrop-filter` on the header itself
+          would make it the containing block for the mobile menu's fixed backdrop
+          and panel, clipping them to the header's 76px height — the backdrop
+          then never covered the viewport, so tapping outside did not close the
+          menu and the page stayed scroll-locked. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-md"
+      />
       <Container>
         {/* py-2 keeps this row at 76px so it stays inside the 80px reservation
             that `main`'s pt-20 in Layout.tsx sets aside for the fixed header. */}
