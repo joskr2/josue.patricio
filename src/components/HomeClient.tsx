@@ -1,8 +1,8 @@
 'use client'
 
+import { Download } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { Card } from '@/components/Card'
@@ -13,8 +13,8 @@ import { ReadMore } from '@/components/ReadMore'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useTypewriter } from '@/hooks/useTypewriter'
-import { skills } from '@/lib/personal-data'
+import { localizedPath } from '@/lib/i18n'
+import { cv, skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
 
 type Props = {
@@ -89,150 +89,95 @@ export function HomeClient({
   galleryImages,
 }: Props) {
   const { t, tArray, locale } = useTranslation()
-  const { displayText: typedName, isComplete } = useTypewriter({
-    text: personalInfo.name,
-    speed: 100,
-    delay: 300,
-  })
 
   const galleryAlts = tArray('gallery.alts')
-  const carouselItems = galleryImages.map((img, i) => ({
-    src: img.src,
-    alt: galleryAlts[i] ?? '',
-  }))
-  // Mobile shows one carousel: portrait first, then the gallery photos.
-  const mobileCarouselItems = [
+  // One carousel for every breakpoint. The portrait opens the gallery, so the
+  // page no longer mounts a second hidden copy of it behind the other layout.
+  const carouselItems = [
     { src: personalInfo.portraitImage, alt: personalInfo.name },
-    ...carouselItems,
+    ...galleryImages.map((img, i) => ({
+      src: img.src,
+      alt: galleryAlts[i] ?? '',
+    })),
   ]
 
   return (
     <>
       {/* Hero Section */}
       <Container className="mt-9">
-        <motion.div
-          className="max-w-2xl"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h1
-            className="min-h-[3.4em] font-bold text-[clamp(1.875rem,6.5vw,4.5rem)] text-zinc-800 tracking-tight sm:min-h-[2.4em] lg:min-h-[1.4em] dark:text-zinc-100"
-            variants={itemVariants}
-          >
-            {typedName}
-            {isComplete ? null : (
-              <motion.span
-                className="text-teal-600 dark:text-teal-400"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                |
-              </motion.span>
-            )}
-          </motion.h1>
-          <motion.p
-            className="mt-4 text-[clamp(1.0625rem,3.2vw,1.5rem)] text-teal-600 dark:text-teal-400"
-            variants={itemVariants}
-          >
-            {personalInfo.title[locale]}
-          </motion.p>
-          <ReadMore variants={itemVariants}>
-            {personalInfo.summary[locale]}
-          </ReadMore>
-          <motion.div className="mt-6 flex gap-6" variants={itemVariants}>
-            <SocialLink
-              href={`mailto:${personalInfo.email}`}
-              aria-label="Send email"
-              icon={MailIcon}
-            />
-            <SocialLink
-              href={personalInfo.github}
-              aria-label="Follow on GitHub"
-              icon={GitHubIcon}
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-            <SocialLink
-              href={personalInfo.linkedin}
-              aria-label="Follow on LinkedIn"
-              icon={LinkedInIcon}
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          </motion.div>
-        </motion.div>
-      </Container>
-
-      {/* Photo Gallery */}
-      <Container className="mt-16 sm:mt-20">
-        {/* Mobile: the portrait and the gallery share one carousel */}
-        <motion.div
-          className="lg:hidden"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <ImageCarousel
-            className="w-full"
-            items={mobileCarouselItems}
-            intervalMs={30000}
-            sizes="(min-width: 1024px) 24rem, 100vw"
-          />
-        </motion.div>
-
-        <motion.div
-          className="mx-auto hidden max-w-xl grid-cols-1 gap-y-8 lg:grid lg:max-w-none lg:grid-cols-2"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
+        <div className="lg:grid lg:grid-cols-[1.35fr_1fr] lg:items-start lg:gap-x-16">
           <motion.div
-            className="flex justify-center lg:justify-end lg:pr-8"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="max-w-2xl"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.div
-              className="relative aspect-square w-80 rotate-2 overflow-hidden rounded-2xl bg-zinc-100 lg:w-96 lg:rotate-2 dark:bg-zinc-800"
-              whileHover={{ rotate: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            <motion.h1
+              className="font-bold text-[clamp(1.875rem,6.5vw,4.5rem)] text-zinc-800 leading-[1.05] tracking-tight dark:text-zinc-100"
+              variants={itemVariants}
             >
-              <Image
-                src={personalInfo.portraitImage}
-                alt={personalInfo.name}
-                sizes="(min-width: 1024px) 24rem, 100vw"
-                className="absolute inset-0 h-full w-full object-cover"
-                priority
+              {personalInfo.name}
+            </motion.h1>
+            <motion.p
+              className="mt-4 text-[clamp(1.0625rem,3.2vw,1.5rem)] text-teal-600 dark:text-teal-400"
+              variants={itemVariants}
+            >
+              {personalInfo.title[locale]}
+            </motion.p>
+            <ReadMore variants={itemVariants}>
+              {personalInfo.summary[locale]}
+            </ReadMore>
+            <motion.div className="mt-6 flex gap-6" variants={itemVariants}>
+              <SocialLink
+                href={`mailto:${personalInfo.email}`}
+                aria-label={t('a11y.sendEmail')}
+                icon={MailIcon}
+              />
+              <SocialLink
+                href={personalInfo.github}
+                aria-label={t('a11y.followOnGitHub')}
+                icon={GitHubIcon}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+              <SocialLink
+                href={personalInfo.linkedin}
+                aria-label={t('a11y.followOnLinkedIn')}
+                icon={LinkedInIcon}
+                target="_blank"
+                rel="noopener noreferrer"
               />
             </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="lg:pl-8"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <div className="mx-auto max-w-xs px-2.5 lg:max-w-none">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                viewport={{ once: true }}
-                whileHover={{ rotate: 1 }}
+            <motion.div
+              className="mt-8 flex flex-wrap items-center gap-3"
+              variants={itemVariants}
+            >
+              <a
+                href={cv[locale].href}
+                download={cv[locale].downloadName}
+                className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-5 py-2.5 font-semibold text-sm text-white shadow-sm transition hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 dark:bg-teal-500 dark:hover:bg-teal-400"
               >
-                <ImageCarousel
-                  className="w-full"
-                  items={carouselItems}
-                  intervalMs={30000}
-                />
-              </motion.div>
-            </div>
+                <Download aria-hidden="true" className="h-4 w-4" />
+                {t('home.downloadCV')}
+              </a>
+              <Link
+                href={localizedPath(locale, '/contact')}
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-5 py-2.5 font-semibold text-sm text-zinc-800 transition hover:border-teal-500 hover:text-teal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 dark:border-zinc-600 dark:text-zinc-200 dark:hover:border-teal-400 dark:hover:text-teal-300"
+              >
+                {t('home.getInTouch')}
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
+          <div className="mt-12 lg:mt-0 lg:rotate-1 lg:transition-transform lg:duration-300 lg:hover:rotate-0">
+            <ImageCarousel
+              className="w-full"
+              items={carouselItems}
+              intervalMs={30000}
+              sizes="(min-width: 1024px) 26rem, 100vw"
+              priority
+            />
+          </div>
+        </div>
       </Container>
 
       <Container className="mt-24 mb-24 sm:mb-32 md:mt-28">
@@ -332,7 +277,9 @@ export function HomeClient({
                     </div>
                   </div>
                 </div>
-                <Card.Cta href="/about">{t('nav.about')}</Card.Cta>
+                <Card.Cta href={localizedPath(locale, '/about')}>
+                  {t('nav.about')}
+                </Card.Cta>
               </Card>
             </motion.div>
           </motion.div>

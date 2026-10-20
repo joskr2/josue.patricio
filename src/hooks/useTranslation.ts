@@ -1,13 +1,13 @@
 import { useCallback, useMemo } from 'react'
 import { useLocale } from '@/contexts/LocaleContext'
-import { cachedGetTranslation, lookupTranslation } from '@/lib/i18n'
+import { getTranslation, lookupTranslation } from '@/lib/i18n'
 
 export function useTranslation() {
   const { locale } = useLocale()
 
   const t = useCallback(
     (key: string): string => {
-      return cachedGetTranslation(locale, key)
+      return getTranslation(locale, key)
     },
     [locale],
   )

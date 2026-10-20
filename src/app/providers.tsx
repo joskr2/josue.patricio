@@ -1,9 +1,11 @@
 'use client'
 
+import { MotionConfig } from 'motion/react'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { useEffect } from 'react'
 import { BlurProvider } from '@/contexts/BlurContext'
 import { LocaleProvider } from '@/contexts/LocaleContext'
+import type { Locale } from '@/lib/i18n'
 
 function ThemeWatcher() {
   const { resolvedTheme, setTheme } = useTheme()
@@ -30,16 +32,21 @@ function ThemeWatcher() {
 }
 
 export function Providers({
+  locale,
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ locale: Locale; children: React.ReactNode }>) {
   return (
     <ThemeProvider attribute="class" disableTransitionOnChange>
-      <LocaleProvider>
-        <BlurProvider>
-          <ThemeWatcher />
-          {children}
-        </BlurProvider>
-      </LocaleProvider>
+      {/* Disables transform/layout animations for visitors who ask for less
+          motion, without taking the opacity fades away entirely. */}
+      <MotionConfig reducedMotion="user">
+        <LocaleProvider locale={locale}>
+          <BlurProvider>
+            <ThemeWatcher />
+            {children}
+          </BlurProvider>
+        </LocaleProvider>
+      </MotionConfig>
     </ThemeProvider>
   )
 }

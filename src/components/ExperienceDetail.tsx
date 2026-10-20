@@ -3,27 +3,15 @@
 import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { use } from 'react'
 
 import { Container } from '@/components/Container'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
-import { experiences } from '@/lib/experience-data'
-import { slugify } from '@/lib/slugify'
+import type { Experience } from '@/lib/experience-data'
+import { localizedPath } from '@/lib/i18n'
 
-export default function ExperienceDetail({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export function ExperienceDetail({ experience }: { experience: Experience }) {
   const { locale, t } = useTranslation()
-  const { slug } = use(params)
-  const experience = experiences.find((e) => slugify(e.company) === slug)
-
-  if (!experience) {
-    notFound()
-  }
 
   return (
     <Container className="mt-16 sm:mt-24">
@@ -64,16 +52,16 @@ export default function ExperienceDetail({
         <div className="prose prose-zinc dark:prose-invert mt-8 max-w-none">
           <ul>
             {experience.description[locale].map((line) => (
-              <li key={line.substring(0, 50)}>{line}</li>
+              <li key={line}>{line}</li>
             ))}
           </ul>
         </div>
 
         {experience.technologies.length > 0 && (
           <div className="mt-8">
-            <h3 className="font-semibold text-sm text-zinc-800 dark:text-zinc-200">
+            <h2 className="font-semibold text-sm text-zinc-800 dark:text-zinc-200">
               {t('experiences.technologies')}
-            </h3>
+            </h2>
             <div className="mt-3 flex flex-wrap gap-2">
               {experience.technologies.map((tech) => (
                 <TechBadge key={tech}>{tech}</TechBadge>
@@ -84,8 +72,8 @@ export default function ExperienceDetail({
 
         <div className="mt-10">
           <Link
-            href="/about"
-            className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 font-medium text-sm text-white transition hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
+            href={localizedPath(locale, '/about')}
+            className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 font-medium text-sm text-white transition hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 focus-visible:outline-offset-2 dark:bg-teal-500 dark:hover:bg-teal-400"
           >
             <svg
               className="h-4 w-4"

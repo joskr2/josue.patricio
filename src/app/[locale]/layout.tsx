@@ -1,35 +1,25 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { notFound } from 'next/navigation'
 
 import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
+import { PersonJsonLd } from '@/components/PersonJsonLd'
+import { isLocale, locales } from '@/lib/i18n'
+import { resolveLocale } from '@/lib/metadata'
 import { siteUrl } from '@/lib/personal-data'
 
 import '@/styles/tailwind.css'
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }))
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     template: '%s - Josue Retamozo',
     default: 'Josue Retamozo - Software Engineer | React, .NET, Java',
-  },
-  description:
-    'Software Engineer with 5+ years of experience building React.js and React Native frontends, with a full-stack foundation in C# (.NET), Java, and microservices. Experienced with GeneXus, SQL Server, and IBM AS/400 on banking applications.',
-  alternates: { canonical: '/' },
-  openGraph: {
-    type: 'website',
-    url: siteUrl,
-    siteName: 'Josue Retamozo',
-    title: 'Josue Retamozo - Software Engineer | React, .NET, Java',
-    description:
-      'Software Engineer with 5+ years of experience building React.js and React Native frontends, with a full-stack foundation in C# (.NET), Java, and microservices. Experienced with GeneXus, SQL Server, and IBM AS/400 on banking applications.',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Josue Retamozo - Software Engineer | React, .NET, Java',
-    description:
-      'Software Engineer with 5+ years of experience building React.js and React Native frontends, with a full-stack foundation in C# (.NET), Java, and microservices. Experienced with GeneXus, SQL Server, and IBM AS/400 on banking applications.',
   },
   robots: { index: true, follow: true },
   keywords: [
@@ -59,15 +49,28 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
+  params,
 }: {
   children: React.ReactNode
+  params: Promise<{ locale?: string }>
 }) {
+  const { locale: segment } = await params
+
+  // Unknown locales are a 404. Next also renders the synthetic /_not-found
+  // route through this layout with no params, so an absent segment falls back
+  // to the default language instead of throwing.
+  if (segment !== undefined && !isLocale(segment)) {
+    notFound()
+  }
+  const locale = resolveLocale(segment)
+
   return (
-    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+    <html lang={locale} className="h-full antialiased" suppressHydrationWarning>
       <body className="flex h-full bg-zinc-50 dark:bg-black">
-        <Providers>
+        <PersonJsonLd locale={locale} />
+        <Providers locale={locale}>
           <div className="flex w-full">
             <Layout>{children}</Layout>
           </div>

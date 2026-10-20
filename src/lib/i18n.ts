@@ -1,6 +1,37 @@
-export type Locale = 'en' | 'es'
+export const locales = ['en', 'es'] as const
+export type Locale = (typeof locales)[number]
 
 export const defaultLocale: Locale = 'en'
+
+export function isLocale(value: string | undefined): value is Locale {
+  return value === 'en' || value === 'es'
+}
+
+/** Prefix an app path with its locale: localizedPath('es', '/about') -> '/es/about' */
+export function localizedPath(locale: Locale, path = '/'): string {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  return normalized === '/' ? `/${locale}` : `/${locale}${normalized}`
+}
+
+/** Drop the locale prefix: '/es/about' -> '/about' */
+export function unlocalizedPath(pathname: string): string {
+  const match = pathname.match(/^\/(?:en|es)(\/.*)?$/)
+  return match ? (match[1] ?? '/') : pathname
+}
+
+/** hreflang map for a locale-independent path, including x-default. */
+export function languageAlternates(path: string): Record<string, string> {
+  return {
+    ...Object.fromEntries(
+      locales.map((locale) => [locale, localizedPath(locale, path)]),
+    ),
+    'x-default': localizedPath(defaultLocale, path),
+  }
+}
+
+export function ogLocale(locale: Locale): string {
+  return locale === 'es' ? 'es_PE' : 'en_US'
+}
 
 export const translations = {
   en: {
@@ -9,7 +40,24 @@ export const translations = {
       home: 'Home',
       about: 'About',
       projects: 'Projects',
+      experiences: 'Experience',
       contact: 'Contact',
+    },
+    // Accessible names for controls that only show an icon or a symbol
+    a11y: {
+      skipToContent: 'Skip to content',
+      openMenu: 'Open menu',
+      closeMenu: 'Close menu',
+      home: 'Home',
+      scrollToTop: 'Scroll to top',
+      switchToEnglish: 'Switch to English',
+      switchToSpanish: 'Switch to Spanish',
+      sendEmail: 'Send email',
+      followOnGitHub: 'Follow on GitHub',
+      followOnLinkedIn: 'Connect on LinkedIn',
+      switchToLightTheme: 'Switch to light theme',
+      switchToDarkTheme: 'Switch to dark theme',
+      toggleTheme: 'Toggle theme',
     },
     // Homepage
     home: {
@@ -70,6 +118,7 @@ export const translations = {
       linkedin: 'LinkedIn',
       github: 'GitHub',
       sendEmail: 'Send me an email',
+      emailSubject: 'Contact from your portfolio',
       callDuringHours: 'Feel free to call during business hours',
       currentlyBased: 'Currently based in Peru',
       professionalNetwork: 'Professional network and career updates',
@@ -117,6 +166,34 @@ export const translations = {
         'Josue standing between the giant buttress roots of a jungle tree',
       ],
     },
+    // Page metadata
+    meta: {
+      home: {
+        title: 'Software Engineer',
+        description:
+          'Josue Retamozo - Software Engineer specializing in React.js and React Native frontend development, with a full-stack foundation in C# (.NET), Java, and microservices.',
+      },
+      about: {
+        title: 'About',
+        description:
+          'Experience, skills, education and certifications: React and React Native frontend work across banking, insurance, retail and e-commerce products.',
+      },
+      projects: {
+        title: 'Projects',
+        description:
+          'Selected frontend and full-stack projects, including a microservices sports betting platform with a Next.js frontend, a FastAPI BFF and a .NET API.',
+      },
+      experiences: {
+        title: 'Experience',
+        description:
+          'Professional experience across banking, insurance, retail and e-commerce, from frontend development to enterprise application modernization.',
+      },
+      contact: {
+        title: 'Contact',
+        description:
+          'Get in touch with Josue Retamozo for collaboration, roles and freelance work.',
+      },
+    },
   },
   es: {
     // Navigation
@@ -124,7 +201,24 @@ export const translations = {
       home: 'Inicio',
       about: 'Acerca de',
       projects: 'Proyectos',
+      experiences: 'Experiencia',
       contact: 'Contacto',
+    },
+    // Accessible names for controls that only show an icon or a symbol
+    a11y: {
+      skipToContent: 'Saltar al contenido',
+      openMenu: 'Abrir menú',
+      closeMenu: 'Cerrar menú',
+      home: 'Inicio',
+      scrollToTop: 'Volver arriba',
+      switchToEnglish: 'Cambiar a inglés',
+      switchToSpanish: 'Cambiar a español',
+      sendEmail: 'Enviar correo',
+      followOnGitHub: 'Seguir en GitHub',
+      followOnLinkedIn: 'Conectar en LinkedIn',
+      switchToLightTheme: 'Cambiar a tema claro',
+      switchToDarkTheme: 'Cambiar a tema oscuro',
+      toggleTheme: 'Cambiar tema',
     },
     // Homepage
     home: {
@@ -186,6 +280,7 @@ export const translations = {
       linkedin: 'LinkedIn',
       github: 'GitHub',
       sendEmail: 'Envíame un correo',
+      emailSubject: 'Contacto desde tu portafolio',
       callDuringHours: 'Puedes llamar durante horario de oficina',
       currentlyBased: 'Actualmente ubicado en Perú',
       professionalNetwork: 'Red profesional y actualizaciones de carrera',
@@ -233,6 +328,34 @@ export const translations = {
         'Josue entre las raíces gigantes de un árbol de la selva',
       ],
     },
+    // Page metadata
+    meta: {
+      home: {
+        title: 'Ingeniero de Software',
+        description:
+          'Josue Retamozo - Ingeniero de Software especializado en desarrollo frontend con React.js y React Native, con base full-stack en C# (.NET), Java y microservicios.',
+      },
+      about: {
+        title: 'Acerca de',
+        description:
+          'Experiencia, habilidades, educación y certificaciones: desarrollo frontend con React y React Native en productos bancarios, de seguros, retail y e-commerce.',
+      },
+      projects: {
+        title: 'Proyectos',
+        description:
+          'Proyectos frontend y full-stack seleccionados, incluida una plataforma de apuestas deportivas con microservicios, frontend Next.js, BFF en FastAPI y API .NET.',
+      },
+      experiences: {
+        title: 'Experiencia',
+        description:
+          'Experiencia profesional en banca, seguros, retail y comercio electrónico, desde el desarrollo frontend hasta la modernización de aplicaciones empresariales.',
+      },
+      contact: {
+        title: 'Contacto',
+        description:
+          'Ponte en contacto con Josue Retamozo para colaboraciones, posiciones y trabajo freelance.',
+      },
+    },
   },
 } as const
 
@@ -269,32 +392,4 @@ export function lookupTranslation(
 export function getTranslation(locale: Locale, key: string): string {
   const value = lookupTranslation(locale, key)
   return typeof value === 'string' ? value : key
-}
-
-import { cache } from 'react'
-
-export const cachedGetTranslation = cache(
-  (locale: Locale, key: string): string => {
-    const value = lookupTranslation(locale, key)
-    return typeof value === 'string' ? value : key
-  },
-)
-
-export function detectLocale(): Locale {
-  // 1. Check localStorage
-  if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem('locale') as Locale
-    if (stored && (stored === 'en' || stored === 'es')) {
-      return stored
-    }
-
-    // 2. Check browser language
-    const browserLang = navigator.language.toLowerCase()
-    if (browserLang.startsWith('es')) {
-      return 'es'
-    }
-  }
-
-  // 3. Default fallback
-  return defaultLocale
 }

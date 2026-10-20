@@ -58,7 +58,9 @@ function ContactCard({
           <h3 className="font-semibold text-base text-zinc-900 dark:text-zinc-100">
             {title}
           </h3>
-          <p className="truncate text-zinc-600 dark:text-zinc-400">{value}</p>
+          <p className="break-words text-zinc-600 dark:text-zinc-400">
+            {value}
+          </p>
           {description && (
             <p className="text-sm text-zinc-500 dark:text-zinc-500">
               {description}
@@ -70,8 +72,9 @@ function ContactCard({
   )
 
   if (href) {
-    const isPhoneLink = href.startsWith('tel:')
-    const shouldOpenNewTab = !isPhoneLink
+    // Only real web destinations deserve a new tab; mailto: leaves an empty
+    // tab behind in most browsers.
+    const shouldOpenNewTab = href.startsWith('http')
 
     return (
       <Link
@@ -80,7 +83,7 @@ function ContactCard({
           target: '_blank',
           rel: 'noopener noreferrer',
         })}
-        className="block h-full"
+        className="block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 focus-visible:outline-offset-4"
       >
         {content}
       </Link>
@@ -92,6 +95,9 @@ function ContactCard({
 
 export function ContactClient() {
   const { t, locale } = useTranslation()
+  const mailtoHref = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
+    t('contact.emailSubject'),
+  )}`
   const whatsappHref = (() => {
     const phoneSanitized = personalInfo.phone.replace(/\D/g, '')
     const base = `https://wa.me/${phoneSanitized}`
@@ -104,7 +110,7 @@ export function ContactClient() {
       <div className="mx-auto max-w-4xl">
         {/* Contact Information */}
         <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2"
           variants={listVariants}
           initial="hidden"
           whileInView="show"
@@ -122,7 +128,7 @@ export function ContactClient() {
             icon={MailIcon}
             title={t('contact.email')}
             value={personalInfo.email}
-            href={`mailto:${personalInfo.email}`}
+            href={mailtoHref}
             description={t('contact.sendEmail')}
           />
 
@@ -189,7 +195,7 @@ export function ContactClient() {
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
-              href={`mailto:${personalInfo.email}`}
+              href={mailtoHref}
               className="rounded-full bg-teal-600 px-8 py-4 font-semibold text-sm text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 active:scale-[0.98]"
             >
               {t('contact.sendEmail')}

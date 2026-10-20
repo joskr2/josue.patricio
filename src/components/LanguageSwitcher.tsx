@@ -2,10 +2,12 @@
 
 import clsx from 'clsx'
 import { useLocale } from '@/contexts/LocaleContext'
+import { useTranslation } from '@/hooks/useTranslation'
 import type { Locale } from '@/lib/i18n'
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useLocale()
+  const { t } = useTranslation()
 
   const handleLocaleChange = (newLocale: Locale) => {
     setLocale(newLocale)
@@ -22,7 +24,8 @@ export function LanguageSwitcher() {
             ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100'
             : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100',
         )}
-        aria-label="Switch to English"
+        aria-label={t('a11y.switchToEnglish')}
+        aria-pressed={locale === 'en'}
       >
         EN
       </button>
@@ -35,7 +38,8 @@ export function LanguageSwitcher() {
             ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100'
             : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100',
         )}
-        aria-label="Cambiar a Español"
+        aria-label={t('a11y.switchToSpanish')}
+        aria-pressed={locale === 'es'}
       >
         ES
       </button>

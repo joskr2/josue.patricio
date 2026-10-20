@@ -1,4 +1,9 @@
-export const siteUrl = 'https://josue-patricio.vercel.app'
+// Canonical origin for every absolute URL (metadata, sitemap, robots, JSON-LD).
+// Set NEXT_PUBLIC_SITE_URL when the site moves to a custom domain; the fallback
+// keeps the current deployment working without configuration.
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://josue-patricio.vercel.app'
+).replace(/\/$/, '')
 
 export const personalInfo = {
   name: 'Josue Patricio Retamozo Vargas',
