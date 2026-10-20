@@ -13,7 +13,6 @@ import { ReadMore } from '@/components/ReadMore'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useTypewriter } from '@/hooks/useTypewriter'
 import { skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
 
@@ -89,11 +88,6 @@ export function HomeClient({
   galleryImages,
 }: Props) {
   const { t, tArray, locale } = useTranslation()
-  const { displayText: typedName, isComplete } = useTypewriter({
-    text: personalInfo.name,
-    speed: 100,
-    delay: 300,
-  })
 
   const galleryAlts = tArray('gallery.alts')
   const carouselItems = galleryImages.map((img, i) => ({
@@ -117,19 +111,10 @@ export function HomeClient({
           animate="visible"
         >
           <motion.h1
-            className="min-h-[3.4em] font-bold text-[clamp(1.875rem,6.5vw,4.5rem)] text-zinc-800 tracking-tight sm:min-h-[2.4em] lg:min-h-[1.4em] dark:text-zinc-100"
+            className="font-bold text-[clamp(1.875rem,6.5vw,4.5rem)] text-zinc-800 leading-[1.05] tracking-tight dark:text-zinc-100"
             variants={itemVariants}
           >
-            {typedName}
-            {isComplete ? null : (
-              <motion.span
-                className="text-teal-600 dark:text-teal-400"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                |
-              </motion.span>
-            )}
+            {personalInfo.name}
           </motion.h1>
           <motion.p
             className="mt-4 text-[clamp(1.0625rem,3.2vw,1.5rem)] text-teal-600 dark:text-teal-400"

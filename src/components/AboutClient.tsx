@@ -5,12 +5,12 @@ import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
+
 import { Container } from '@/components/Container'
 import { ExperienceCarousel } from '@/components/ExperienceCarousel'
 import { SkillCategory } from '@/components/SkillCategory'
 import { GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useTypewriter } from '@/hooks/useTypewriter'
 import type { Experience } from '@/lib/experience-data'
 import { skills } from '@/lib/personal-data'
 import { slugify } from '@/lib/slugify'
@@ -43,7 +43,7 @@ function SocialLink({
     <li className={clsx(className, 'flex')}>
       <Link
         href={href}
-        className="group flex font-medium text-sm text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
+        className="group flex font-medium text-sm text-zinc-800 transition hover:text-teal-500 focus-visible:text-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 focus-visible:outline-offset-4 dark:text-zinc-200 dark:hover:text-teal-500"
       >
         <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
         <span className="ml-4">{children}</span>
@@ -65,121 +65,34 @@ function MailIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
 
 export function AboutClient({ personalInfo, experiences }: Props) {
   const { t, locale } = useTranslation()
-  const { displayText: typedName, isComplete } = useTypewriter({
-    text: personalInfo.name,
-    speed: 100,
-    delay: 300,
-  })
 
   return (
     <Container className="mt-16 sm:mt-32">
-      {/* Mobile Layout: Name first, then image */}
-      <div className="block lg:hidden">
-        <motion.div
-          className="text-center sm:text-left"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="min-h-[3rem] font-bold text-4xl text-zinc-800 tracking-tight sm:text-5xl dark:text-zinc-100">
-            {typedName}
-            {!isComplete && (
-              <span className="animate-pulse text-teal-600 dark:text-teal-400">
-                |
-              </span>
-            )}
+      {/*
+        One layout for every breakpoint: the name/title block, the portrait and
+        the biography are placed explicitly on the desktop grid, so the mobile
+        order (name → portrait → biography) is preserved without rendering the
+        whole hero twice.
+      */}
+      <div className="flex flex-col gap-y-8 lg:grid lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-12">
+        <div className="order-1 lg:col-start-1 lg:row-start-1">
+          <h1 className="font-bold text-4xl text-zinc-800 tracking-tight sm:text-5xl dark:text-zinc-100">
+            {personalInfo.name}
           </h1>
-          <motion.p
-            className="mt-2 text-teal-600 text-xl dark:text-teal-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
+          <p className="mt-2 text-teal-600 text-xl dark:text-teal-400">
             {personalInfo.title[locale]}
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         <motion.div
-          className="mt-8 flex justify-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.6,
-            delay: 0.5,
-            type: 'spring',
-            stiffness: 200,
-            damping: 20,
+          className="order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:pl-20"
+          whileHover={{
+            scale: 1.03,
+            rotate: 1,
+            transition: { type: 'spring', stiffness: 300, damping: 30 },
           }}
         >
-          <motion.div
-            className="max-w-xs px-2.5"
-            whileHover={{
-              scale: 1.05,
-              rotate: -1,
-              transition: { type: 'spring', stiffness: 300, damping: 30 },
-            }}
-          >
-            <Image
-              src={personalInfo.portraitImage}
-              alt={personalInfo.name}
-              sizes="20rem"
-              priority
-              className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
-            />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          className="mt-8 space-y-7 text-base text-zinc-600 dark:text-zinc-400"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-        >
-          <p>{personalInfo.summary[locale]}</p>
-          <p>{t('about.intro')}</p>
-        </motion.div>
-
-        <motion.div
-          className="mt-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.9 }}
-        >
-          <ul className="space-y-4">
-            <SocialLink href={`mailto:${personalInfo.email}`} icon={MailIcon}>
-              {personalInfo.email}
-            </SocialLink>
-            <SocialLink href={personalInfo.linkedin} icon={LinkedInIcon}>
-              LinkedIn
-            </SocialLink>
-            <SocialLink href={personalInfo.github} icon={GitHubIcon}>
-              GitHub
-            </SocialLink>
-          </ul>
-        </motion.div>
-      </div>
-
-      {/* Desktop Layout: Original grid layout with typewriter effect */}
-      <motion.div
-        className="hidden lg:grid lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <motion.div
-          className="lg:pl-20"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <motion.div
-            className="max-w-xs px-2.5 lg:max-w-none"
-            whileHover={{
-              scale: 1.03,
-              rotate: 1,
-              transition: { type: 'spring', stiffness: 300, damping: 30 },
-            }}
-          >
+          <motion.div className="mx-auto max-w-xs px-2.5 lg:max-w-none">
             <Image
               src={personalInfo.portraitImage}
               alt={personalInfo.name}
@@ -190,46 +103,12 @@ export function AboutClient({ personalInfo, experiences }: Props) {
           </motion.div>
         </motion.div>
 
-        <motion.div
-          className="lg:order-first lg:row-span-2"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <h1 className="min-h-[4rem] font-bold text-4xl text-zinc-800 tracking-tight sm:text-5xl dark:text-zinc-100">
-            {typedName}
-            {!isComplete && (
-              <span className="animate-pulse text-teal-600 dark:text-teal-400">
-                |
-              </span>
-            )}
-          </h1>
-          <motion.p
-            className="mt-2 text-teal-600 text-xl dark:text-teal-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            {personalInfo.title[locale]}
-          </motion.p>
-          <motion.div
-            className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
+        <div className="order-3 lg:col-start-1 lg:row-start-2">
+          <div className="space-y-7 text-base text-zinc-600 dark:text-zinc-400">
             <p>{personalInfo.summary[locale]}</p>
             <p>{t('about.intro')}</p>
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          className="lg:pl-20"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0 }}
-        >
-          <ul>
+          </div>
+          <ul className="mt-8 space-y-4">
             <SocialLink href={`mailto:${personalInfo.email}`} icon={MailIcon}>
               {personalInfo.email}
             </SocialLink>
@@ -240,8 +119,8 @@ export function AboutClient({ personalInfo, experiences }: Props) {
               GitHub
             </SocialLink>
           </ul>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Experience Section */}
       <motion.div
@@ -252,70 +131,40 @@ export function AboutClient({ personalInfo, experiences }: Props) {
         viewport={{ once: true }}
       >
         <div className="mx-auto max-w-7xl">
-          {/* Mobile View: carousel only */}
-          <motion.div
-            className="block md:hidden"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <motion.h2
-              className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              {t('about.experience')}
-            </motion.h2>
-            <motion.div className="mt-4">
-              <ExperienceCarousel items={experiences} />
-            </motion.div>
-          </motion.div>
+          <h2 className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100">
+            {t('about.experience')}
+          </h2>
 
-          {/* Desktop View: link-like accordions mimicking mobile cards */}
-          <motion.div
-            className="hidden md:block"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <motion.h2
-              className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              {t('about.experience')}
-            </motion.h2>
-            <div className="mt-6 space-y-3">
-              {experiences.map((exp) => (
-                <Link
-                  key={`${exp.company}-${exp.start}`}
-                  href={`/experiences/${slugify(exp.company)}`}
-                  className="flex w-full items-center gap-3 rounded-lg bg-zinc-50 px-4 py-3 text-left shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md dark:bg-zinc-800/50 dark:hover:bg-zinc-800"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 font-bold text-sm text-white">
-                    {exp.company.charAt(0)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-semibold text-base text-zinc-800 dark:text-zinc-100">
-                      {exp.position[locale]}
-                    </p>
-                    <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
-                      {exp.company} • {exp.duration[locale]}
-                    </p>
-                  </div>
-                  <span className="font-medium text-sm text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
-                    {t('about.viewDetail')}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
+          {/* Mobile: horizontal carousel */}
+          <div className="mt-4 md:hidden">
+            <ExperienceCarousel items={experiences} />
+          </div>
+
+          {/* Desktop: link list */}
+          <div className="mt-6 hidden space-y-3 md:block">
+            {experiences.map((exp) => (
+              <Link
+                key={`${exp.company}-${exp.start}`}
+                href={`/experiences/${slugify(exp.company)}`}
+                className="flex w-full items-center gap-3 rounded-lg bg-zinc-50 px-4 py-3 text-left shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 focus-visible:outline-offset-2 dark:bg-zinc-800/50 dark:hover:bg-zinc-800"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 font-bold text-sm text-white">
+                  {exp.company.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-semibold text-base text-zinc-800 dark:text-zinc-100">
+                    {exp.position[locale]}
+                  </p>
+                  <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
+                    {exp.company} • {exp.duration[locale]}
+                  </p>
+                </div>
+                <span className="font-medium text-sm text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
+                  {t('about.viewDetail')}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </motion.div>
 
@@ -328,15 +177,9 @@ export function AboutClient({ personalInfo, experiences }: Props) {
         viewport={{ once: true }}
       >
         <div className="mx-auto max-w-7xl">
-          <motion.h2
-            className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
+          <h2 className="font-bold text-2xl text-zinc-800 tracking-tight dark:text-zinc-100">
             {t('about.skills')}
-          </motion.h2>
+          </h2>
           <motion.div
             className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
             variants={{
