@@ -6,7 +6,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import type { Locale } from '@/lib/i18n'
 
 export function LanguageSwitcher() {
-  const { locale, setLocale } = useLocale()
+  const { locale, setLocale, isPending } = useLocale()
   const { t } = useTranslation()
 
   const handleLocaleChange = (newLocale: Locale) => {
@@ -14,7 +14,15 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center space-x-1.5 rounded-lg bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10">
+    <div
+      aria-busy={isPending}
+      className={clsx(
+        'flex items-center space-x-1.5 rounded-lg bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition-opacity duration-150 dark:bg-zinc-800/90 dark:ring-white/10',
+        // The navigation takes a round trip; dimming on click is the feedback
+        // that used to be missing until the new page finally painted.
+        isPending ? 'cursor-progress opacity-60' : null,
+      )}
+    >
       <button
         type="button"
         onClick={() => handleLocaleChange('en')}

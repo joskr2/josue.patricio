@@ -11,7 +11,8 @@ import { Header } from '@/components/Header'
 
 // The header sits behind the app shell, so every ambient dependency is mocked
 // rather than mounted through its provider.
-vi.mock('next/navigation', () => ({ usePathname: () => '/' }))
+const route = vi.hoisted(() => ({ path: '/' }))
+vi.mock('next/navigation', () => ({ usePathname: () => route.path }))
 vi.mock('next-themes', () => ({
   useTheme: () => ({ resolvedTheme: 'light', setTheme: () => {} }),
 }))
@@ -19,7 +20,7 @@ vi.mock('@/contexts/BlurContext', () => ({
   useBlur: () => ({ isBlurred: false, setBlur: () => {} }),
 }))
 vi.mock('@/contexts/LocaleContext', () => ({
-  useLocale: () => ({ locale: 'en', setLocale: () => {} }),
+  useLocale: () => ({ locale: 'en', setLocale: () => {}, isPending: false }),
 }))
 // Resolve real copy instead of echoing the key: a missing translation then
 // fails the label assertions instead of leaking `a11y.openMenu` to a user.
@@ -36,6 +37,7 @@ vi.mock('@/hooks/useTranslation', async () => {
 afterEach(() => {
   cleanup()
   document.body.style.overflow = ''
+  route.path = '/'
 })
 
 function menuButton() {
@@ -97,5 +99,35 @@ describe('Header mobile menu scroll lock', () => {
       expect(document.body.style.overflow).toBe('scroll')
       expect(document.documentElement.style.overflow).toBe('auto')
     })
+  })
+})
+
+describe('Header active item', () => {
+  const activeLabels = () =>
+    [...document.querySelectorAll('header nav a[aria-current="page"]')].map(
+      (a) => a.textContent?.trim(),
+    )
+
+  it('marks only the current section, not every section under the locale', () => {
+    // Regression: hrefs are locale-prefixed ("/en"), so a raw prefix test made
+    // "Home" match "/en/about" and every other route beneath it.
+    route.path = '/en/about'
+    render(<Header />)
+
+    expect(activeLabels()).toEqual(['About'])
+  })
+
+  it('keeps the parent section marked on a detail route', () => {
+    route.path = '/en/experiences/auna'
+    render(<Header />)
+
+    expect(activeLabels()).toEqual(['Experience'])
+  })
+
+  it('marks home only on the locale root', () => {
+    route.path = '/en'
+    render(<Header />)
+
+    expect(activeLabels()).toEqual(['Home'])
   })
 })

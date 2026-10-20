@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { usePathname } from 'next/navigation'
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton'
 import { Footer } from '@/components/Footer'
@@ -35,21 +35,22 @@ export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
           id="main"
           className={`flex-auto pt-20 transition-all duration-300 ${isBlurred ? 'opacity-80 blur-sm' : ''}`}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={pathname}
-              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { duration: 0.25, ease: 'easeOut' }
-              }
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          {/* No exit animation: with mode="wait" the outgoing page had to finish
+              fading out before the incoming one mounted, adding ~0.5s to every
+              navigation — most noticeable on a language switch, which already
+              waits for a server round trip. A short fade-in reads as instant. */}
+          <motion.div
+            key={pathname}
+            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: 0.15, ease: 'easeOut' }
+            }
+          >
+            {children}
+          </motion.div>
         </main>
         <Footer />
         {!isBlurred && (
