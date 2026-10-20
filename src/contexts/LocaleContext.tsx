@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
-import { defaultLocale, detectLocale, type Locale } from '@/lib/i18n'
+import { usePathname, useRouter } from 'next/navigation'
+import { createContext, useContext, useMemo } from 'react'
+import { type Locale, localizedPath, unlocalizedPath } from '@/lib/i18n'
 
 interface LocaleContextType {
   locale: Locale
@@ -10,31 +11,36 @@ interface LocaleContextType {
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined)
 
-export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(defaultLocale)
+export function LocaleProvider({
+  locale,
+  children,
+}: {
+  locale: Locale
+  children: React.ReactNode
+}) {
+  const router = useRouter()
+  const pathname = usePathname()
 
-  // Reconcile the detected locale after mount. The initial client render stays
-  // defaultLocale so it matches the server HTML.
-  useEffect(() => {
-    // biome-ignore lint/nursery/useReactCompiler: mount-time reconciliation of the locale from localStorage/system preference; it must run after hydration so the first client render matches the prerendered HTML.
-    setLocaleState(detectLocale())
-  }, [])
-
-  useEffect(() => {
-    document.documentElement.lang = locale
-  }, [locale])
-
-  const setLocale = (newLocale: Locale) => {
-    setLocaleState(newLocale)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('locale', newLocale)
-    }
-  }
+  const value = useMemo<LocaleContextType>(
+    () => ({
+      locale,
+      // Switching language is a navigation between prerendered routes, not a
+      // client-only state flip: the server has to re-render the tree in the
+      // other language so the URL, the metadata and <html lang> agree.
+      setLocale: (next: Locale) => {
+        if (next === locale) return
+        // Remember the choice for the locale-less entry points ("/", legacy
+        // links), which the proxy resolves before any page renders.
+        // biome-ignore lint/suspicious/noDocumentCookie: the Cookie Store API is not available in Safari or Firefox, and this first-party preference cookie is what makes the locale-less entry points follow the last explicit choice.
+        document.cookie = `locale=${next}; path=/; max-age=31536000; samesite=lax`
+        router.push(localizedPath(next, unlocalizedPath(pathname)))
+      },
+    }),
+    [locale, pathname, router],
+  )
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale }}>
-      {children}
-    </LocaleContext.Provider>
+    <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
   )
 }
 

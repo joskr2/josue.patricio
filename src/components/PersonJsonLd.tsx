@@ -1,35 +1,36 @@
+import type { Locale } from '@/lib/i18n'
 import { personalInfo, siteUrl, skills } from '@/lib/personal-data'
 
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: personalInfo.name,
-  alternateName: 'Josue Retamozo',
-  url: siteUrl,
-  image: `${siteUrl}/opengraph-image`,
-  jobTitle: personalInfo.title.en,
-  description: personalInfo.summary.en,
-  email: `mailto:${personalInfo.email}`,
-  telephone: personalInfo.phone,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Lima',
-    addressCountry: 'PE',
-  },
-  sameAs: [personalInfo.linkedin, personalInfo.github],
-  knowsLanguage: skills.languages.map((language) => language.name),
-  knowsAbout: [
-    ...skills.highlights.frontend,
-    ...skills.highlights.backend,
-    ...skills.highlights.infrastructure,
-  ],
-  alumniOf: {
-    '@type': 'CollegeOrUniversity',
-    name: 'TECSUP',
-  },
-}
+export function PersonJsonLd({ locale }: { locale: Locale }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: personalInfo.name,
+    alternateName: 'Josue Retamozo',
+    url: siteUrl,
+    image: `${siteUrl}/og`,
+    jobTitle: personalInfo.title[locale],
+    description: personalInfo.summary[locale],
+    email: `mailto:${personalInfo.email}`,
+    telephone: personalInfo.phone,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Lima',
+      addressCountry: 'PE',
+    },
+    sameAs: [personalInfo.linkedin, personalInfo.github],
+    knowsLanguage: skills.languages.map((language) => language.name),
+    knowsAbout: [
+      ...skills.highlights.frontend,
+      ...skills.highlights.backend,
+      ...skills.highlights.infrastructure,
+    ],
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: 'TECSUP',
+    },
+  }
 
-export function PersonJsonLd() {
   return (
     <script
       type="application/ld+json"

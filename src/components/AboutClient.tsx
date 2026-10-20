@@ -12,6 +12,7 @@ import { SkillCategory } from '@/components/SkillCategory'
 import { GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
 import type { Experience } from '@/lib/experience-data'
+import { localizedPath } from '@/lib/i18n'
 import { skills } from '@/lib/personal-data'
 import { slugify } from '@/lib/slugify'
 
@@ -145,7 +146,10 @@ export function AboutClient({ personalInfo, experiences }: Props) {
             {experiences.map((exp) => (
               <Link
                 key={`${exp.company}-${exp.start}`}
-                href={`/experiences/${slugify(exp.company)}`}
+                href={localizedPath(
+                  locale,
+                  `/experiences/${slugify(exp.company)}`,
+                )}
                 className="flex w-full items-center gap-3 rounded-lg bg-zinc-50 px-4 py-3 text-left shadow-sm transition-all duration-200 hover:bg-zinc-100 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 focus-visible:outline-offset-2 dark:bg-zinc-800/50 dark:hover:bg-zinc-800"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 font-bold text-sm text-white">

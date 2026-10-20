@@ -1,18 +1,24 @@
 import type { Metadata } from 'next'
+
 import { HomeClient } from '@/components/HomeClient'
 import image1 from '@/images/photos/image-1.webp'
 import image2 from '@/images/photos/image-2.webp'
 import image3 from '@/images/photos/image-3.webp'
 import image4 from '@/images/photos/image-4.webp'
 import portraitImage from '@/images/portrait.webp'
+import { buildPageMetadata, resolveLocale } from '@/lib/metadata'
 import { personalInfo } from '@/lib/personal-data'
 import { projects } from '@/lib/projects-data'
 
-export const metadata: Metadata = {
-  title: 'Software Engineer',
-  description:
-    'Josue Retamozo — Software Engineer specializing in React.js and React Native frontend development, with a full-stack foundation in C# (.NET), Java, and microservices.',
-  alternates: { canonical: '/' },
+type Params = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { locale } = await params
+  return buildPageMetadata({
+    locale: resolveLocale(locale),
+    path: '/',
+    key: 'home',
+  })
 }
 
 export default async function Home() {

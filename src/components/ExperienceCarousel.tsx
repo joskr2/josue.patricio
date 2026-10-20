@@ -9,6 +9,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import type { Experience } from '@/lib/experience-data'
+import { localizedPath } from '@/lib/i18n'
 import { slugify } from '@/lib/slugify'
 
 type Props = Readonly<{
@@ -119,7 +120,10 @@ export function ExperienceCarousel({ items, className }: Props) {
               whileHover={{ scale: 1.01 }}
             >
               <Link
-                href={`/experiences/${slugify(exp.company)}`}
+                href={localizedPath(
+                  locale,
+                  `/experiences/${slugify(exp.company)}`,
+                )}
                 className="group block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                 aria-label={`${exp.company} ${exp.position?.en || exp.position?.es}`}
               >

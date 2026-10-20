@@ -3,9 +3,10 @@
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { useTranslation } from '@/hooks/useTranslation'
+import { localizedPath } from '@/lib/i18n'
 
 export default function NotFound() {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
 
   return (
     <Container className="flex h-full items-center pt-16 sm:pt-32">
@@ -19,7 +20,11 @@ export default function NotFound() {
         <p className="mt-4 text-base text-zinc-600 dark:text-zinc-400">
           {t('notFound.description')}
         </p>
-        <Button href="/" variant="secondary" className="mt-4">
+        <Button
+          href={localizedPath(locale, '/')}
+          variant="secondary"
+          className="mt-4"
+        >
           {t('notFound.backHome')}
         </Button>
       </div>

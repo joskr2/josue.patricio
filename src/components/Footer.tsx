@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { ContainerInner, ContainerOuter } from '@/components/Container'
 import { useTranslation } from '@/hooks/useTranslation'
+import { localizedPath } from '@/lib/i18n'
 import { cv, personalInfo } from '@/lib/personal-data'
 
 function NavLink({
@@ -33,10 +34,18 @@ export function Footer() {
           <ContainerInner>
             <div className="flex flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6">
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-medium text-sm text-zinc-800 dark:text-zinc-200">
-                <NavLink href="/about">{t('nav.about')}</NavLink>
-                <NavLink href="/experiences">{t('nav.experiences')}</NavLink>
-                <NavLink href="/projects">{t('nav.projects')}</NavLink>
-                <NavLink href="/contact">{t('nav.contact')}</NavLink>
+                <NavLink href={localizedPath(locale, '/about')}>
+                  {t('nav.about')}
+                </NavLink>
+                <NavLink href={localizedPath(locale, '/experiences')}>
+                  {t('nav.experiences')}
+                </NavLink>
+                <NavLink href={localizedPath(locale, '/projects')}>
+                  {t('nav.projects')}
+                </NavLink>
+                <NavLink href={localizedPath(locale, '/contact')}>
+                  {t('nav.contact')}
+                </NavLink>
                 <a
                   href={cv[locale].href}
                   download={cv[locale].downloadName}

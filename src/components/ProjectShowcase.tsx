@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Card } from '@/components/Card'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
+import { localizedPath } from '@/lib/i18n'
 import type { Project } from '@/lib/projects-data'
 
 interface ProjectShowcaseProps {
@@ -46,7 +47,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
 
   return (
     <Card as="article" className="md:col-span-3">
-      <Card.Title href={`/projects#${project.id}`}>
+      <Card.Title href={localizedPath(locale, `/projects#${project.id}`)}>
         {project.title[locale]}
       </Card.Title>
       <Card.Description>{project.description[locale]}</Card.Description>
@@ -105,7 +106,7 @@ export function ProjectShowcase({ project }: Readonly<ProjectShowcaseProps>) {
         )}
       </div>
 
-      <Card.Cta href={`/projects#${project.id}`}>
+      <Card.Cta href={localizedPath(locale, `/projects#${project.id}`)}>
         {t('home.viewProject')}
       </Card.Cta>
     </Card>

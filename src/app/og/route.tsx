@@ -2,17 +2,18 @@ import { ImageResponse } from 'next/og'
 
 import { personalInfo, skills } from '@/lib/personal-data'
 
-export const alt =
-  'Josue Retamozo — Software Engineer specializing in React, React Native and .NET'
 export const size = { width: 1200, height: 630 }
-export const contentType = 'image/png'
+
+// Prerendered at build time: the card is fixed content, so there is no reason
+// to pay a function invocation per share.
+export const dynamic = 'force-static'
 
 const stack = [
   ...skills.highlights.frontend.slice(0, 4),
   ...skills.highlights.backend.slice(0, 3),
 ]
 
-export default function OpengraphImage() {
+export function GET() {
   return new ImageResponse(
     <div
       style={{

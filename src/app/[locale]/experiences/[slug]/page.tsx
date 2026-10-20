@@ -3,17 +3,24 @@ import { notFound } from 'next/navigation'
 
 import { ExperienceDetail } from '@/components/ExperienceDetail'
 import { experiences } from '@/lib/experience-data'
-import { personalInfo, siteUrl } from '@/lib/personal-data'
+import {
+  type Locale,
+  languageAlternates,
+  localizedPath,
+  ogLocale,
+} from '@/lib/i18n'
+import { resolveLocale, shareImage } from '@/lib/metadata'
+import { siteUrl } from '@/lib/personal-data'
 import { slugify } from '@/lib/slugify'
 
-type Params = { params: Promise<{ slug: string }> }
+type Params = { params: Promise<{ locale: string; slug: string }> }
 
 function findExperience(slug: string) {
   return experiences.find((experience) => slugify(experience.company) === slug)
 }
 
 // Every experience page is known at build time, so they are prerendered instead
-// of rendered on demand.
+// of rendered on demand. The locale combinations come from the layout.
 export function generateStaticParams() {
   return experiences.map((experience) => ({
     slug: slugify(experience.company),
@@ -21,36 +28,38 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const { slug } = await params
+  const { locale: segment, slug } = await params
+  const locale: Locale = resolveLocale(segment)
   const experience = findExperience(slug)
 
   if (!experience) {
     return { title: 'Experience not found' }
   }
 
-  const role = `${experience.position.en} at ${experience.company}`
-  const description =
-    experience.description.en.slice(0, 2).join(' ').slice(0, 160).trim() ||
-    `${experience.position.en} at ${experience.company} (${experience.duration.en}).`
   const path = `/experiences/${slug}`
+  const canonical = localizedPath(locale, path)
+  const role = `${experience.position[locale]} · ${experience.company}`
+  const description =
+    experience.description[locale].slice(0, 2).join(' ').slice(0, 160).trim() ||
+    role
   // A page that declares `openGraph` replaces the inherited object wholesale, so
   // the generated share image has to be referenced again here.
-  const image = {
-    url: `${siteUrl}/opengraph-image`,
-    width: 1200,
-    height: 630,
-    alt: `${personalInfo.name} - ${personalInfo.title.en}`,
-  }
+  const image = shareImage(role)
 
   return {
     title: role,
     description,
-    alternates: { canonical: path },
+    alternates: {
+      canonical,
+      languages: languageAlternates(path),
+    },
     openGraph: {
       type: 'article',
-      url: `${siteUrl}${path}`,
+      url: `${siteUrl}${canonical}`,
       title: `${role} - Josue Retamozo`,
       description,
+      locale: ogLocale(locale),
+      alternateLocale: ogLocale(locale === 'es' ? 'en' : 'es'),
       images: [image],
     },
     twitter: {

@@ -17,6 +17,7 @@ import { Container } from '@/components/Container'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { useBlur } from '@/contexts/BlurContext'
 import { useTranslation } from '@/hooks/useTranslation'
+import { localizedPath } from '@/lib/i18n'
 
 function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
@@ -105,14 +106,9 @@ function MobileNavItem({
   )
 }
 
-function MobileNavigationContent({
-  open,
-  t,
-}: Readonly<{
-  open: boolean
-  t: (key: string) => string
-}>) {
+function MobileNavigationContent({ open }: Readonly<{ open: boolean }>) {
   const { setBlur } = useBlur()
+  const { t, locale } = useTranslation()
 
   // Use useEffect to handle state changes safely
   useEffect(() => {
@@ -165,15 +161,21 @@ function MobileNavigationContent({
         </div>
         <nav className="mt-6">
           <ul className="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-            <MobileNavItem href="/">{t('nav.home')}</MobileNavItem>
-            <MobileNavItem href="/about">
+            <MobileNavItem href={localizedPath(locale, '/')}>
+              {t('nav.home')}
+            </MobileNavItem>
+            <MobileNavItem href={localizedPath(locale, '/about')}>
               <span className="whitespace-nowrap">{t('nav.about')}</span>
             </MobileNavItem>
-            <MobileNavItem href="/experiences">
+            <MobileNavItem href={localizedPath(locale, '/experiences')}>
               <span className="whitespace-nowrap">{t('nav.experiences')}</span>
             </MobileNavItem>
-            <MobileNavItem href="/projects">{t('nav.projects')}</MobileNavItem>
-            <MobileNavItem href="/contact">{t('nav.contact')}</MobileNavItem>
+            <MobileNavItem href={localizedPath(locale, '/projects')}>
+              {t('nav.projects')}
+            </MobileNavItem>
+            <MobileNavItem href={localizedPath(locale, '/contact')}>
+              {t('nav.contact')}
+            </MobileNavItem>
           </ul>
         </nav>
       </PopoverPanel>
@@ -184,11 +186,9 @@ function MobileNavigationContent({
 function MobileNavigation(
   props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
 ) {
-  const { t } = useTranslation()
-
   return (
     <Popover {...props}>
-      {({ open }) => <MobileNavigationContent open={open} t={t} />}
+      {({ open }) => <MobileNavigationContent open={open} />}
     </Popover>
   )
 }
@@ -230,20 +230,24 @@ function NavItem({
 function DesktopNavigation(
   props: Readonly<React.ComponentPropsWithoutRef<'nav'>>,
 ) {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
 
   return (
     <nav {...props}>
       <ul className="flex rounded-full bg-white/90 px-3 font-medium text-sm text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-        <NavItem href="/">{t('nav.home')}</NavItem>
-        <NavItem href="/about">
+        <NavItem href={localizedPath(locale, '/')}>{t('nav.home')}</NavItem>
+        <NavItem href={localizedPath(locale, '/about')}>
           <span className="whitespace-nowrap">{t('nav.about')}</span>
         </NavItem>
-        <NavItem href="/experiences">
+        <NavItem href={localizedPath(locale, '/experiences')}>
           <span className="whitespace-nowrap">{t('nav.experiences')}</span>
         </NavItem>
-        <NavItem href="/projects">{t('nav.projects')}</NavItem>
-        <NavItem href="/contact">{t('nav.contact')}</NavItem>
+        <NavItem href={localizedPath(locale, '/projects')}>
+          {t('nav.projects')}
+        </NavItem>
+        <NavItem href={localizedPath(locale, '/contact')}>
+          {t('nav.contact')}
+        </NavItem>
       </ul>
     </nav>
   )
@@ -283,7 +287,7 @@ function ThemeToggle() {
 
 export function Header() {
   const pathname = usePathname()
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   return (
     <header className="fixed top-0 right-0 left-0 z-50 h-fit bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-900/80 dark:ring-white/10 [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30">
       <Container>
@@ -292,8 +296,12 @@ export function Header() {
         <div className="flex items-center justify-between py-2">
           {/* Mobile: left spacer to keep center/right aligned; shows avatar on non-home */}
           <div className="flex flex-1 items-center md:hidden">
-            {pathname !== '/' ? (
-              <Link href="/" aria-label={t('a11y.home')} className="group">
+            {pathname !== localizedPath(locale, '/') ? (
+              <Link
+                href={localizedPath(locale, '/')}
+                aria-label={t('a11y.home')}
+                className="group"
+              >
                 <motion.div
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}

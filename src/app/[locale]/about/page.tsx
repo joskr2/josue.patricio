@@ -1,14 +1,20 @@
 import type { Metadata } from 'next'
+
 import { AboutClient } from '@/components/AboutClient'
 import portraitImage from '@/images/portrait.webp'
 import { experiences } from '@/lib/experience-data'
+import { buildPageMetadata, resolveLocale } from '@/lib/metadata'
 import { personalInfo } from '@/lib/personal-data'
 
-export const metadata: Metadata = {
-  title: 'About',
-  description:
-    'Learn more about Josue Retamozo: experience, skills, education, and certifications.',
-  alternates: { canonical: '/about' },
+type Params = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { locale } = await params
+  return buildPageMetadata({
+    locale: resolveLocale(locale),
+    path: '/about',
+    key: 'about',
+  })
 }
 
 export default async function About() {

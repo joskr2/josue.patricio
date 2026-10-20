@@ -5,6 +5,7 @@ import { Container } from '@/components/Container'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
 import { experiences } from '@/lib/experience-data'
+import { localizedPath } from '@/lib/i18n'
 import { slugify } from '@/lib/slugify'
 
 export function ExperiencesClient() {
@@ -69,7 +70,10 @@ export function ExperiencesClient() {
 
               <div className="mt-4 border-zinc-200 border-t pt-4 dark:border-zinc-700">
                 <Link
-                  href={`/experiences/${slugify(exp.company)}`}
+                  href={localizedPath(
+                    locale,
+                    `/experiences/${slugify(exp.company)}`,
+                  )}
                   className="inline-flex min-h-11 items-center gap-2 font-medium text-sm text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
                 >
                   {t('about.viewDetail')} →

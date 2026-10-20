@@ -13,6 +13,7 @@ import { ReadMore } from '@/components/ReadMore'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
+import { localizedPath } from '@/lib/i18n'
 import { cv, skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
 
@@ -160,7 +161,7 @@ export function HomeClient({
                 {t('home.downloadCV')}
               </a>
               <Link
-                href="/contact"
+                href={localizedPath(locale, '/contact')}
                 className="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-5 py-2.5 font-semibold text-sm text-zinc-800 transition hover:border-teal-500 hover:text-teal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 dark:border-zinc-600 dark:text-zinc-200 dark:hover:border-teal-400 dark:hover:text-teal-300"
               >
                 {t('home.getInTouch')}
@@ -276,7 +277,9 @@ export function HomeClient({
                     </div>
                   </div>
                 </div>
-                <Card.Cta href="/about">{t('nav.about')}</Card.Cta>
+                <Card.Cta href={localizedPath(locale, '/about')}>
+                  {t('nav.about')}
+                </Card.Cta>
               </Card>
             </motion.div>
           </motion.div>
