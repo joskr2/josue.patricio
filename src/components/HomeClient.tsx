@@ -184,7 +184,7 @@ export function HomeClient({
             items={mobileCarouselItems}
             intervalMs={30000}
             sizes="(min-width: 1024px) 24rem, 100vw"
-          />
+          />{' '}
         </motion.div>
 
         <motion.div

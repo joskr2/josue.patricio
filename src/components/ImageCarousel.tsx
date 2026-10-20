@@ -24,11 +24,14 @@ export function ImageCarousel({
   intervalMs = 30000,
   className,
   sizes = '(min-width: 640px) 18rem, 20rem',
+  priority = false,
 }: Readonly<{
   items: CarouselItem[]
   intervalMs?: number
   className?: string
   sizes?: string
+  /** Preload the first slide. Only for a carousel that paints above the fold. */
+  priority?: boolean
 }>) {
   const { t } = useTranslation()
   const [index, setIndex] = useState(0)
@@ -126,7 +129,7 @@ export function ImageCarousel({
               height={current.height || 400}
               sizes={sizes}
               className="absolute inset-0 h-full w-full object-cover"
-              priority={index === 0}
+              priority={priority && index === 0}
             />
           </motion.div>
         </AnimatePresence>
