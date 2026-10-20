@@ -1,108 +1,74 @@
-'use client'
-
-import { motion } from 'motion/react'
-import Image from 'next/image'
-import Link from 'next/link'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { use } from 'react'
 
-import { Container } from '@/components/Container'
-import { TechBadge } from '@/components/TechBadge'
-import { useTranslation } from '@/hooks/useTranslation'
+import { ExperienceDetail } from '@/components/ExperienceDetail'
 import { experiences } from '@/lib/experience-data'
+import { personalInfo, siteUrl } from '@/lib/personal-data'
 import { slugify } from '@/lib/slugify'
 
-export default function ExperienceDetail({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  const { locale, t } = useTranslation()
-  const { slug } = use(params)
-  const experience = experiences.find((e) => slugify(e.company) === slug)
+type Params = { params: Promise<{ slug: string }> }
+
+function findExperience(slug: string) {
+  return experiences.find((experience) => slugify(experience.company) === slug)
+}
+
+// Every experience page is known at build time, so they are prerendered instead
+// of rendered on demand.
+export function generateStaticParams() {
+  return experiences.map((experience) => ({
+    slug: slugify(experience.company),
+  }))
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params
+  const experience = findExperience(slug)
+
+  if (!experience) {
+    return { title: 'Experience not found' }
+  }
+
+  const role = `${experience.position.en} at ${experience.company}`
+  const description =
+    experience.description.en.slice(0, 2).join(' ').slice(0, 160).trim() ||
+    `${experience.position.en} at ${experience.company} (${experience.duration.en}).`
+  const path = `/experiences/${slug}`
+  // A page that declares `openGraph` replaces the inherited object wholesale, so
+  // the generated share image has to be referenced again here.
+  const image = {
+    url: `${siteUrl}/opengraph-image`,
+    width: 1200,
+    height: 630,
+    alt: `${personalInfo.name} - ${personalInfo.title.en}`,
+  }
+
+  return {
+    title: role,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: 'article',
+      url: `${siteUrl}${path}`,
+      title: `${role} - Josue Retamozo`,
+      description,
+      images: [image],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${role} - Josue Retamozo`,
+      description,
+      images: [image],
+    },
+  }
+}
+
+export default async function ExperiencePage({ params }: Params) {
+  const { slug } = await params
+  const experience = findExperience(slug)
 
   if (!experience) {
     notFound()
   }
 
-  return (
-    <Container className="mt-16 sm:mt-24">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="flex items-start gap-4">
-          <div className="relative hidden h-16 w-16 overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-200 md:block dark:bg-zinc-900 dark:ring-zinc-700">
-            {experience.logo ? (
-              <Image
-                src={experience.logo}
-                alt={experience.company}
-                fill
-                className="object-contain p-3"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center font-bold text-lg text-teal-600 dark:text-teal-400">
-                {experience.company.charAt(0)}
-              </div>
-            )}
-          </div>
-          <div>
-            <h1 className="font-bold text-[clamp(1.5rem,5.5vw,1.875rem)] text-zinc-800 tracking-tight dark:text-zinc-100">
-              {experience.position[locale]}
-            </h1>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-              <span className="font-medium text-zinc-800 dark:text-zinc-200">
-                {experience.company}
-              </span>{' '}
-              • {experience.duration[locale]}
-            </p>
-          </div>
-        </div>
-
-        {/* Body */}
-        <div className="prose prose-zinc dark:prose-invert mt-8 max-w-none">
-          <ul>
-            {experience.description[locale].map((line) => (
-              <li key={line.substring(0, 50)}>{line}</li>
-            ))}
-          </ul>
-        </div>
-
-        {experience.technologies.length > 0 && (
-          <div className="mt-8">
-            <h3 className="font-semibold text-sm text-zinc-800 dark:text-zinc-200">
-              {t('experiences.technologies')}
-            </h3>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {experience.technologies.map((tech) => (
-                <TechBadge key={tech}>{tech}</TechBadge>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="mt-10">
-          <Link
-            href="/about"
-            className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 font-medium text-sm text-white transition hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
-          >
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.79 14.77a.75.75 0 001.06-1.06L10.94 10l2.91-2.91a.75.75 0 10-1.06-1.06L8.59 9.23a.75.75 0 000 1.06l3.2 3.2z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {t('nav.about')}
-          </Link>
-        </div>
-      </motion.div>
-    </Container>
-  )
+  return <ExperienceDetail experience={experience} />
 }
