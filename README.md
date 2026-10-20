@@ -189,6 +189,19 @@ export const projects = [
 
 Actualiza `src/lib/i18n.ts` para agregar o modificar traducciones.
 
+### 5. Currículums (PDF)
+
+Los CVs viven en `public/` con nombres estables: `cv-es.pdf` y `cv-en.pdf`.
+Actualizarlos **no requiere cambios de código**: sobrescribe el archivo con el
+nuevo export (mismo nombre) y haz commit. Las URLs nunca cambian, por lo que
+los enlaces directos y los redirects de `next.config.ts` siguen vivos.
+
+El nombre amigable que ve quien descarga se configura una sola vez en
+`src/lib/personal-data.ts` (`cv.es.downloadName` / `cv.en.downloadName`).
+
+`npm run check` verifica que ambos PDFs existen, son PDFs válidos y completos,
+y no son el mismo archivo subido dos veces.
+
 ## 🎨 Componentes Principales
 
 ### Card

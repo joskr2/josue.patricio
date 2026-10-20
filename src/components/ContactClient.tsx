@@ -12,7 +12,7 @@ import {
   WhatsAppIcon,
 } from '@/components/SocialIcons'
 import { useTranslation } from '@/hooks/useTranslation'
-import { personalInfo } from '@/lib/personal-data'
+import { cv, personalInfo } from '@/lib/personal-data'
 
 // Motion variants for staggered entrances
 const listVariants = {
@@ -218,8 +218,8 @@ export function ContactClient() {
           </h2>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <a
-              href="/CV_Josue_Retamozo_Espanol.pdf"
-              download="Josue-Patricio-Desarrollador-Software.pdf"
+              href={cv.es.href}
+              download={cv.es.downloadName}
               className="flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-6 py-4 font-medium text-sm text-zinc-800 transition-all hover:border-teal-500 hover:bg-teal-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-teal-500 dark:hover:bg-teal-900/20"
             >
               <svg
@@ -239,8 +239,8 @@ export function ContactClient() {
               Español - Desarrollador Software
             </a>
             <a
-              href="/CV_Josue_Retamozo_English.pdf"
-              download="Josue-Patricio-Software-Developer.pdf"
+              href={cv.en.href}
+              download={cv.en.downloadName}
               className="flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-6 py-4 font-medium text-sm text-zinc-800 transition-all hover:border-teal-500 hover:bg-teal-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-teal-500 dark:hover:bg-teal-900/20"
             >
               <svg

@@ -22,6 +22,20 @@ export const personalInfo = {
   },
 }
 
+// The public URLs of the CVs are stable: updating a CV means overwriting the
+// file in public/, nothing else. `downloadName` is the friendly filename the
+// browser suggests on download, so the served name never has to change again.
+export const cv = {
+  es: {
+    href: '/cv-es.pdf',
+    downloadName: 'Josue-Patricio-Desarrollador-Software.pdf',
+  },
+  en: {
+    href: '/cv-en.pdf',
+    downloadName: 'Josue-Patricio-Software-Developer.pdf',
+  },
+} as const
+
 export const skills = {
   programmingLanguages: [
     'JavaScript',
