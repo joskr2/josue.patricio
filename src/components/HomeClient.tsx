@@ -1,5 +1,6 @@
 'use client'
 
+import { Download } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { StaticImageData } from 'next/image'
 import Image from 'next/image'
@@ -13,7 +14,7 @@ import { ReadMore } from '@/components/ReadMore'
 import { GitHubIcon, LinkedInIcon, MailIcon } from '@/components/SocialIcons'
 import { TechBadge } from '@/components/TechBadge'
 import { useTranslation } from '@/hooks/useTranslation'
-import { skills } from '@/lib/personal-data'
+import { cv, skills } from '@/lib/personal-data'
 import type { Project } from '@/lib/projects-data'
 
 type Props = {
@@ -128,23 +129,42 @@ export function HomeClient({
           <motion.div className="mt-6 flex gap-6" variants={itemVariants}>
             <SocialLink
               href={`mailto:${personalInfo.email}`}
-              aria-label="Send email"
+              aria-label={t('a11y.sendEmail')}
               icon={MailIcon}
             />
             <SocialLink
               href={personalInfo.github}
-              aria-label="Follow on GitHub"
+              aria-label={t('a11y.followOnGitHub')}
               icon={GitHubIcon}
               target="_blank"
               rel="noopener noreferrer"
             />
             <SocialLink
               href={personalInfo.linkedin}
-              aria-label="Follow on LinkedIn"
+              aria-label={t('a11y.followOnLinkedIn')}
               icon={LinkedInIcon}
               target="_blank"
               rel="noopener noreferrer"
             />
+          </motion.div>
+          <motion.div
+            className="mt-8 flex flex-wrap items-center gap-3"
+            variants={itemVariants}
+          >
+            <a
+              href={cv[locale].href}
+              download={cv[locale].downloadName}
+              className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-5 py-2.5 font-semibold text-sm text-white shadow-sm transition hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 dark:bg-teal-500 dark:hover:bg-teal-400"
+            >
+              <Download aria-hidden="true" className="h-4 w-4" />
+              {t('home.downloadCV')}
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-5 py-2.5 font-semibold text-sm text-zinc-800 transition hover:border-teal-500 hover:text-teal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-600 focus-visible:outline-offset-2 dark:border-zinc-600 dark:text-zinc-200 dark:hover:border-teal-400 dark:hover:text-teal-300"
+            >
+              {t('home.getInTouch')}
+            </Link>
           </motion.div>
         </motion.div>
       </Container>

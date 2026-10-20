@@ -1,5 +1,6 @@
 'use client'
 
+import { MotionConfig } from 'motion/react'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { useEffect } from 'react'
 import { BlurProvider } from '@/contexts/BlurContext'
@@ -34,12 +35,16 @@ export function Providers({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ThemeProvider attribute="class" disableTransitionOnChange>
-      <LocaleProvider>
-        <BlurProvider>
-          <ThemeWatcher />
-          {children}
-        </BlurProvider>
-      </LocaleProvider>
+      {/* Disables transform/layout animations for visitors who ask for less
+          motion, without taking the opacity fades away entirely. */}
+      <MotionConfig reducedMotion="user">
+        <LocaleProvider>
+          <BlurProvider>
+            <ThemeWatcher />
+            {children}
+          </BlurProvider>
+        </LocaleProvider>
+      </MotionConfig>
     </ThemeProvider>
   )
 }

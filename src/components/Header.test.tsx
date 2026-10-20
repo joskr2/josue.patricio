@@ -21,9 +21,17 @@ vi.mock('@/contexts/BlurContext', () => ({
 vi.mock('@/contexts/LocaleContext', () => ({
   useLocale: () => ({ locale: 'en', setLocale: () => {} }),
 }))
-vi.mock('@/hooks/useTranslation', () => ({
-  useTranslation: () => ({ locale: 'en', t: (key: string) => key }),
-}))
+// Resolve real copy instead of echoing the key: a missing translation then
+// fails the label assertions instead of leaking `a11y.openMenu` to a user.
+vi.mock('@/hooks/useTranslation', async () => {
+  const { getTranslation } = await import('@/lib/i18n')
+  return {
+    useTranslation: () => ({
+      locale: 'en',
+      t: (key: string) => getTranslation('en', key),
+    }),
+  }
+})
 
 afterEach(() => {
   cleanup()
@@ -52,7 +60,7 @@ describe('Header touch controls', () => {
   it('gives the language buttons 44px touch targets', () => {
     render(<Header />)
 
-    for (const name of ['Switch to English', 'Cambiar a Español']) {
+    for (const name of ['Switch to English', 'Switch to Spanish']) {
       const className = screen.getByRole('button', { name }).className
       expect(className).toContain('min-h-11')
       expect(className).toContain('min-w-11')

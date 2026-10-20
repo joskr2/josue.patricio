@@ -141,7 +141,7 @@ function MobileNavigationContent({
   return (
     <>
       <PopoverButton
-        aria-label="Open menu"
+        aria-label={t('a11y.openMenu')}
         className="group flex h-11 w-11 items-center justify-center rounded-lg bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
       >
         <MenuIcon className="h-6 w-6 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-400 dark:group-hover:stroke-zinc-300" />
@@ -157,7 +157,7 @@ function MobileNavigationContent({
       >
         <div className="flex flex-row-reverse items-center justify-between">
           <PopoverButton
-            aria-label="Close menu"
+            aria-label={t('a11y.closeMenu')}
             className="-m-2 flex h-11 w-11 items-center justify-center"
           >
             <CloseIcon className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
@@ -168,6 +168,9 @@ function MobileNavigationContent({
             <MobileNavItem href="/">{t('nav.home')}</MobileNavItem>
             <MobileNavItem href="/about">
               <span className="whitespace-nowrap">{t('nav.about')}</span>
+            </MobileNavItem>
+            <MobileNavItem href="/experiences">
+              <span className="whitespace-nowrap">{t('nav.experiences')}</span>
             </MobileNavItem>
             <MobileNavItem href="/projects">{t('nav.projects')}</MobileNavItem>
             <MobileNavItem href="/contact">{t('nav.contact')}</MobileNavItem>
@@ -197,7 +200,12 @@ function NavItem({
   href: string
   children: React.ReactNode
 }>) {
-  const isActive = usePathname() === href
+  const pathname = usePathname()
+  // Section pages (and their detail routes) keep the parent item highlighted.
+  const isActive =
+    href === '/'
+      ? pathname === '/'
+      : pathname === href || pathname.startsWith(`${href}/`)
 
   return (
     <li>
@@ -231,6 +239,9 @@ function DesktopNavigation(
         <NavItem href="/about">
           <span className="whitespace-nowrap">{t('nav.about')}</span>
         </NavItem>
+        <NavItem href="/experiences">
+          <span className="whitespace-nowrap">{t('nav.experiences')}</span>
+        </NavItem>
         <NavItem href="/projects">{t('nav.projects')}</NavItem>
         <NavItem href="/contact">{t('nav.contact')}</NavItem>
       </ul>
@@ -240,6 +251,7 @@ function DesktopNavigation(
 
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
+  const { t } = useTranslation()
   const otherTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
   const [mounted, setMounted] = useState(false)
 
@@ -251,7 +263,15 @@ function ThemeToggle() {
   return (
     <button
       type="button"
-      aria-label={mounted ? `Switch to ${otherTheme} theme` : 'Toggle theme'}
+      aria-label={
+        mounted
+          ? t(
+              otherTheme === 'dark'
+                ? 'a11y.switchToDarkTheme'
+                : 'a11y.switchToLightTheme',
+            )
+          : t('a11y.toggleTheme')
+      }
       className="group flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
       onClick={() => setTheme(otherTheme)}
     >
@@ -263,6 +283,7 @@ function ThemeToggle() {
 
 export function Header() {
   const pathname = usePathname()
+  const { t } = useTranslation()
   return (
     <header className="fixed top-0 right-0 left-0 z-50 h-fit bg-white/80 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-900/80 dark:ring-white/10 [@supports(backdrop-filter:blur(0))]:bg-white/30 [@supports(backdrop-filter:blur(0))]:backdrop-blur-md dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/30">
       <Container>
@@ -272,7 +293,7 @@ export function Header() {
           {/* Mobile: left spacer to keep center/right aligned; shows avatar on non-home */}
           <div className="flex flex-1 items-center md:hidden">
             {pathname !== '/' ? (
-              <Link href="/" aria-label="Home" className="group">
+              <Link href="/" aria-label={t('a11y.home')} className="group">
                 <motion.div
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
