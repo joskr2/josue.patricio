@@ -113,7 +113,9 @@ export function ImageCarousel({
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <AnimatePresence mode="wait">
+        {/* The first slide renders at its final opacity: fading the hero image
+            in costs 0.8s of visible paint on the element the LCP measures. */}
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={index}
             className="absolute inset-0"
