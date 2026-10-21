@@ -112,31 +112,9 @@ export const translations = {
     contact: {
       title: 'Contact',
       subtitle: "Let's work together",
-      email: 'Email',
-      phone: 'Phone',
-      location: 'Location',
-      linkedin: 'LinkedIn',
-      github: 'GitHub',
-      sendEmail: 'Send me an email',
-      emailSubject: 'Contact from your portfolio',
-      callDuringHours: 'Feel free to call during business hours',
-      currentlyBased: 'Currently based in Peru',
-      professionalNetwork: 'Professional network and career updates',
-      openSourceProjects: 'Open source projects and code repositories',
-      letsWorkTogether: "Let's work together",
-      alwaysInterested:
-        "I'm always interested in new opportunities and exciting projects. Whether you have a project in mind or just want to chat about technology, feel free to reach out!",
-      connectWithMe: 'Connect with me',
-      availability: 'Availability',
-      availabilityText:
-        "I'm currently available for freelance work and new opportunities. My timezone is GMT-5 (Peru), and I typically respond to emails within 24 hours.",
-      expertise: 'Expertise',
-      expertiseText:
-        'Specializing in React, Next.js, TypeScript, C# (.NET), and Microservices. I have experience both in frontend development and backend microservices architecture.',
-      connectOnLinkedIn: 'Connect on LinkedIn',
-      whatsapp: 'WhatsApp',
-      whatsappTooltip: 'Chat on WhatsApp',
+      // Used by the floating WhatsApp button in Layout.tsx
       whatsappPrefill: "Hi! I saw your website and I'd like more information.",
+      whatsappTooltip: 'Chat on WhatsApp',
       downloadCV: 'Download my CV',
       formTitle: 'Send me a message',
       formIntro:
@@ -291,31 +269,9 @@ export const translations = {
     contact: {
       title: 'Contacto',
       subtitle: 'Trabajemos juntos',
-      email: 'Correo',
-      phone: 'Teléfono',
-      location: 'Ubicación',
-      linkedin: 'LinkedIn',
-      github: 'GitHub',
-      sendEmail: 'Envíame un correo',
-      emailSubject: 'Contacto desde tu portafolio',
-      callDuringHours: 'Puedes llamar durante horario de oficina',
-      currentlyBased: 'Actualmente ubicado en Perú',
-      professionalNetwork: 'Red profesional y actualizaciones de carrera',
-      openSourceProjects: 'Proyectos de código abierto y repositorios',
-      letsWorkTogether: 'Trabajemos juntos',
-      alwaysInterested:
-        'Siempre estoy interesado en nuevas oportunidades y proyectos emocionantes. Ya sea que tengas un proyecto en mente o solo quieras charlar sobre tecnología, ¡no dudes en contactarme!',
-      connectWithMe: 'Conecta conmigo',
-      availability: 'Disponibilidad',
-      availabilityText:
-        'Actualmente estoy disponible para trabajo freelance y nuevas oportunidades. Mi zona horaria es GMT-5 (Perú), y típicamente respondo correos dentro de 24 horas.',
-      expertise: 'Experiencia',
-      expertiseText:
-        'Especializado en React, Next.js, TypeScript, C# (.NET) y Microservicios. Tengo experiencia tanto en desarrollo frontend como en arquitectura de microservicios backend.',
-      connectOnLinkedIn: 'Conectar en LinkedIn',
-      whatsapp: 'WhatsApp',
-      whatsappTooltip: 'Chatear por WhatsApp',
+      // Used by the floating WhatsApp button in Layout.tsx
       whatsappPrefill: '¡Hola! Vi tu web y me gustaría más información.',
+      whatsappTooltip: 'Chatear por WhatsApp',
       downloadCV: 'Descargar mi CV',
       formTitle: 'Envíame un mensaje',
       formIntro: 'Completa el formulario y te responderé dentro de 24 horas.',
