@@ -201,6 +201,30 @@ export function ContactForm() {
               : t('contact.formSend')}
           </button>
         </div>
+
+        {/* reCAPTCHA attribution — required by Google because the badge is
+            hidden via CSS (it overlapped the floating WhatsApp button). */}
+        <p className="text-xs text-zinc-500 leading-relaxed dark:text-zinc-400">
+          {t('contact.formRecaptchaNoticeStart')}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener"
+            className="underline underline-offset-2 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
+          >
+            {t('contact.formRecaptchaPrivacy')}
+          </a>
+          {t('contact.formRecaptchaNoticeMiddle')}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noopener"
+            className="underline underline-offset-2 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
+          >
+            {t('contact.formRecaptchaTerms')}
+          </a>
+          {t('contact.formRecaptchaNoticeEnd')}
+        </p>
       </form>
     </motion.div>
   )
