@@ -68,6 +68,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        {/* Pre-paint theme bootstrap. async + blocking="render" guarantees it
+            runs before the first paint, and React 19 treats async-src scripts
+            as deduplicated resources, so soft navigations reuse the existing
+            tag instead of re-creating it (which would trip React 19.3's
+            client-rendered <script> warning). */}
+        <script async src="/theme-init.js" blocking="render" />
+      </head>
       <body className="flex h-full bg-zinc-50 dark:bg-black">
         <PersonJsonLd locale={locale} />
         <Providers locale={locale}>

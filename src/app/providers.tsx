@@ -36,7 +36,17 @@ export function Providers({
   children,
 }: Readonly<{ locale: Locale; children: React.ReactNode }>) {
   return (
-    <ThemeProvider attribute="class" disableTransitionOnChange>
+    <ThemeProvider
+      attribute="class"
+      disableTransitionOnChange
+      // next-themes renders its anti-FOUC <script> inside this client
+      // component. React 19.3 warns when a client component renders an
+      // executable <script>, so the script is demoted to an inert data block
+      // (it never needs to run: the root layout loads its own render-blocking
+      // bootstrap at /theme-init.js — see public/theme-init.js — and soft
+      // navigations keep the theme class that is already on <html>).
+      scriptProps={{ type: 'application/json' }}
+    >
       {/* Disables transform/layout animations for visitors who ask for less
           motion, without taking the opacity fades away entirely. */}
       <MotionConfig reducedMotion="user">
