@@ -2,7 +2,9 @@
 
 import { useForm, ValidationError } from '@formspree/react'
 import { motion } from 'motion/react'
+import { useEffect } from 'react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { getRecaptchaToken, loadRecaptchaScript } from '@/lib/recaptcha'
 
 const FORMSPREE_FORM_ID = 'moejonao'
 
@@ -55,6 +57,22 @@ export function ContactForm() {
   const { t } = useTranslation()
   const [state, handleSubmit, reset] = useForm(FORMSPREE_FORM_ID)
 
+  // Formspree only accepts AJAX submissions when they carry a reCAPTCHA
+  // token, so the script is loaded as soon as the form mounts (it needs to
+  // run early to score the visit) and the token is attached on submit. The
+  // field name Formspree verifies is `g-recaptcha-response`.
+  useEffect(() => {
+    loadRecaptchaScript()
+  }, [])
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const token = await getRecaptchaToken()
+    if (token) data.set('g-recaptcha-response', token)
+    return handleSubmit(data)
+  }
+
   if (state.succeeded) {
     return (
       <motion.div
@@ -98,7 +116,7 @@ export function ContactForm() {
         {t('contact.formIntro')}
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+      <form onSubmit={onSubmit} className="mt-8 space-y-6">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-name" className={labelStyles}>
