@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react'
 import Link from 'next/link'
+import { ContactForm } from '@/components/ContactForm'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import {
   GitHubIcon,
@@ -108,9 +109,12 @@ export function ContactClient() {
   return (
     <SimpleLayout title={t('contact.title')} intro={t('contact.subtitle')}>
       <div className="mx-auto max-w-4xl">
+        {/* Contact Form */}
+        <ContactForm />
+
         {/* Contact Information */}
         <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+          className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2"
           variants={listVariants}
           initial="hidden"
           whileInView="show"
