@@ -133,6 +133,13 @@ export const translations = {
       formSendAnother: 'Send another message',
       formError:
         'Something went wrong while sending your message. Please try again.',
+      // reCAPTCHA attribution, required because the badge is hidden via CSS
+      formRecaptchaNoticeStart:
+        'This site is protected by reCAPTCHA and the Google ',
+      formRecaptchaPrivacy: 'Privacy Policy',
+      formRecaptchaNoticeMiddle: ' and ',
+      formRecaptchaTerms: 'Terms of Service',
+      formRecaptchaNoticeEnd: ' apply.',
     },
     // Footer
     footer: {
@@ -289,6 +296,13 @@ export const translations = {
       formSendAnother: 'Enviar otro mensaje',
       formError:
         'Algo salió mal al enviar tu mensaje. Por favor, inténtalo de nuevo.',
+      // reCAPTCHA attribution, required because the badge is hidden via CSS
+      formRecaptchaNoticeStart:
+        'Este sitio está protegido por reCAPTCHA y se aplican la ',
+      formRecaptchaPrivacy: 'Política de privacidad',
+      formRecaptchaNoticeMiddle: ' y los ',
+      formRecaptchaTerms: 'Términos de servicio',
+      formRecaptchaNoticeEnd: ' de Google.',
     },
     // Footer
     footer: {

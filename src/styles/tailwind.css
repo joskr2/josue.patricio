@@ -42,4 +42,14 @@
     overscroll-behavior-y: contain;
     text-size-adjust: 100%;
   }
+
+  /* Hide the reCAPTCHA v3 badge (it overlaps the floating WhatsApp
+     button). Google allows this as long as the attribution text stays
+     visible in the user flow — see the notice in ContactForm.tsx.
+     Google injects the badge with inline styles, so !important is
+     required. */
+  .grecaptcha-badge {
+    /* biome-ignore lint/complexity/noImportantStyles: Google injects the badge with inline styles, so !important is the only way to override them */
+    visibility: hidden !important;
+  }
 }
