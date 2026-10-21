@@ -138,6 +138,23 @@ export const translations = {
       whatsappTooltip: 'Chat on WhatsApp',
       whatsappPrefill: "Hi! I saw your website and I'd like more information.",
       downloadCV: 'Download my CV',
+      formTitle: 'Send me a message',
+      formIntro:
+        'Fill out the form below and I will get back to you within 24 hours.',
+      formName: 'Your name',
+      formNamePlaceholder: 'John Doe',
+      formEmail: 'Your email',
+      formEmailPlaceholder: 'john@example.com',
+      formMessage: 'Your message',
+      formMessagePlaceholder: 'Tell me about your project or idea...',
+      formSend: 'Send message',
+      formSending: 'Sending...',
+      formSuccessTitle: 'Message sent!',
+      formSuccessMessage:
+        "Thanks for reaching out. I'll get back to you as soon as possible.",
+      formSendAnother: 'Send another message',
+      formError:
+        'Something went wrong while sending your message. Please try again.',
     },
     // Footer
     footer: {
@@ -300,6 +317,22 @@ export const translations = {
       whatsappTooltip: 'Chatear por WhatsApp',
       whatsappPrefill: '¡Hola! Vi tu web y me gustaría más información.',
       downloadCV: 'Descargar mi CV',
+      formTitle: 'Envíame un mensaje',
+      formIntro: 'Completa el formulario y te responderé dentro de 24 horas.',
+      formName: 'Tu nombre',
+      formNamePlaceholder: 'Juan Pérez',
+      formEmail: 'Tu correo',
+      formEmailPlaceholder: 'juan@ejemplo.com',
+      formMessage: 'Tu mensaje',
+      formMessagePlaceholder: 'Cuéntame sobre tu proyecto o idea...',
+      formSend: 'Enviar mensaje',
+      formSending: 'Enviando...',
+      formSuccessTitle: '¡Mensaje enviado!',
+      formSuccessMessage:
+        'Gracias por escribirme. Te responderé lo antes posible.',
+      formSendAnother: 'Enviar otro mensaje',
+      formError:
+        'Algo salió mal al enviar tu mensaje. Por favor, inténtalo de nuevo.',
     },
     // Footer
     footer: {
